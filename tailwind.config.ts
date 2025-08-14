@@ -6,7 +6,7 @@ export default {
 		"./pages/**/*.{ts,tsx}",
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
-		"./src/**/*.{ts,tsx}",
+		"./src/**/*.{ts,tsx}"
 	],
 	prefix: "",
 	theme: {
@@ -61,6 +61,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Kinetik Kids neon palette
+				neon: {
+					orange: '#FF6B00',
+					purple: '#8A2BE2',
+					cyan: '#00CED1',
+					pink: '#FF0080'
+				},
+				kinetik: {
+					dark: '#0A0A0A',
+					gray: '#1A1A1A'
 				}
 			},
 			borderRadius: {
