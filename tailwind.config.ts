@@ -62,15 +62,17 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Kinetik Kids neon palette
-				'kinetik-dark': '#0A0A0F',
-				'kinetik-darker': '#050508',
-				'neon-orange': '#FF6B00',
-				'neon-purple': '#8A2BE2',
-				'neon-cyan': '#00CED1',
-				'neon-pink': '#FF1493',
-				'neon-green': '#00FF7F',
-				'dark-grid': '#1A1A1F'
+				// Kinetic Kids rainbow palette from logo
+				'kinetic': {
+					'red': '#FF6B40',
+					'yellow': '#FFEB3B', 
+					'green': '#00E676',
+					'blue': '#2196F3',
+					'purple': '#9C27B0',
+					'orange': '#FF9800',
+					'teal': '#00BCD4',
+					'pink': '#E91E63'
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

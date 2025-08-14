@@ -15,42 +15,42 @@ export default function Index() {
       name: 'Скейтбординг', 
       icon: '🛹',
       description: 'Изучаем основы катания, повороты, торможение и первые трюки',
-      color: 'orange'
+      color: 'kinetic-red'
     },
     { 
       id: 'roller', 
       name: 'Ролики', 
       icon: '🛼',
       description: 'От первых шагов до слалома и фристайла',
-      color: 'teal'
+      color: 'kinetic-blue'
     },
     { 
       id: 'bike', 
       name: 'Велосипед', 
       icon: '🚲',
       description: 'Безопасная езда, трюки и велопрогулки',
-      color: 'green'
+      color: 'kinetic-green'
     },
     { 
       id: 'bmx', 
       name: 'BMX', 
       icon: '🚴‍♂️',
       description: 'Экстремальная езда, джампы и трюки на рампе',
-      color: 'red'
+      color: 'kinetic-orange'
     },
     { 
       id: 'scooter', 
       name: 'Трюковой самокат', 
       icon: '🛴',
       description: 'Современный городской экстрим и воздушные трюки',
-      color: 'purple'
+      color: 'kinetic-purple'
     },
     { 
       id: 'runbike', 
       name: 'Беговел', 
       icon: '🏃‍♂️',
       description: 'Первые шаги к освоению равновесия для самых маленьких',
-      color: 'blue'
+      color: 'kinetic-teal'
     }
   ];
 
@@ -124,27 +124,27 @@ export default function Index() {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-gray-800">
+    <div className="min-h-screen rainbow-pattern">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+      <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b-2 border-transparent shadow-lg">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <img 
-              src="https://cdn.poehali.dev/files/2799c2eb-0c3f-4244-9101-eccb835271d7.jpg" 
+              src="https://cdn.poehali.dev/files/819f034c-b5eb-4287-b8ab-14036c8c696f.jpg" 
               alt="Kinetic Kids Logo" 
               className="w-12 h-12 rounded-full object-cover"
             />
-            <h1 className="text-2xl font-bold text-gray-800">KINETIC KIDS</h1>
+            <h1 className="text-2xl font-bold rainbow-text">KINETIC KIDS</h1>
           </div>
           <div className="hidden md:flex space-x-8">
-            <a href="#sports" className="hover:text-orange-500 transition-colors font-medium">Направления</a>
-            <a href="#safety" className="hover:text-teal-500 transition-colors font-medium">Безопасность</a>
-            <a href="#plans" className="hover:text-purple-500 transition-colors font-medium">Абонементы</a>
-            <a href="#faq" className="hover:text-blue-500 transition-colors font-medium">FAQ</a>
+            <a href="#sports" className="interactive-icon transition-colors font-medium">Направления</a>
+            <a href="#safety" className="interactive-icon transition-colors font-medium">Безопасность</a>
+            <a href="#plans" className="interactive-icon transition-colors font-medium">Абонементы</a>
+            <a href="#faq" className="interactive-icon transition-colors font-medium">FAQ</a>
           </div>
           <div className="text-right">
             <div className="text-sm text-gray-600 mb-1">г. Воронеж</div>
-            <div className="text-sm font-semibold text-orange-500">Открытие в мае 2026</div>
+            <div className="text-sm font-semibold rainbow-text">Открытие в мае 2026</div>
           </div>
         </div>
       </nav>
@@ -158,20 +158,20 @@ export default function Index() {
         }}>
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <h2 className="text-6xl md:text-8xl font-black mb-6 text-white">
+          <h2 className="text-6xl md:text-8xl font-black mb-6 text-white drop-shadow-2xl">
             KINETIC KIDS
           </h2>
-          <p className="text-2xl md:text-3xl mb-8 text-teal-300 font-light">
+          <p className="text-2xl md:text-3xl mb-8 text-white font-light drop-shadow-lg">
             Обучение без страха, катание без границ!
           </p>
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 mb-12 border border-orange-400/30">
-            <div className="text-2xl font-bold text-orange-400 mb-4">📅 Открытие в мае 2026!</div>
-            <p className="text-lg text-gray-300 mb-6">Школа экстремального спорта для детей от 3 лет и взрослых в Воронеже</p>
+          <div className="rainbow-card p-8 mb-12">
+            <div className="text-2xl font-bold rainbow-text mb-4">📅 Открытие в мае 2026!</div>
+            <p className="text-lg text-gray-700 mb-6">Школа экстремального спорта для детей от 3 лет и взрослых в Воронеже</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="tel:89204163606" className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 text-lg">
+              <a href="tel:89204163606" className="rainbow-button text-lg">
                 📞 8 920 416 36 06
               </a>
-              <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 text-lg">
+              <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="rainbow-button text-lg">
                 💬 Telegram консультация
               </a>
             </div>
@@ -180,19 +180,19 @@ export default function Index() {
       </section>
 
       {/* Sports Section */}
-      <section id="sports" className="py-20 bg-gray-50">
+      <section id="sports" className="py-20 bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-gray-800">
             Направления обучения
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sports.map((sport) => (
-              <Card key={sport.id} className={`hover:shadow-lg transition-all duration-300 border-l-4 border-${sport.color}-500 group cursor-pointer`}>
+              <div key={sport.id} className="rainbow-card group cursor-pointer">
                 <CardHeader className="text-center">
                   <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
                     {sport.icon}
                   </div>
-                  <CardTitle className={`text-gray-800 text-xl group-hover:text-${sport.color}-600 transition-colors`}>
+                  <CardTitle className="text-gray-800 text-xl group-hover:scale-105 transition-all">
                     {sport.name}
                   </CardTitle>
                   <CardDescription className="text-gray-600">
@@ -206,15 +206,15 @@ export default function Index() {
       </section>
 
       {/* Safety Section */}
-      <section id="safety" className="py-20 bg-white">
+      <section id="safety" className="py-20 bg-white/70 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-gray-800">
             Безопасность превыше всего
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card className="text-center border-orange-200 hover:shadow-lg transition-shadow duration-300">
+            <div className="rainbow-card text-center">
               <CardHeader>
-                <div className="w-20 h-20 bg-gradient-to-r from-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center rainbow-button">
                   <Icon name="Shield" size={32} className="text-white" />
                 </div>
                 <CardTitle className="text-gray-800">
@@ -224,11 +224,11 @@ export default function Index() {
               <CardContent>
                 <p className="text-gray-600">Шлем, наколенники, налокотники и перчатки для каждого ученика</p>
               </CardContent>
-            </Card>
+            </div>
             
-            <Card className="text-center border-teal-200 hover:shadow-lg transition-shadow duration-300">
+            <div className="rainbow-card text-center">
               <CardHeader>
-                <div className="w-20 h-20 bg-gradient-to-r from-teal-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center rainbow-button">
                   <Icon name="Users" size={32} className="text-white" />
                 </div>
                 <CardTitle className="text-gray-800">
@@ -238,11 +238,11 @@ export default function Index() {
               <CardContent>
                 <p className="text-gray-600">Не более 10 человек в группе для индивидуального подхода</p>
               </CardContent>
-            </Card>
+            </div>
             
-            <Card className="text-center border-purple-200 hover:shadow-lg transition-shadow duration-300">
+            <div className="rainbow-card text-center">
               <CardHeader>
-                <div className="w-20 h-20 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center rainbow-button">
                   <Icon name="Heart" size={32} className="text-white" />
                 </div>
                 <CardTitle className="text-gray-800">
@@ -252,7 +252,7 @@ export default function Index() {
               <CardContent>
                 <p className="text-gray-600">Квалифицированные специалисты с медицинской подготовкой</p>
               </CardContent>
-            </Card>
+            </div>
           </div>
         </div>
       </section>
