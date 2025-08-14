@@ -199,7 +199,7 @@ export default function Index() {
                     {sport.description}
                   </CardDescription>
                 </CardHeader>
-              </Card>
+              </div>
             ))}
           </div>
         </div>
