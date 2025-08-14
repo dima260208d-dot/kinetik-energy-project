@@ -152,7 +152,7 @@ export default function Index() {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden"
         style={{
-          backgroundImage: `url(/img/5d5454a8-c097-429d-bc2a-467924cebc88.jpg)`,
+          backgroundImage: `url(/img/59057680-eb39-4b41-bb3c-c4f54d321177.jpg)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}>
