@@ -63,16 +63,14 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				// Kinetik Kids neon palette
-				neon: {
-					orange: '#FF6B00',
-					purple: '#8A2BE2',
-					cyan: '#00CED1',
-					pink: '#FF0080'
-				},
-				kinetik: {
-					dark: '#0A0A0A',
-					gray: '#1A1A1A'
-				}
+				'kinetik-dark': '#0A0A0F',
+				'kinetik-darker': '#050508',
+				'neon-orange': '#FF6B00',
+				'neon-purple': '#8A2BE2',
+				'neon-cyan': '#00CED1',
+				'neon-pink': '#FF1493',
+				'neon-green': '#00FF7F',
+				'dark-grid': '#1A1A1F'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -95,11 +93,33 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'neon-pulse': {
+					'0%, 100%': { boxShadow: '0 0 20px currentColor' },
+					'50%': { boxShadow: '0 0 40px currentColor, 0 0 60px currentColor' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'slide-in': {
+					from: { transform: 'translateX(-100%)', opacity: '0' },
+					to: { transform: 'translateX(0)', opacity: '1' }
+				},
+				'glow': {
+					from: { textShadow: '0 0 20px currentColor' },
+					to: { textShadow: '0 0 30px currentColor, 0 0 40px currentColor' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'neon-pulse': 'neon-pulse 2s infinite',
+				'float': 'float 3s ease-in-out infinite',
+				'slide-in': 'slide-in 0.5s ease-out',
+				'glow': 'glow 2s ease-in-out infinite alternate',
+				'bounce-slow': 'bounce 3s infinite',
+				'spin-slow': 'spin 3s linear infinite'
 			}
 		}
 	},

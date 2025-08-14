@@ -11,11 +11,12 @@ export default function Index() {
   const sports = [
     { 
       id: 'skate', 
-      name: 'Скейтбординг', 
+      name: 'Скейтбordinг', 
       icon: '🛹',
       description: '97% учеников делают олли за 2 недели',
       price: '2800₽/мес',
-      color: 'from-orange-400 to-red-500'
+      neonColor: 'neon-orange',
+      gradient: 'from-neon-orange to-orange-600'
     },
     { 
       id: 'roller', 
@@ -23,7 +24,8 @@ export default function Index() {
       icon: '⛸️',
       description: 'От первых шагов до слалома',
       price: '2500₽/мес',
-      color: 'from-blue-400 to-cyan-500'
+      neonColor: 'neon-cyan',
+      gradient: 'from-neon-cyan to-cyan-600'
     },
     { 
       id: 'bike', 
@@ -31,7 +33,8 @@ export default function Index() {
       icon: '🚲',
       description: 'Трюки и экстремальная езда',
       price: '3200₽/мес',
-      color: 'from-green-400 to-emerald-500'
+      neonColor: 'neon-green',
+      gradient: 'from-neon-green to-green-600'
     },
     { 
       id: 'scooter', 
@@ -39,7 +42,8 @@ export default function Index() {
       icon: '🛴',
       description: 'Современный городской экстрим',
       price: '2600₽/мес',
-      color: 'from-purple-400 to-pink-500'
+      neonColor: 'neon-purple',
+      gradient: 'from-neon-purple to-purple-600'
     }
   ];
 
@@ -48,116 +52,117 @@ export default function Index() {
       id: 'basic',
       name: 'Базовый',
       price: '2500₽',
-      color: 'from-blue-400 to-blue-600',
+      neonColor: 'neon-cyan',
       features: ['4 занятия в месяц', 'Групповые тренировки', 'Аренда защиты']
     },
     {
       id: 'premium',
       name: 'Премиум',
       price: '4200₽',
-      color: 'from-orange-400 to-red-500',
+      neonColor: 'neon-orange',
       features: ['8 занятий в месяц', 'Персональный тренер', 'Полный комплект защиты', 'Доступ к событиям']
     },
     {
       id: 'pro',
       name: 'Про',
       price: '6800₽',
-      color: 'from-purple-400 to-pink-500',
+      neonColor: 'neon-purple',
       features: ['Безлимитные занятия', 'Индивидуальные тренировки', 'Премиум защита', 'Участие в соревнованиях', 'Kinetik ID профиль']
     }
   ];
 
   const trainers = [
-    { name: 'Алекс Нео', sport: 'Скейт', rating: 4.9, experience: '8 лет', speciality: 'Street & Vert', color: 'from-orange-400 to-red-500' },
-    { name: 'Мария Спид', sport: 'Ролики', rating: 4.8, experience: '6 лет', speciality: 'Слалом & Фристайл', color: 'from-blue-400 to-cyan-500' },
-    { name: 'Макс Эйр', sport: 'BMX', rating: 5.0, experience: '10 лет', speciality: 'Dirt & Park', color: 'from-green-400 to-emerald-500' },
-    { name: 'Катя Флай', sport: 'Самокат', rating: 4.9, experience: '5 лет', speciality: 'Street & Спайн', color: 'from-purple-400 to-pink-500' }
+    { name: 'Алекс Нео', sport: 'Скейт', rating: 4.9, experience: '8 лет', speciality: 'Street & Vert', neonColor: 'neon-orange' },
+    { name: 'Мария Спид', sport: 'Ролики', rating: 4.8, experience: '6 лет', speciality: 'Слалом & Фристайл', neonColor: 'neon-cyan' },
+    { name: 'Макс Эйр', sport: 'BMX', rating: 5.0, experience: '10 лет', speciality: 'Dirt & Park', neonColor: 'neon-green' },
+    { name: 'Катя Флай', sport: 'Самокат', rating: 4.9, experience: '5 лет', speciality: 'Street & Спайн', neonColor: 'neon-purple' }
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-kinetik-dark text-foreground cyber-grid">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 watercolor-shadow">
+      <nav className="fixed top-0 w-full z-50 bg-kinetik-dark/90 backdrop-blur-md border-b border-neon-cyan/30">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <img src="https://cdn.poehali.dev/files/fff3aebf-bdbd-42b4-9ece-b07735d4cc68.jpg" alt="Kinetik Kids" className="h-10" />
-          <div className="hidden md:flex space-x-8">
-            <a href="#sports" className="hover:text-primary transition-colors font-medium">Направления</a>
-            <a href="#safety" className="hover:text-secondary transition-colors font-medium">Безопасность</a>
-            <a href="#plans" className="hover:text-accent transition-colors font-medium">Абонементы</a>
-            <a href="#trainers" className="hover:text-primary transition-colors font-medium">Тренеры</a>
+          <div className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-gradient-to-r from-neon-orange to-neon-purple rounded-full flex items-center justify-center">
+              <span className="text-xl font-bold">K</span>
+            </div>
+            <h1 className="text-2xl font-bold neon-text text-neon-orange">KINETIK KIDS</h1>
           </div>
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold watercolor-shadow">
+          <div className="hidden md:flex space-x-8">
+            <a href="#sports" className="hover:text-neon-cyan transition-colors font-medium interactive-icon">Направления</a>
+            <a href="#safety" className="hover:text-neon-purple transition-colors font-medium interactive-icon">Безопасность</a>
+            <a href="#plans" className="hover:text-neon-orange transition-colors font-medium interactive-icon">Абонементы</a>
+            <a href="#trainers" className="hover:text-neon-cyan transition-colors font-medium interactive-icon">Тренеры</a>
+          </div>
+          <Button className="cyber-button">
             Записаться
           </Button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(/img/0bc28b8a-5305-40c1-9c74-565d6b79f573.jpg)`,
-            backgroundAttachment: 'fixed'
-          }}
-        />
-        <div className="absolute inset-0 bg-white/30" />
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <h2 className="text-6xl md:text-8xl font-black mb-6 watercolor-text">
+      <section className="relative h-screen flex items-center justify-center overflow-hidden hero-parallax"
+        style={{
+          backgroundImage: `url(/img/5d5454a8-c097-429d-bc2a-467924cebc88.jpg)`
+        }}>
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-4 animate-slide-up">
+          <h2 className="text-6xl md:text-8xl font-black mb-6 neon-text text-neon-orange">
             KINETIK KIDS
           </h2>
-          <p className="text-2xl md:text-3xl mb-8 text-gray-700 font-light">
+          <p className="text-2xl md:text-3xl mb-8 text-neon-cyan font-light animate-glow">
             Обучение без страха, катание без границ!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xl px-8 py-4 watercolor-shadow hover-float">
+            <Button size="lg" className="cyber-button text-xl px-8 py-4 animate-float">
               Выбрать абонемент
             </Button>
-            <Button size="lg" variant="outline" className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground text-xl px-8 py-4 hover-float">
+            <Button size="lg" variant="outline" className="border-neon-purple text-neon-purple hover:bg-neon-purple hover:text-black text-xl px-8 py-4 neon-glow">
               Пробное занятие
             </Button>
           </div>
-          <div className="mt-12 flex justify-center items-center space-x-8 text-sm">
-            <div className="text-center watercolor-card rounded-xl p-4">
-              <div className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">0</div>
-              <div className="text-gray-600">серьезных травм</div>
+          <div className="mt-16 grid grid-cols-3 gap-8 text-center">
+            <div className="sport-card p-6">
+              <div className="digital-counter text-neon-orange mb-2">0</div>
+              <div className="text-gray-300 text-sm">серьезных травм</div>
             </div>
-            <div className="text-center watercolor-card rounded-xl p-4">
-              <div className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">97%</div>
-              <div className="text-gray-600">довольных детей</div>
+            <div className="sport-card p-6">
+              <div className="digital-counter text-neon-purple mb-2">97%</div>
+              <div className="text-gray-300 text-sm">довольных детей</div>
             </div>
-            <div className="text-center watercolor-card rounded-xl p-4">
-              <div className="text-3xl font-bold bg-gradient-to-r from-green-500 to-cyan-500 bg-clip-text text-transparent">2</div>
-              <div className="text-gray-600">года опыта</div>
+            <div className="sport-card p-6">
+              <div className="digital-counter text-neon-cyan mb-2">2</div>
+              <div className="text-gray-300 text-sm">года опыта</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Sports Section */}
-      <section id="sports" className="py-20 bg-gradient-to-b from-orange-50 to-red-50">
+      <section id="sports" className="py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 watercolor-text">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 neon-text text-neon-cyan">
             Направления обучения
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {sports.map((sport) => (
-              <Card key={sport.id} className="watercolor-card hover-float group cursor-pointer border-0 overflow-hidden">
-                <div className={`h-2 bg-gradient-to-r ${sport.color}`} />
+              <Card key={sport.id} className="sport-card group cursor-pointer">
                 <CardHeader className="text-center">
-                  <div className="text-6xl mb-4 group-hover:scale-110 transition-transform">
+                  <div className={`text-6xl mb-4 group-hover:animate-bounce-slow interactive-icon text-${sport.neonColor}`}>
                     {sport.icon}
                   </div>
-                  <CardTitle className="text-gray-800 text-xl">{sport.name}</CardTitle>
-                  <CardDescription className="text-gray-600">
+                  <CardTitle className={`text-white text-xl group-hover:text-${sport.neonColor} transition-colors`}>
+                    {sport.name}
+                  </CardTitle>
+                  <CardDescription className="text-gray-400">
                     {sport.description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <div className={`text-2xl font-bold bg-gradient-to-r ${sport.color} bg-clip-text text-transparent mb-4`}>
+                  <div className={`text-2xl font-bold text-${sport.neonColor} mb-4 digital-counter`}>
                     {sport.price}
                   </div>
-                  <Button className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+                  <Button className={`w-full bg-${sport.neonColor} hover:bg-${sport.neonColor}/80 text-black font-bold neon-glow`}>
                     Подробнее
                   </Button>
                 </CardContent>
@@ -168,69 +173,77 @@ export default function Index() {
       </section>
 
       {/* Safety Section */}
-      <section id="safety" className="py-20 bg-gradient-to-b from-blue-50 to-cyan-50">
+      <section id="safety" className="py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 watercolor-text">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 neon-text text-neon-purple">
             Технологии безопасности
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card className="watercolor-card border-0 text-center hover-float">
+            <Card className="sport-card text-center group">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-r from-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="energy-shield w-20 h-20 bg-gradient-to-r from-neon-orange to-neon-purple rounded-full flex items-center justify-center mx-auto mb-4">
                   <Icon name="Shield" size={32} className="text-white" />
                 </div>
-                <CardTitle className="text-gray-800">Энергетический щит</CardTitle>
+                <CardTitle className="text-white group-hover:text-neon-orange transition-colors">
+                  Энергетический щит
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">Полная защита: шлем, наколенники, налокотники и перчатки для каждого ученика</p>
+                <p className="text-gray-300">Полная защита: шлем, наколенники, налокотники и перчатки для каждого ученика</p>
               </CardContent>
             </Card>
             
-            <Card className="watercolor-card border-0 text-center hover-float">
+            <Card className="sport-card text-center group">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="energy-shield w-20 h-20 bg-gradient-to-r from-neon-purple to-neon-pink rounded-full flex items-center justify-center mx-auto mb-4">
                   <Icon name="Heart" size={32} className="text-white" />
                 </div>
-                <CardTitle className="text-gray-800">Медицинский контроль</CardTitle>
+                <CardTitle className="text-white group-hover:text-neon-purple transition-colors">
+                  Медицинский контроль
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">Квалифицированный медик на каждой тренировке и постоянный мониторинг здоровья</p>
+                <p className="text-gray-300">Квалифицированный медик на каждой тренировке и постоянный мониторинг здоровья</p>
               </CardContent>
             </Card>
             
-            <Card className="watercolor-card border-0 text-center hover-float">
+            <Card className="sport-card text-center group">
               <CardHeader>
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="energy-shield w-20 h-20 bg-gradient-to-r from-neon-cyan to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Icon name="Users" size={32} className="text-white" />
                 </div>
-                <CardTitle className="text-gray-800">Малые группы</CardTitle>
+                <CardTitle className="text-white group-hover:text-neon-cyan transition-colors">
+                  Малые группы
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">Максимум 6 детей на тренера для индивидуального подхода и контроля</p>
+                <p className="text-gray-300">Максимум 6 детей на тренера для индивидуального подхода и контроля</p>
               </CardContent>
             </Card>
           </div>
           
-          <div className="text-center mt-12 watercolor-card rounded-2xl p-8 max-w-md mx-auto">
-            <div className="text-6xl font-black bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-4">0</div>
-            <p className="text-xl text-gray-700">серьезных травм за 2 года работы</p>
+          <div className="text-center mt-16">
+            <div className="sport-card inline-block p-8">
+              <div className="digital-counter text-6xl mb-4 text-neon-orange">0</div>
+              <p className="text-xl text-gray-300">серьезных травм за 2 года работы</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Plans Section */}
-      <section id="plans" className="py-20 bg-gradient-to-b from-purple-50 to-pink-50">
+      <section id="plans" className="py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 watercolor-text">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 neon-text text-neon-orange">
             Конструктор абонементов
           </h2>
           <Tabs value={selectedPlan} onValueChange={setSelectedPlan} className="max-w-6xl mx-auto">
-            <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/90 backdrop-blur-sm">
+            <TabsList className="grid w-full grid-cols-3 mb-8 bg-kinetik-darker/80 border border-neon-cyan/30">
               {plans.map((plan) => (
                 <TabsTrigger 
                   key={plan.id} 
                   value={plan.id}
-                  className="text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  className={`text-base data-[state=active]:bg-${plan.neonColor} data-[state=active]:text-black font-bold neon-glow`}
                 >
                   {plan.name}
                 </TabsTrigger>
@@ -239,27 +252,26 @@ export default function Index() {
             
             {plans.map((plan) => (
               <TabsContent key={plan.id} value={plan.id}>
-                <Card className="watercolor-card border-0 overflow-hidden">
-                  <div className={`h-3 bg-gradient-to-r ${plan.color}`} />
+                <Card className="sport-card">
                   <CardHeader className="text-center">
-                    <CardTitle className="text-3xl text-gray-800">{plan.name}</CardTitle>
-                    <div className={`text-5xl font-black bg-gradient-to-r ${plan.color} bg-clip-text text-transparent my-4`}>
+                    <CardTitle className="text-3xl text-white mb-4">{plan.name}</CardTitle>
+                    <div className={`digital-counter text-5xl text-${plan.neonColor} mb-4`}>
                       {plan.price}
                     </div>
-                    <CardDescription className="text-xl text-gray-600">в месяц</CardDescription>
+                    <CardDescription className="text-xl text-gray-400">в месяц</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <ul className="space-y-3 mb-8">
+                    <ul className="space-y-4 mb-8">
                       {plan.features.map((feature, index) => (
                         <li key={index} className="flex items-center space-x-3">
-                          <div className="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
-                            <Icon name="Check" className="text-white" size={12} />
+                          <div className={`w-5 h-5 bg-${plan.neonColor} rounded-full flex items-center justify-center`}>
+                            <Icon name="Check" className="text-black" size={12} />
                           </div>
-                          <span className="text-gray-700">{feature}</span>
+                          <span className="text-gray-300">{feature}</span>
                         </li>
                       ))}
                     </ul>
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg py-3 watercolor-shadow">
+                    <Button className={`w-full cyber-button bg-${plan.neonColor} hover:bg-${plan.neonColor}/80 text-black font-bold text-lg py-4`}>
                       Выбрать план
                     </Button>
                   </CardContent>
@@ -271,35 +283,39 @@ export default function Index() {
       </section>
 
       {/* Events Section */}
-      <section className="py-20 bg-gradient-to-b from-green-50 to-emerald-50">
+      <section className="py-20 relative">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 watercolor-text">
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 neon-text text-neon-green">
             Праздники в стиле Kinetik
           </h2>
-          <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
             Организуем незабываемые дни рождения и мероприятия с экстремальным спортом, 
             профессиональной съемкой и призами для именинника
           </p>
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <Card className="watercolor-card border-0 overflow-hidden hover-float">
-              <div className="h-3 bg-gradient-to-r from-pink-400 to-rose-500" />
+            <Card className="sport-card group">
               <CardHeader>
-                <CardTitle className="text-2xl text-gray-800">День рождения</CardTitle>
+                <div className="text-4xl mb-4 text-neon-pink group-hover:animate-bounce-slow">🎉</div>
+                <CardTitle className="text-2xl text-white group-hover:text-neon-pink transition-colors">
+                  День рождения
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4">2 часа экстрима + торт + подарки</p>
-                <div className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">от 15000₽</div>
+                <p className="text-gray-400 mb-4">2 часа экстрима + торт + подарки</p>
+                <div className="digital-counter text-3xl text-neon-pink">от 15000₽</div>
               </CardContent>
             </Card>
             
-            <Card className="watercolor-card border-0 overflow-hidden hover-float">
-              <div className="h-3 bg-gradient-to-r from-blue-400 to-cyan-500" />
+            <Card className="sport-card group">
               <CardHeader>
-                <CardTitle className="text-2xl text-gray-800">Корпоратив</CardTitle>
+                <div className="text-4xl mb-4 text-neon-cyan group-hover:animate-bounce-slow">🏢</div>
+                <CardTitle className="text-2xl text-white group-hover:text-neon-cyan transition-colors">
+                  Корпоратив
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4">Тимбилдинг на колесах + фуршет</p>
-                <div className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">от 25000₽</div>
+                <p className="text-gray-400 mb-4">Тимбилдинг на колесах + фуршет</p>
+                <div className="digital-counter text-3xl text-neon-cyan">от 25000₽</div>
               </CardContent>
             </Card>
           </div>
@@ -307,31 +323,34 @@ export default function Index() {
       </section>
 
       {/* Trainers Section */}
-      <section id="trainers" className="py-20 bg-gradient-to-b from-cyan-50 to-blue-50">
+      <section id="trainers" className="py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 watercolor-text">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 neon-text text-neon-purple">
             Тренеры-легенды
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {trainers.map((trainer, index) => (
-              <Card key={index} className="watercolor-card border-0 hover-float group overflow-hidden">
-                <div className={`h-2 bg-gradient-to-r ${trainer.color}`} />
+              <Card key={index} className="trainer-card group">
                 <CardHeader className="text-center">
-                  <div className={`w-20 h-20 bg-gradient-to-r ${trainer.color} rounded-full mx-auto mb-4 flex items-center justify-center text-2xl`}>
+                  <div className={`w-20 h-20 bg-gradient-to-r from-${trainer.neonColor} to-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl group-hover:animate-spin-slow`}>
                     👨‍🏫
                   </div>
-                  <CardTitle className="text-gray-800">{trainer.name}</CardTitle>
+                  <CardTitle className={`text-white group-hover:text-${trainer.neonColor} transition-colors`}>
+                    {trainer.name}
+                  </CardTitle>
                   <CardDescription>
-                    <Badge variant="secondary" className="mb-2">{trainer.sport}</Badge>
-                    <div className="text-gray-600">{trainer.speciality}</div>
+                    <Badge variant="secondary" className={`mb-2 bg-${trainer.neonColor} text-black`}>
+                      {trainer.sport}
+                    </Badge>
+                    <div className="text-gray-400">{trainer.speciality}</div>
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
                   <div className="flex items-center justify-center space-x-2 mb-2">
-                    <span className="text-yellow-500">★</span>
-                    <span className="text-gray-800 font-bold">{trainer.rating}</span>
+                    <span className="text-yellow-400 animate-pulse">★</span>
+                    <span className="text-white font-bold digital-counter text-lg">{trainer.rating}</span>
                   </div>
-                  <p className="text-gray-600 text-sm">{trainer.experience} опыта</p>
+                  <p className="text-gray-400 text-sm">{trainer.experience} опыта</p>
                 </CardContent>
               </Card>
             ))}
@@ -340,20 +359,20 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 watercolor-bg">
+      <section className="py-20 relative bg-gradient-to-r from-neon-orange/20 to-neon-purple/20">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 neon-text text-white animate-glow">
             Взорви асфальт вместе с нами!
           </h2>
-          <p className="text-xl mb-12 text-white/90 max-w-2xl mx-auto">
-            Присоединяйся к Kinetik Kids и почувствуй ветер в лицо еще до первой тренировки
+          <p className="text-xl mb-12 text-gray-300 max-w-2xl mx-auto">
+            Присоединяйся к Kinetik Kids и почувствуй ветер в лице еще до первой тренировки
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white hover:bg-white/90 text-gray-800 font-bold text-xl px-8 py-4 watercolor-shadow">
+            <Button size="lg" className="cyber-button bg-neon-cyan hover:bg-neon-cyan/80 text-black font-bold text-xl px-8 py-4">
               <Icon name="MessageCircle" className="mr-2" />
               Telegram консультация
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-800 text-xl px-8 py-4">
+            <Button size="lg" variant="outline" className="border-neon-purple text-neon-purple hover:bg-neon-purple hover:text-black text-xl px-8 py-4 neon-glow">
               Записаться на пробное
             </Button>
           </div>
@@ -361,14 +380,19 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-white border-t border-gray-200">
+      <footer className="py-12 border-t border-neon-cyan/30">
         <div className="container mx-auto px-4 text-center">
-          <img src="https://cdn.poehali.dev/files/fff3aebf-bdbd-42b4-9ece-b07735d4cc68.jpg" alt="Kinetik Kids" className="h-8 mx-auto mb-4" />
-          <p className="text-gray-600 mb-6">Школа экстремального спорта для детей</p>
-          <div className="flex justify-center space-x-6 text-sm text-gray-500">
-            <a href="#" className="hover:text-primary transition-colors">Контакты</a>
-            <a href="#" className="hover:text-secondary transition-colors">Правила</a>
-            <a href="#" className="hover:text-accent transition-colors">Telegram</a>
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <div className="w-8 h-8 bg-gradient-to-r from-neon-orange to-neon-purple rounded-full flex items-center justify-center">
+              <span className="text-sm font-bold">K</span>
+            </div>
+            <span className="text-neon-orange font-bold text-xl">KINETIK KIDS</span>
+          </div>
+          <p className="text-gray-400 mb-6">Школа экстремального спорта для детей</p>
+          <div className="flex justify-center space-x-6 text-sm">
+            <a href="#" className="text-gray-400 hover:text-neon-orange transition-colors interactive-icon">Контакты</a>
+            <a href="#" className="text-gray-400 hover:text-neon-purple transition-colors interactive-icon">Правила</a>
+            <a href="#" className="text-gray-400 hover:text-neon-cyan transition-colors interactive-icon">Telegram</a>
           </div>
         </div>
       </footer>
