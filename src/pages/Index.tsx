@@ -165,7 +165,7 @@ export default function Index() {
             Обучение без страха, катание без границ!
           </p>
           <div className="rainbow-card p-8 mb-12">
-            <div className="text-2xl font-bold rainbow-text mb-4">📅 Открытие в мае 2026!</div>
+            <div className="text-2xl font-bold text-gray-800 mb-4">📅 Открытие в мае 2026!</div>
             <p className="text-lg text-gray-700 mb-6">Школа экстремального спорта для детей от 3 лет и взрослых в Воронеже</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="tel:89204163606" className="rainbow-button text-lg">
