@@ -96,7 +96,6 @@ export default function Index() {
             <a href="#sports" className="interactive-icon transition-colors font-medium">Направления</a>
             <a href="#safety" className="interactive-icon transition-colors font-medium">Безопасность</a>
             <a href="#faq" className="interactive-icon transition-colors font-medium">FAQ</a>
-            <a href="#faq" className="interactive-icon transition-colors font-medium">FAQ</a>
           </div>
           <div className="text-right">
             <div className="text-sm text-gray-600 mb-1">г. Воронеж</div>
