@@ -129,6 +129,9 @@ export default function Index() {
               <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="rainbow-button text-lg">
                 💬 Telegram консультация
               </a>
+              <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" className="rainbow-button text-lg">
+                📱 WhatsApp
+              </a>
             </div>
           </div>
         </div>
@@ -256,7 +259,10 @@ export default function Index() {
             <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 text-xl">
               💬 Telegram консультация
             </a>
-            <a href="tel:89204163606" className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 text-xl">
+            <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 text-xl">
+              📱 WhatsApp
+            </a>
+            <a href="tel:89204163606" className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 text-xl">
               📞 Позвонить нам
             </a>
           </div>
@@ -294,6 +300,12 @@ export default function Index() {
                 <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="block hover:text-orange-400 transition-colors">
                   💬 Telegram
                 </a>
+                <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" className="block hover:text-orange-400 transition-colors">
+                  📱 WhatsApp
+                </a>
+                <a href="https://vk.com/kinetickidsvrn?from=groups" target="_blank" className="block hover:text-orange-400 transition-colors">
+                  🌐 ВКонтакте
+                </a>
               </div>
             </div>
             
@@ -311,7 +323,7 @@ export default function Index() {
             <div>
               <h4 className="font-semibold mb-4 text-purple-400">Для родителей</h4>
               <div className="space-y-2 text-sm">
-                <a href="#" className="block hover:text-purple-400 transition-colors">
+                <a href="https://vk.com/kinetickidsvrn?from=groups" target="_blank" className="block hover:text-purple-400 transition-colors">
                   Написать отзыв
                 </a>
                 <div className="text-gray-300">Дети от 3 лет, взрослые</div>
