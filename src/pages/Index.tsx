@@ -96,6 +96,7 @@ export default function Index() {
             <a href="#sports" className="interactive-icon transition-colors font-medium">Направления</a>
             <a href="#safety" className="interactive-icon transition-colors font-medium">Безопасность</a>
             <a href="#faq" className="interactive-icon transition-colors font-medium">FAQ</a>
+            <a href="#contacts" className="interactive-icon transition-colors font-medium">Контакты</a>
           </div>
           <div className="text-right">
             <div className="text-sm text-gray-600 mb-1">г. Воронеж</div>
@@ -270,7 +271,7 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-gray-800 text-white">
+      <footer id="contacts" className="py-12 bg-gray-800 text-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-8">
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
