@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Watercolor background gradients -->
-    <radialGradient id="redGradient" cx="20%" cy="20%">
-      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:0.9" />
-      <stop offset="50%" style="stop-color:#FF8E53;stop-opacity:0.7" />
-      <stop offset="100%" style="stop-color:#FF6B9D;stop-opacity:0.4" />
-    </radialGradient>
-    
-    <radialGradient id="orangeGradient" cx="80%" cy="30%">
-      <stop offset="0%" style="stop-color:#FFD93D;stop-opacity:0.8" />
-      <stop offset="50%" style="stop-color:#FF8C42;stop-opacity:0.6" />
-      <stop offset="100%" style="stop-color:#FFB347;stop-opacity:0.3" />
-    </radialGradient>
-    
-    <radialGradient id="greenGradient" cx="10%" cy="80%">
-      <stop offset="0%" style="stop-color:#4ECDC4;stop-opacity:0.8" />
-      <stop offset="50%" style="stop-color:#44A08D;stop-opacity:0.6" />
-      <stop offset="100%" style="stop-color:#48CAE4;stop-opacity:0.4" />
-    </radialGradient>
-    
-    <radialGradient id="purpleGradient" cx="90%" cy="85%">
-      <stop offset="0%" style="stop-color:#A8E6CF;stop-opacity:0.7" />
-      <stop offset="50%" style="stop-color:#B19CD9;stop-opacity:0.5" />
-      <stop offset="100%" style="stop-color:#C3B1E1;stop-opacity:0.3" />
-    </radialGradient>
+    <!-- Watercolor texture filter -->
+    <filter id="watercolor" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence baseFrequency="0.3" numOctaves="4" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="8"/>
+    </filter>
   </defs>
   
   <!-- White background -->
   <rect width="400" height="400" fill="white"/>
   
-  <!-- Watercolor background elements -->
-  <circle cx="80" cy="80" r="120" fill="url(#redGradient)" opacity="0.6"/>
-  <circle cx="320" cy="100" r="100" fill="url(#orangeGradient)" opacity="0.5"/>
-  <circle cx="50" cy="320" r="110" fill="url(#greenGradient)" opacity="0.6"/>
-  <circle cx="350" cy="350" r="90" fill="url(#purpleGradient)" opacity="0.5"/>
+  <!-- Watercolor background blobs -->
+  <!-- Top left red/orange blob -->
+  <path d="M0,0 C80,20 120,60 100,120 C90,140 60,160 40,140 C20,120 0,80 0,40 Z" 
+        fill="#FF6B6B" opacity="0.8" filter="url(#watercolor)"/>
+  <path d="M20,10 C100,30 140,70 120,130 C110,150 80,170 60,150 C40,130 20,90 20,50 Z" 
+        fill="#FF8E53" opacity="0.6" filter="url(#watercolor)"/>
   
-  <!-- Five interlocked stars based on the logo -->
+  <!-- Top right orange/yellow blob -->
+  <path d="M400,0 C320,20 280,60 300,120 C310,140 340,160 360,140 C380,120 400,80 400,40 Z" 
+        fill="#FFD93D" opacity="0.7" filter="url(#watercolor)"/>
+  <path d="M380,10 C300,30 260,70 280,130 C290,150 320,170 340,150 C360,130 380,90 380,50 Z" 
+        fill="#FF8C42" opacity="0.5" filter="url(#watercolor)"/>
+  
+  <!-- Bottom left teal blob -->
+  <path d="M0,400 C80,380 120,340 100,280 C90,260 60,240 40,260 C20,280 0,320 0,360 Z" 
+        fill="#4ECDC4" opacity="0.8" filter="url(#watercolor)"/>
+  <path d="M20,390 C100,370 140,330 120,270 C110,250 80,230 60,250 C40,270 20,310 20,350 Z" 
+        fill="#44A08D" opacity="0.6" filter="url(#watercolor)"/>
+  
+  <!-- Bottom right purple blob -->
+  <path d="M400,400 C320,380 280,340 300,280 C310,260 340,240 360,260 C380,280 400,320 400,360 Z" 
+        fill="#B19CD9" opacity="0.7" filter="url(#watercolor)"/>
+  <path d="M380,390 C300,370 260,330 280,270 C290,250 320,230 340,250 C360,270 380,310 380,350 Z" 
+        fill="#A8E6CF" opacity="0.5" filter="url(#watercolor)"/>
+  
+  <!-- Five interlocked stars exactly like in the image -->
   <g transform="translate(200,200)">
-    <!-- Blue star (left) -->
-    <path d="M-50,-10 L-40,0 L-30,-10 L-25,5 L-10,0 L-25,15 L-30,30 L-40,20 L-50,30 L-45,15 L-60,0 L-45,5 Z" 
-          fill="none" stroke="#2E86AB" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+    <!-- Blue star (top left) -->
+    <path d="M-45,-25 L-35,-15 L-25,-25 L-30,-10 L-15,-15 L-30,0 L-25,15 L-35,5 L-45,15 L-40,0 L-55,-15 L-40,-10 Z" 
+          fill="none" stroke="#2E86AB" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
     
     <!-- Black star (top center) -->
-    <path d="M0,-40 L10,-30 L20,-40 L15,-25 L30,-30 L15,-15 L20,0 L10,-10 L0,0 L5,-15 L-10,-30 L5,-25 Z" 
-          fill="none" stroke="#2D3436" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M0,-35 L10,-25 L20,-35 L15,-20 L30,-25 L15,-10 L20,5 L10,-5 L0,5 L5,-10 L-10,-25 L5,-20 Z" 
+          fill="none" stroke="#2D3436" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
     
-    <!-- Red star (right) -->
-    <path d="M50,-10 L60,0 L70,-10 L65,5 L80,0 L65,15 L70,30 L60,20 L50,30 L55,15 L40,0 L55,5 Z" 
-          fill="none" stroke="#E74C3C" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+    <!-- Red star (top right) -->
+    <path d="M45,-25 L55,-15 L65,-25 L60,-10 L75,-15 L60,0 L65,15 L55,5 L45,15 L50,0 L35,-15 L50,-10 Z" 
+          fill="none" stroke="#E74C3C" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
     
-    <!-- Orange star (bottom left) -->
-    <path d="M-25,25 L-15,35 L-5,25 L0,40 L15,35 L0,50 L-5,65 L-15,55 L-25,65 L-20,50 L-35,35 L-20,40 Z" 
-          fill="none" stroke="#F39C12" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+    <!-- Orange star (bottom left) - connects with blue and green -->
+    <path d="M-22,20 L-12,30 L-2,20 L3,35 L18,30 L3,45 L-2,60 L-12,50 L-22,60 L-17,45 L-32,30 L-17,35 Z" 
+          fill="none" stroke="#F39C12" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
     
-    <!-- Green star (bottom right) -->
-    <path d="M25,25 L35,35 L45,25 L50,40 L65,35 L50,50 L45,65 L35,55 L25,65 L30,50 L15,35 L30,40 Z" 
-          fill="none" stroke="#00B894" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+    <!-- Green star (bottom right) - connects with red and orange -->
+    <path d="M22,20 L32,30 L42,20 L47,35 L62,30 L47,45 L42,60 L32,50 L22,60 L27,45 L12,30 L27,35 Z" 
+          fill="none" stroke="#00B894" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
   </g>
   
   <!-- KINETIC KIDS text -->
-  <text x="200" y="320" font-family="Arial, sans-serif" font-size="36" font-weight="300" 
-        text-anchor="middle" fill="#2D3436" letter-spacing="2px">KINETIC KIDS</text>
+  <text x="200" y="320" font-family="Arial, sans-serif" font-size="28" font-weight="300" 
+        text-anchor="middle" fill="#2D3436" letter-spacing="3px">KINETIC KIDS</text>
 </svg>
