@@ -1,65 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <!-- Watercolor texture filter -->
-    <filter id="watercolor" x="-50%" y="-50%" width="200%" height="200%">
-      <feTurbulence baseFrequency="0.3" numOctaves="4" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="8"/>
-    </filter>
-  </defs>
-  
-  <!-- White background -->
-  <rect width="400" height="400" fill="white"/>
-  
-  <!-- Watercolor background blobs -->
-  <!-- Top left red/orange blob -->
-  <path d="M0,0 C80,20 120,60 100,120 C90,140 60,160 40,140 C20,120 0,80 0,40 Z" 
-        fill="#FF6B6B" opacity="0.8" filter="url(#watercolor)"/>
-  <path d="M20,10 C100,30 140,70 120,130 C110,150 80,170 60,150 C40,130 20,90 20,50 Z" 
-        fill="#FF8E53" opacity="0.6" filter="url(#watercolor)"/>
-  
-  <!-- Top right orange/yellow blob -->
-  <path d="M400,0 C320,20 280,60 300,120 C310,140 340,160 360,140 C380,120 400,80 400,40 Z" 
-        fill="#FFD93D" opacity="0.7" filter="url(#watercolor)"/>
-  <path d="M380,10 C300,30 260,70 280,130 C290,150 320,170 340,150 C360,130 380,90 380,50 Z" 
-        fill="#FF8C42" opacity="0.5" filter="url(#watercolor)"/>
-  
-  <!-- Bottom left teal blob -->
-  <path d="M0,400 C80,380 120,340 100,280 C90,260 60,240 40,260 C20,280 0,320 0,360 Z" 
-        fill="#4ECDC4" opacity="0.8" filter="url(#watercolor)"/>
-  <path d="M20,390 C100,370 140,330 120,270 C110,250 80,230 60,250 C40,270 20,310 20,350 Z" 
-        fill="#44A08D" opacity="0.6" filter="url(#watercolor)"/>
-  
-  <!-- Bottom right purple blob -->
-  <path d="M400,400 C320,380 280,340 300,280 C310,260 340,240 360,260 C380,280 400,320 400,360 Z" 
-        fill="#B19CD9" opacity="0.7" filter="url(#watercolor)"/>
-  <path d="M380,390 C300,370 260,330 280,270 C290,250 320,230 340,250 C360,270 380,310 380,350 Z" 
-        fill="#A8E6CF" opacity="0.5" filter="url(#watercolor)"/>
-  
-  <!-- Five interlocked stars exactly like in the image -->
-  <g transform="translate(200,200)">
-    <!-- Blue star (top left) -->
-    <path d="M-45,-25 L-35,-15 L-25,-25 L-30,-10 L-15,-15 L-30,0 L-25,15 L-35,5 L-45,15 L-40,0 L-55,-15 L-40,-10 Z" 
-          fill="none" stroke="#2E86AB" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
-    
-    <!-- Black star (top center) -->
-    <path d="M0,-35 L10,-25 L20,-35 L15,-20 L30,-25 L15,-10 L20,5 L10,-5 L0,5 L5,-10 L-10,-25 L5,-20 Z" 
-          fill="none" stroke="#2D3436" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
-    
-    <!-- Red star (top right) -->
-    <path d="M45,-25 L55,-15 L65,-25 L60,-10 L75,-15 L60,0 L65,15 L55,5 L45,15 L50,0 L35,-15 L50,-10 Z" 
-          fill="none" stroke="#E74C3C" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
-    
-    <!-- Orange star (bottom left) - connects with blue and green -->
-    <path d="M-22,20 L-12,30 L-2,20 L3,35 L18,30 L3,45 L-2,60 L-12,50 L-22,60 L-17,45 L-32,30 L-17,35 Z" 
-          fill="none" stroke="#F39C12" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
-    
-    <!-- Green star (bottom right) - connects with red and orange -->
-    <path d="M22,20 L32,30 L42,20 L47,35 L62,30 L47,45 L42,60 L32,50 L22,60 L27,45 L12,30 L27,35 Z" 
-          fill="none" stroke="#00B894" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
-  </g>
-  
-  <!-- KINETIC KIDS text -->
-  <text x="200" y="320" font-family="Arial, sans-serif" font-size="28" font-weight="300" 
-        text-anchor="middle" fill="#2D3436" letter-spacing="3px">KINETIC KIDS</text>
-</svg>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звезды</title>
+    <style>
+        body {
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .stars {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+        .star {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 5px solid;
+            border-radius: 50%;
+            clip-path: polygon(
+                50% 0%,
+                61% 35%,
+                98% 35%,
+                70% 57%,
+                79% 91%,
+                50% 70%,
+                21% 91%,
+                30% 57%,
+                2% 35%,
+                39% 35%
+            );
+        }
+        .blue { border-color: blue; }
+        .black { border-color: black; }
+        .red { border-color: red; }
+        .orange { border-color: orange; }
+        .green { border-color: green; }
+    </style>
+</head>
+<body>
+    <div class="stars">
+        <div class="star blue" style="top: 20px; left: 20px;"></div>
+        <div class="star black" style="top: 100px; left: 100px;"></div>
+        <div class="star red" style="top: 180px; left: 180px;"></div>
+        <div class="star orange" style="top: 100px; left: 180px;"></div>
+        <div class="star green" style="
