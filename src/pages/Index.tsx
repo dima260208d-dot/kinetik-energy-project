@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import Countdown from '@/components/Countdown';
-import Static3DClub from '@/components/Static3DClub';
 
 export default function Index() {
   const [openFAQ, setOpenFAQ] = useState(null);
@@ -123,19 +122,6 @@ export default function Index() {
             Обучение без страха, катание без границ!
           </p>
           <Countdown />
-        </div>
-      </section>
-
-      {/* 3D Club Model Section */}
-      <section className="py-20 bg-white/90 backdrop-blur-sm">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-8 text-gray-800">
-            3D модель клуба KINETIC KIDS
-          </h2>
-          <p className="text-xl text-center mb-12 text-gray-600 max-w-3xl mx-auto">
-            Познакомьтесь с трёхмерной визуализацией нашего будущего клуба
-          </p>
-          <Static3DClub />
         </div>
       </section>
 
