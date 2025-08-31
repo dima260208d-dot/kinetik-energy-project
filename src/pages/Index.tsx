@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
+import Countdown from '@/components/Countdown';
 
 export default function Index() {
   const [openFAQ, setOpenFAQ] = useState(null);
@@ -120,21 +121,7 @@ export default function Index() {
           <p className="text-2xl md:text-3xl mb-8 text-white font-light drop-shadow-lg">
             Обучение без страха, катание без границ!
           </p>
-          <div className="rainbow-card p-8 mb-12">
-            <div className="text-2xl font-bold text-gray-800 mb-4">📅 Открытие в мае 2026!</div>
-            <p className="text-lg text-gray-700 mb-6">Обучаем детей с трех лет, а также взрослых</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="tel:89204163606" className="rainbow-button text-lg">
-                📞 8 920 416 36 06
-              </a>
-              <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="rainbow-button text-lg">
-                💬 Telegram консультация
-              </a>
-              <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" className="rainbow-button text-lg">
-                📱 WhatsApp
-              </a>
-            </div>
-          </div>
+          <Countdown />
         </div>
       </section>
 
