@@ -11,7 +11,6 @@ export default function Index() {
       id: 'skate', 
       name: 'Скейтбординг', 
       icon: '🛹',
-      image: '/img/22aa2c3f-b1ec-4075-8cbc-2bced516e2d6.jpg',
       description: 'Изучаем основы катания, повороты, торможение и первые трюки',
       color: 'kinetic-red'
     },
@@ -19,7 +18,6 @@ export default function Index() {
       id: 'roller', 
       name: 'Ролики', 
       icon: '🛼',
-      image: '/img/226337b2-e0bf-43a8-9ac4-04c1fc1a4354.jpg',
       description: 'От первых шагов до слалома и фристайла',
       color: 'kinetic-blue'
     },
@@ -27,7 +25,6 @@ export default function Index() {
       id: 'bike', 
       name: 'Велосипед', 
       icon: '🚲',
-      image: '/img/9ff50165-1c34-4a9f-aec7-0cf6a008482b.jpg',
       description: 'Безопасная езда, трюки и велопрогулки',
       color: 'kinetic-green'
     },
@@ -35,7 +32,6 @@ export default function Index() {
       id: 'bmx', 
       name: 'BMX', 
       icon: '🚴‍♂️',
-      image: '/img/9ff50165-1c34-4a9f-aec7-0cf6a008482b.jpg',
       description: 'Экстремальная езда, джампы и трюки на рампе',
       color: 'kinetic-orange'
     },
@@ -43,7 +39,6 @@ export default function Index() {
       id: 'scooter', 
       name: 'Трюковой самокат', 
       icon: '🛴',
-      image: '/img/fcd3f6f1-734b-47f8-b3b9-8c68002044d4.jpg',
       description: 'Современный городской экстрим и воздушные трюки',
       color: 'kinetic-purple'
     },
@@ -51,7 +46,6 @@ export default function Index() {
       id: 'runbike', 
       name: 'Беговел', 
       icon: '🏃‍♂️',
-      image: '/img/56470b08-8fe5-45aa-a170-e20f963a501d.jpg',
       description: 'Первые шаги к освоению равновесия для самых маленьких',
       color: 'kinetic-teal'
     }
@@ -139,18 +133,11 @@ export default function Index() {
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sports.map((sport) => (
-              <div key={sport.id} className="rainbow-card group cursor-pointer overflow-hidden">
-                <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
-                  <img 
-                    src={sport.image} 
-                    alt={sport.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute top-2 right-2 text-4xl bg-white/80 rounded-full w-12 h-12 flex items-center justify-center">
+              <div key={sport.id} className="rainbow-card group cursor-pointer">
+                <CardHeader className="text-center">
+                  <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
                     {sport.icon}
                   </div>
-                </div>
-                <CardHeader className="text-center pt-0">
                   <CardTitle className="text-gray-800 text-xl group-hover:scale-105 transition-all">
                     {sport.name}
                   </CardTitle>
