@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import Countdown from '@/components/Countdown';
-import Club3DModel from '@/components/Club3DModel';
 
 export default function Index() {
   const [openFAQ, setOpenFAQ] = useState(null);
@@ -126,16 +125,96 @@ export default function Index() {
         </div>
       </section>
 
-      {/* 3D Club Model Section */}
+      {/* Club Preview Section */}
       <section className="py-20 bg-white/90 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-8 text-gray-800">
-            Виртуальная экскурсия по клубу
+            План клуба KINETIC KIDS
           </h2>
           <p className="text-xl text-center mb-12 text-gray-600 max-w-3xl mx-auto">
-            Исследуйте наш будущий клуб в 3D! Покрутите модель, приблизьте детали и познакомьтесь с зонами для разных видов спорта
+            Познакомьтесь с планировкой нашего будущего клуба и зонами для разных видов спорта
           </p>
-          <Club3DModel />
+          
+          {/* Club Layout */}
+          <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl p-8">
+            <div className="relative bg-gray-100 rounded-xl p-8 min-h-[500px]">
+              
+              {/* Entrance */}
+              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-orange-400 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                🚪 ВХОД
+              </div>
+              
+              {/* Reception */}
+              <div className="absolute top-16 right-8 w-24 h-16 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-xs text-center">
+                📋<br/>СТОЙКА
+              </div>
+              
+              {/* Roller Zone */}
+              <div className="absolute bottom-8 left-8 w-64 h-40 bg-green-400 rounded-xl p-4 text-white">
+                <h3 className="font-bold mb-2 text-center">🛼 ЗОНА РОЛИКОВ</h3>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="bg-green-500 rounded p-2 text-center">Горка 1</div>
+                  <div className="bg-green-600 rounded p-2 text-center">Горка 2</div>
+                  <div className="bg-green-500 rounded p-2 text-center">Мини-рампа</div>
+                  <div className="bg-green-600 rounded p-2 text-center">Беговел зона</div>
+                </div>
+              </div>
+              
+              {/* Skate Zone */}
+              <div className="absolute bottom-8 right-8 w-64 h-40 bg-red-400 rounded-xl p-4 text-white">
+                <h3 className="font-bold mb-2 text-center">🛹 СКЕЙТ-ПАРК</h3>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="bg-red-500 rounded p-2 text-center">Большая рампа</div>
+                  <div className="bg-red-600 rounded p-2 text-center">Фанбокс</div>
+                  <div className="bg-red-500 rounded p-2 text-center">Рейлы</div>
+                  <div className="bg-red-600 rounded p-2 text-center">Квотерпайп</div>
+                </div>
+              </div>
+              
+              {/* Safety Zone */}
+              <div className="absolute top-20 left-8 w-48 h-24 bg-purple-400 rounded-lg p-3 text-white">
+                <h4 className="font-bold text-sm text-center mb-1">🛡️ ЗОНА БЕЗОПАСНОСТИ</h4>
+                <p className="text-xs text-center">Выдача защиты и инструктаж</p>
+              </div>
+              
+              {/* Rest Area */}
+              <div className="absolute top-32 right-32 w-40 h-20 bg-teal-400 rounded-lg p-3 text-white">
+                <h4 className="font-bold text-sm text-center mb-1">☕ ЗОНА ОТДЫХА</h4>
+                <p className="text-xs text-center">Для родителей</p>
+              </div>
+              
+              {/* Center Logo */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                <img 
+                  src="https://cdn.poehali.dev/files/113059d2-0e73-4406-86d6-fc944467426a.jpg" 
+                  alt="Kinetic Kids Logo" 
+                  className="w-20 h-20 rounded-full mx-auto mb-2 shadow-lg"
+                />
+                <h3 className="text-2xl font-bold text-gray-700">KINETIC KIDS</h3>
+              </div>
+              
+            </div>
+            
+            {/* Legend */}
+            <div className="mt-8 grid md:grid-cols-4 gap-4 text-sm">
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-orange-400 rounded"></div>
+                <span>Входная зона</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-green-400 rounded"></div>
+                <span>Зона роликов</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-red-400 rounded"></div>
+                <span>Скейт-парк</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-purple-400 rounded"></div>
+                <span>Сервисные зоны</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
