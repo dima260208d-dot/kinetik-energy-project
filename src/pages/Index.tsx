@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import Countdown from '@/components/Countdown';
+import Club3DModel from '@/components/Club3DModel';
 
 export default function Index() {
   const [openFAQ, setOpenFAQ] = useState(null);
@@ -122,6 +123,19 @@ export default function Index() {
             Обучение без страха, катание без границ!
           </p>
           <Countdown />
+        </div>
+      </section>
+
+      {/* 3D Club Model Section */}
+      <section className="py-20 bg-white/90 backdrop-blur-sm">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-8 text-gray-800">
+            Виртуальная экскурсия по клубу
+          </h2>
+          <p className="text-xl text-center mb-12 text-gray-600 max-w-3xl mx-auto">
+            Исследуйте наш будущий клуб в 3D! Покрутите модель, приблизьте детали и познакомьтесь с зонами для разных видов спорта
+          </p>
+          <Club3DModel />
         </div>
       </section>
 
