@@ -84,14 +84,14 @@ export default function Index() {
     <div className="min-h-screen rainbow-pattern">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b-2 border-transparent shadow-lg">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+        <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <img 
               src="https://cdn.poehali.dev/files/819f034c-b5eb-4287-b8ab-14036c8c696f.jpg" 
               alt="Kinetic Kids Logo" 
-              className="w-12 h-12 rounded-full object-cover"
+              className="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover"
             />
-            <h1 className="text-2xl font-bold rainbow-text">KINETIC KIDS</h1>
+            <h1 className="text-lg sm:text-2xl font-bold rainbow-text">KINETIC KIDS</h1>
           </div>
           <div className="hidden md:flex space-x-8">
             <a href="#sports" className="interactive-icon transition-colors font-medium">Направления</a>
@@ -99,9 +99,9 @@ export default function Index() {
             <a href="#faq" className="interactive-icon transition-colors font-medium">FAQ</a>
             <a href="#contacts" className="interactive-icon transition-colors font-medium">Контакты</a>
           </div>
-          <div className="text-right">
-            <div className="text-sm text-gray-600 mb-1">г. Воронеж</div>
-            <div className="text-sm font-semibold rainbow-text">Открытие в мае 2026</div>
+          <div className="text-right text-xs sm:text-sm">
+            <div className="text-gray-600 mb-1">г. Воронеж</div>
+            <div className="font-semibold rainbow-text">Открытие в мае 2026</div>
           </div>
         </div>
       </nav>
@@ -115,10 +115,10 @@ export default function Index() {
         }}>
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <h2 className="text-6xl md:text-8xl font-black mb-6 text-white drop-shadow-2xl">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black mb-4 sm:mb-6 text-white drop-shadow-2xl leading-tight">
             KINETIC KIDS
           </h2>
-          <p className="text-2xl md:text-3xl mb-8 text-white font-light drop-shadow-lg">
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 text-white font-light drop-shadow-lg px-2">
             Обучение без страха, катание без границ!
           </p>
           <Countdown />
@@ -126,22 +126,22 @@ export default function Index() {
       </section>
 
       {/* Sports Section */}
-      <section id="sports" className="py-20 bg-white/80 backdrop-blur-sm">
+      <section id="sports" className="py-12 sm:py-16 lg:py-20 bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-gray-800">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8 sm:mb-12 lg:mb-16 text-gray-800">
             Направления обучения
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {sports.map((sport) => (
               <div key={sport.id} className="rainbow-card group cursor-pointer">
-                <CardHeader className="text-center">
-                  <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <CardHeader className="text-center p-4 sm:p-6">
+                  <div className="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
                     {sport.icon}
                   </div>
-                  <CardTitle className="text-gray-800 text-xl group-hover:scale-105 transition-all">
+                  <CardTitle className="text-gray-800 text-lg sm:text-xl group-hover:scale-105 transition-all mb-2">
                     {sport.name}
                   </CardTitle>
-                  <CardDescription className="text-gray-600">
+                  <CardDescription className="text-gray-600 text-sm sm:text-base leading-relaxed">
                     {sport.description}
                   </CardDescription>
                 </CardHeader>
@@ -152,51 +152,51 @@ export default function Index() {
       </section>
 
       {/* Safety Section */}
-      <section id="safety" className="py-20 bg-white/70 backdrop-blur-sm">
+      <section id="safety" className="py-12 sm:py-16 lg:py-20 bg-white/70 backdrop-blur-sm">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-gray-800">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8 sm:mb-12 lg:mb-16 text-gray-800">
             Безопасность превыше всего
           </h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             <div className="rainbow-card text-center">
-              <CardHeader>
-                <div className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center rainbow-button">
-                  <Icon name="Shield" size={32} className="text-white" />
+              <CardHeader className="p-4 sm:p-6">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
+                  <Icon name="Shield" size={28} className="text-white sm:w-8 sm:h-8" />
                 </div>
-                <CardTitle className="text-gray-800">
+                <CardTitle className="text-gray-800 text-lg sm:text-xl">
                   Полная защита
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">Шлем, наколенники, налокотники и перчатки для каждого ученика</p>
+              <CardContent className="p-4 sm:p-6 pt-0">
+                <p className="text-gray-600 text-sm sm:text-base">Шлем, наколенники, налокотники и перчатки для каждого ученика</p>
               </CardContent>
             </div>
             
             <div className="rainbow-card text-center">
-              <CardHeader>
-                <div className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center rainbow-button">
-                  <Icon name="Users" size={32} className="text-white" />
+              <CardHeader className="p-4 sm:p-6">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
+                  <Icon name="Users" size={28} className="text-white sm:w-8 sm:h-8" />
                 </div>
-                <CardTitle className="text-gray-800">
+                <CardTitle className="text-gray-800 text-lg sm:text-xl">
                   Малые группы
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">Не более 10 человек в группе для индивидуального подхода</p>
+              <CardContent className="p-4 sm:p-6 pt-0">
+                <p className="text-gray-600 text-sm sm:text-base">Не более 10 человек в группе для индивидуального подхода</p>
               </CardContent>
             </div>
             
             <div className="rainbow-card text-center">
-              <CardHeader>
-                <div className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center rainbow-button">
-                  <Icon name="Heart" size={32} className="text-white" />
+              <CardHeader className="p-4 sm:p-6">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
+                  <Icon name="Heart" size={28} className="text-white sm:w-8 sm:h-8" />
                 </div>
-                <CardTitle className="text-gray-800">
+                <CardTitle className="text-gray-800 text-lg sm:text-xl">
                   Опытные тренеры
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">Квалифицированные специалисты с медицинской подготовкой</p>
+              <CardContent className="p-4 sm:p-6 pt-0">
+                <p className="text-gray-600 text-sm sm:text-base">Квалифицированные специалисты с медицинской подготовкой</p>
               </CardContent>
             </div>
           </div>
@@ -206,9 +206,9 @@ export default function Index() {
 
 
       {/* FAQ Section */}
-      <section id="faq" className="py-20 bg-white">
+      <section id="faq" className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-gray-800">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8 sm:mb-12 lg:mb-16 text-gray-800">
             Частые вопросы
           </h2>
           <div className="space-y-4">
@@ -219,8 +219,8 @@ export default function Index() {
                   onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
                 >
                   <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg text-gray-800">{faq.question}</CardTitle>
-                    <Icon name={openFAQ === index ? "ChevronUp" : "ChevronDown"} size={20} />
+                    <CardTitle className="text-base sm:text-lg text-gray-800 pr-4">{faq.question}</CardTitle>
+                    <Icon name={openFAQ === index ? "ChevronUp" : "ChevronDown"} size={20} className="flex-shrink-0" />
                   </div>
                 </CardHeader>
                 {openFAQ === index && (
@@ -235,22 +235,22 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-orange-500/10 to-teal-500/10">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-orange-500/10 to-teal-500/10">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-gray-800">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 text-gray-800">
             Готовы к приключениям?
           </h2>
-          <p className="text-xl mb-12 text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg lg:text-xl mb-8 sm:mb-12 text-gray-600 max-w-2xl mx-auto px-2">
             Свяжитесь с нами уже сегодня и узнайте больше о том, что нас ждет в мае 2026!
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 text-xl">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-4xl mx-auto">
+            <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg lg:text-xl">
               💬 Telegram консультация
             </a>
-            <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 text-xl">
+            <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg lg:text-xl">
               📱 WhatsApp
             </a>
-            <a href="tel:89204163606" className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 text-xl">
+            <a href="tel:89204163606" className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg lg:text-xl">
               📞 Позвонить нам
             </a>
           </div>
@@ -258,27 +258,27 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer id="contacts" className="py-12 bg-gray-800 text-white">
+      <footer id="contacts" className="py-8 sm:py-12 bg-gray-800 text-white">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-            <div className="flex items-center space-x-3 mb-4 md:mb-0">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-6 sm:mb-8">
+            <div className="flex items-center space-x-2 sm:space-x-3 mb-4 md:mb-0">
               <img 
                 src="https://cdn.poehali.dev/files/2799c2eb-0c3f-4244-9101-eccb835271d7.jpg" 
                 alt="Kinetic Kids Logo" 
-                className="w-10 h-10 rounded-full object-cover"
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover"
               />
-              <span className="text-xl font-bold">KINETIC KIDS</span>
+              <span className="text-lg sm:text-xl font-bold">KINETIC KIDS</span>
             </div>
             <div className="text-center md:text-right">
-              <div className="text-lg font-semibold mb-2">г. Воронеж</div>
-              <div className="text-orange-400">Открытие в мае 2026 года</div>
+              <div className="text-base sm:text-lg font-semibold mb-1 sm:mb-2">г. Воронеж</div>
+              <div className="text-orange-400 text-sm sm:text-base">Открытие в мае 2026 года</div>
             </div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
             <div>
-              <h4 className="font-semibold mb-4 text-orange-400">Контакты</h4>
-              <div className="space-y-2">
+              <h4 className="font-semibold mb-3 sm:mb-4 text-orange-400 text-base sm:text-lg">Контакты</h4>
+              <div className="space-y-2 text-sm sm:text-base">
                 <a href="tel:89204163606" className="block hover:text-orange-400 transition-colors">
                   📞 8 920 416 36 06
                 </a>
@@ -298,8 +298,8 @@ export default function Index() {
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4 text-teal-400">Направления</h4>
-              <div className="space-y-1 text-sm text-gray-300">
+              <h4 className="font-semibold mb-3 sm:mb-4 text-teal-400 text-base sm:text-lg">Направления</h4>
+              <div className="space-y-1 text-xs sm:text-sm text-gray-300">
                 <div>🛹 Скейтбординг</div>
                 <div>🛼 Ролики</div>
                 <div>🚲 Велосипед & BMX</div>
@@ -308,9 +308,9 @@ export default function Index() {
               </div>
             </div>
             
-            <div>
-              <h4 className="font-semibold mb-4 text-purple-400">Для родителей</h4>
-              <div className="space-y-2 text-sm">
+            <div className="sm:col-span-2 lg:col-span-1">
+              <h4 className="font-semibold mb-3 sm:mb-4 text-purple-400 text-base sm:text-lg">Для родителей</h4>
+              <div className="space-y-2 text-xs sm:text-sm">
                 <a href="https://vk.com/kinetickidsvrn?from=groups" target="_blank" className="block hover:text-purple-400 transition-colors">
                   Написать отзыв
                 </a>
