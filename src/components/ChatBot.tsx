@@ -21,7 +21,7 @@ export default function ChatBot() {
   ]);
   const [inputText, setInputText] = useState('');
 
-  const clubPhone = '+79999999999'; // Замените на реальный номер клуба
+  const clubPhone = '+79204163606';
 
   const botResponses = {
     'возраст': 'Обучаем детей с 3 лет, а также взрослых! Для малышей от 3-4 лет рекомендуем беговел, с 5 лет можно осваивать все направления.',
