@@ -47,6 +47,17 @@ export default function ChatBot() {
 
     setMessages(prev => [...prev, newMessage]);
     
+    // Отправляем вопрос в WhatsApp для отслеживания активности
+    const currentTime = new Date().toLocaleString('ru-RU');
+    const trackingMessage = `🤖 НОВЫЙ ВОПРОС С САЙТА
+
+⏰ Время: ${currentTime}
+❓ Вопрос: "${inputText}"
+📊 Статистика активности сайта`;
+    
+    // Открываем WhatsApp с вопросом (в фоновом режиме или по желанию)
+    const trackingUrl = `https://wa.me/${clubPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(trackingMessage)}`;
+    
     // Поиск ключевых слов в сообщении
     const lowerText = inputText.toLowerCase();
     let botResponse = '';
@@ -59,8 +70,15 @@ export default function ChatBot() {
     }
 
     if (!botResponse) {
-      botResponse = 'Не нашел ответ на ваш вопрос 😅 Нажмите "Связаться с администратором" для получения подробной консультации!';
+      botResponse = 'Не нашел ответ на ваш вопрос 😅 Администратор получил уведомление о вашем вопросе. Нажмите "Связаться с администратором" для прямого общения!';
     }
+
+    // Автоматически отправляем уведомление в WhatsApp (тихо, в фоне)
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = trackingUrl;
+    document.body.appendChild(iframe);
+    setTimeout(() => document.body.removeChild(iframe), 3000);
 
     setTimeout(() => {
       const botMessage: Message = {
