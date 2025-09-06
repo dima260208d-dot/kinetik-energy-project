@@ -85,22 +85,30 @@ export default function Index() {
     <div className="min-h-screen rainbow-pattern">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b-2 border-transparent shadow-lg">
-        <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2 sm:space-x-3">
-            <img 
-              src="https://cdn.poehali.dev/files/819f034c-b5eb-4287-b8ab-14036c8c696f.jpg" 
-              alt="Kinetic Kids Logo" 
-              className="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover"
-            />
-            <h1 className="text-lg sm:text-2xl font-bold rainbow-text">KINETIC KIDS</h1>
+        <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
+          <div className="flex items-center justify-between w-full sm:w-auto">
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <img 
+                src="https://cdn.poehali.dev/files/819f034c-b5eb-4287-b8ab-14036c8c696f.jpg" 
+                alt="Kinetic Kids Logo" 
+                className="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover"
+              />
+              <h1 className="text-base sm:text-2xl font-bold rainbow-text">KINETIC KIDS</h1>
+            </div>
+            <div className="sm:hidden text-right text-xs">
+              <div className="text-gray-600">Воронеж</div>
+              <div className="font-semibold rainbow-text">Май 2026</div>
+            </div>
           </div>
+          
           <div className="hidden md:flex space-x-8">
             <a href="#sports" className="interactive-icon transition-colors font-medium">Направления</a>
             <a href="#safety" className="interactive-icon transition-colors font-medium">Безопасность</a>
             <a href="#faq" className="interactive-icon transition-colors font-medium">FAQ</a>
             <a href="#contacts" className="interactive-icon transition-colors font-medium">Контакты</a>
           </div>
-          <div className="text-right text-xs sm:text-sm">
+          
+          <div className="hidden sm:block text-right text-xs sm:text-sm">
             <div className="text-gray-600 mb-1">г. Воронеж</div>
             <div className="font-semibold rainbow-text">Открытие в мае 2026</div>
           </div>
@@ -108,7 +116,7 @@ export default function Index() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-40 sm:pt-32"
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 sm:pt-32"
         style={{
           backgroundImage: `url(/img/59057680-eb39-4b41-bb3c-c4f54d321177.jpg)`,
           backgroundSize: 'cover',
@@ -116,10 +124,10 @@ export default function Index() {
         }}>
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black mb-4 sm:mb-6 text-white drop-shadow-2xl leading-tight">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black mb-4 sm:mb-6 text-white drop-shadow-2xl leading-tight">
             KINETIC KIDS
           </h2>
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 text-white font-light drop-shadow-lg px-2">
+          <p className="text-base sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 text-white font-light drop-shadow-lg px-2">
             Обучение без страха, катание без границ!
           </p>
           <Countdown />
@@ -129,7 +137,7 @@ export default function Index() {
       {/* Sports Section */}
       <section id="sports" className="py-12 sm:py-16 lg:py-20 bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8 sm:mb-12 lg:mb-16 text-gray-800">
+          <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-6 sm:mb-12 lg:mb-16 text-gray-800">
             Направления обучения
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
