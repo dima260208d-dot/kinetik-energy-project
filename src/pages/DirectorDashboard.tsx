@@ -9,6 +9,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { User, Application, ChatMessage, Purchase, UserActivity, UserRole } from '@/types/auth';
 import Icon from '@/components/ui/icon';
+import Navigation from '@/components/Navigation';
+import ProfileSettings from '@/components/ProfileSettings';
 
 const DirectorDashboard = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -21,6 +23,7 @@ const DirectorDashboard = () => {
   const [newAdminEmail, setNewAdminEmail] = useState('');
   const [newAdminName, setNewAdminName] = useState('');
   const [newAdminPassword, setNewAdminPassword] = useState('');
+  const [showSettings, setShowSettings] = useState(false);
   
   const { user, logout } = useAuth();
   const { toast } = useToast();
@@ -160,14 +163,10 @@ const DirectorDashboard = () => {
         {/* Заголовок */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-white">Панель директора</h1>
-          <div className="flex gap-4">
-            <span className="text-white bg-white bg-opacity-20 px-4 py-2 rounded-lg">
-              👤 {user?.name}
-            </span>
-            <Button onClick={logout} variant="outline" className="bg-white bg-opacity-20 text-white border-white">
-              Выйти
-            </Button>
-          </div>
+          <Navigation 
+            currentPage="dashboard" 
+            onSettingsClick={() => setShowSettings(true)}
+          />
         </div>
 
         {/* Статистика */}
@@ -427,6 +426,11 @@ const DirectorDashboard = () => {
           </Card>
         </div>
       </div>
+
+      {/* Настройки профиля */}
+      {showSettings && (
+        <ProfileSettings onClose={() => setShowSettings(false)} />
+      )}
     </div>
   );
 };

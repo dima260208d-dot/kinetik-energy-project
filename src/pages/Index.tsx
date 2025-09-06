@@ -5,6 +5,7 @@ import Icon from '@/components/ui/icon';
 import Countdown from '@/components/Countdown';
 import ChatBot from '@/components/ChatBot';
 import Auth from '@/components/Auth';
+import Navigation from '@/components/Navigation';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Index() {
@@ -111,7 +112,7 @@ export default function Index() {
             <a href="#safety" className="interactive-icon transition-colors font-medium">Безопасность</a>
             <a href="#faq" className="interactive-icon transition-colors font-medium">FAQ</a>
             <a href="#contacts" className="interactive-icon transition-colors font-medium">Контакты</a>
-            {!user && (
+            {!user ? (
               <Button 
                 onClick={() => setShowAuth(true)} 
                 className="rainbow-button"
@@ -119,6 +120,8 @@ export default function Index() {
               >
                 Войти
               </Button>
+            ) : (
+              <Navigation currentPage="home" />
             )}
           </div>
           

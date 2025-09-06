@@ -4,10 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { Application, User } from '@/types/auth';
+import Navigation from '@/components/Navigation';
+import ProfileSettings from '@/components/ProfileSettings';
 
 const AdminDashboard = () => {
   const [applications, setApplications] = useState<Application[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [showSettings, setShowSettings] = useState(false);
   
   const { user, logout } = useAuth();
 
@@ -59,14 +62,10 @@ const AdminDashboard = () => {
         {/* Заголовок */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-white">Панель администратора</h1>
-          <div className="flex gap-4">
-            <span className="text-white bg-white bg-opacity-20 px-4 py-2 rounded-lg">
-              ⚡ {user?.name}
-            </span>
-            <Button onClick={logout} variant="outline" className="bg-white bg-opacity-20 text-white border-white">
-              Выйти
-            </Button>
-          </div>
+          <Navigation 
+            currentPage="dashboard" 
+            onSettingsClick={() => setShowSettings(true)}
+          />
         </div>
 
         {/* Статистика */}
@@ -209,6 +208,11 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Настройки профиля */}
+      {showSettings && (
+        <ProfileSettings onClose={() => setShowSettings(false)} />
+      )}
     </div>
   );
 };
