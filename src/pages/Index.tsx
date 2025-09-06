@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import Countdown from '@/components/Countdown';
+import ChatBot from '@/components/ChatBot';
 
 export default function Index() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
@@ -329,6 +330,9 @@ export default function Index() {
           </div>
         </div>
       </footer>
+
+      {/* Chat Bot */}
+      <ChatBot />
     </div>
   );
 }
