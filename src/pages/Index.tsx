@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import Countdown from '@/components/Countdown';
 import ChatBot from '@/components/ChatBot';
+import Auth from '@/components/Auth';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Index() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [showAuth, setShowAuth] = useState(false);
+  const { user } = useAuth();
 
   const sports = [
     { 
@@ -101,11 +106,20 @@ export default function Index() {
             </div>
           </div>
           
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex items-center space-x-8">
             <a href="#sports" className="interactive-icon transition-colors font-medium">Направления</a>
             <a href="#safety" className="interactive-icon transition-colors font-medium">Безопасность</a>
             <a href="#faq" className="interactive-icon transition-colors font-medium">FAQ</a>
             <a href="#contacts" className="interactive-icon transition-colors font-medium">Контакты</a>
+            {!user && (
+              <Button 
+                onClick={() => setShowAuth(true)} 
+                className="rainbow-button"
+                size="sm"
+              >
+                Войти
+              </Button>
+            )}
           </div>
           
           <div className="hidden sm:block text-right text-xs sm:text-sm">
@@ -341,6 +355,11 @@ export default function Index() {
 
       {/* Chat Bot */}
       <ChatBot />
+
+      {/* Auth Modal */}
+      {showAuth && (
+        <Auth onClose={() => setShowAuth(false)} />
+      )}
     </div>
   );
 }

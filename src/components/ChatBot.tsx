@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
+import { useAuth } from '@/contexts/AuthContext';
+import { ChatMessage, UserActivity } from '@/types/auth';
 
 interface Message {
   id: number;
@@ -11,6 +13,7 @@ interface Message {
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -171,6 +174,46 @@ export default function ChatBot() {
     iframe.src = trackingUrl;
     document.body.appendChild(iframe);
     setTimeout(() => document.body.removeChild(iframe), 3000);
+
+    // Сохраняем сообщение в базе данных, если пользователь авторизован
+    if (user) {
+      const stored = localStorage.getItem('fitness_app_data');
+      const data = stored ? JSON.parse(stored) : { chatMessages: [] };
+      
+      const chatMessage: ChatMessage = {
+        id: Date.now().toString(),
+        userId: user.id,
+        message: inputText,
+        response: '', // Пока не известен
+        timestamp: new Date()
+      };
+      
+      if (!data.chatMessages) data.chatMessages = [];
+      data.chatMessages.push(chatMessage);
+      
+      const activity: UserActivity = {
+        id: Date.now().toString(),
+        userId: user.id,
+        action: 'chat_message',
+        details: `Отправил сообщение боту: "${inputText.substring(0, 50)}${inputText.length > 50 ? '...' : ''}"`,
+        timestamp: new Date()
+      };
+      
+      if (!data.userActivities) data.userActivities = [];
+      data.userActivities.push(activity);
+      
+      setTimeout(() => {
+        // Обновляем ответ бота в базе данных
+        const updatedData = JSON.parse(localStorage.getItem('fitness_app_data') || '{}');
+        const chatIndex = updatedData.chatMessages.findIndex((msg: ChatMessage) => msg.id === chatMessage.id);
+        if (chatIndex !== -1) {
+          updatedData.chatMessages[chatIndex].response = botResponse;
+          localStorage.setItem('fitness_app_data', JSON.stringify(updatedData));
+        }
+      }, 1100);
+      
+      localStorage.setItem('fitness_app_data', JSON.stringify(data));
+    }
 
     setTimeout(() => {
       const botMessage: Message = {
