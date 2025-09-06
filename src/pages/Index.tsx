@@ -6,7 +6,7 @@ import Countdown from '@/components/Countdown';
 const Club3DModel = lazy(() => import('@/components/Club3DModel'));
 
 export default function Index() {
-  const [openFAQ, setOpenFAQ] = useState(null);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   const sports = [
     { 

@@ -1,7 +1,6 @@
-import React, { useRef, Suspense } from 'react';
-import { Canvas, useLoader } from '@react-three/fiber';
-import { OrbitControls, Box, Plane, Text3D, Center, Environment, Text } from '@react-three/drei';
-import { TextureLoader } from 'three';
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Box, Text, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 
 function SkateArea() {
@@ -143,7 +142,6 @@ function ClubInterior() {
         color="#ea580c"
         anchorX="center"
         anchorY="middle"
-        font="/fonts/Inter-Bold.ttf"
       >
         KINETIC KIDS
       </Text>
