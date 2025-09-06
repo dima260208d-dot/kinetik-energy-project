@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import Countdown from '@/components/Countdown';
+
+const Club3DModel = lazy(() => import('@/components/Club3DModel'));
 
 export default function Index() {
   const [openFAQ, setOpenFAQ] = useState(null);
@@ -230,6 +232,30 @@ export default function Index() {
                 )}
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3D Model Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 text-center text-gray-800">
+            Наш будущий клуб
+          </h2>
+          <p className="text-center text-gray-600 mb-6 sm:mb-8 text-base sm:text-lg">
+            Интерактивная 3D модель нашего пространства - покрутите, чтобы рассмотреть детали!
+          </p>
+          <div className="mx-auto max-w-6xl">
+            <Suspense fallback={
+              <div className="w-full h-[600px] bg-gray-200 rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-500 mx-auto mb-4"></div>
+                  <p className="text-gray-600">Загружаю 3D модель...</p>
+                </div>
+              </div>
+            }>
+              <Club3DModel />
+            </Suspense>
           </div>
         </div>
       </section>
