@@ -91,7 +91,7 @@ export default function Index() {
               alt="Kinetic Kids Logo" 
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover"
             />
-            <h1 className="text-lg sm:text-2xl font-bold text-gray-800">KINETIC KIDS</h1>
+            <h1 className="text-lg sm:text-2xl font-bold rainbow-text">KINETIC KIDS</h1>
           </div>
           <div className="hidden md:flex space-x-8">
             <a href="#sports" className="interactive-icon transition-colors font-medium">Направления</a>
@@ -107,7 +107,7 @@ export default function Index() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden"
+      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-16"
         style={{
           backgroundImage: `url(/img/59057680-eb39-4b41-bb3c-c4f54d321177.jpg)`,
           backgroundSize: 'cover',
