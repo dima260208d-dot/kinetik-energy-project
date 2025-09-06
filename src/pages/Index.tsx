@@ -170,7 +170,7 @@ export default function Index() {
             <div className="rainbow-card text-center">
               <CardHeader className="p-4 sm:p-6">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
-                  <Icon name="Shield" className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                  <span className="text-2xl sm:text-3xl">🛡️</span>
                 </div>
                 <CardTitle className="text-gray-800 text-lg sm:text-xl">
                   Полная защита
@@ -184,7 +184,7 @@ export default function Index() {
             <div className="rainbow-card text-center">
               <CardHeader className="p-4 sm:p-6">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
-                  <Icon name="Users" className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                  <span className="text-2xl sm:text-3xl">👥</span>
                 </div>
                 <CardTitle className="text-gray-800 text-lg sm:text-xl">
                   Малые группы
@@ -198,7 +198,7 @@ export default function Index() {
             <div className="rainbow-card text-center">
               <CardHeader className="p-4 sm:p-6">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
-                  <Icon name="Heart" className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                  <span className="text-2xl sm:text-3xl">👨‍🏫</span>
                 </div>
                 <CardTitle className="text-gray-800 text-lg sm:text-xl">
                   Опытные тренеры
