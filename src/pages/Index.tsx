@@ -1,9 +1,7 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import Countdown from '@/components/Countdown';
-
-const Club3DModel = lazy(() => import('@/components/Club3DModel'));
 
 export default function Index() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
@@ -163,7 +161,7 @@ export default function Index() {
             <div className="rainbow-card text-center">
               <CardHeader className="p-4 sm:p-6">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
-                  <Icon name="Shield" size={28} className="text-white sm:w-8 sm:h-8" />
+                  <Icon name="Shield" className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
                 </div>
                 <CardTitle className="text-gray-800 text-lg sm:text-xl">
                   Полная защита
@@ -177,7 +175,7 @@ export default function Index() {
             <div className="rainbow-card text-center">
               <CardHeader className="p-4 sm:p-6">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
-                  <Icon name="Users" size={28} className="text-white sm:w-8 sm:h-8" />
+                  <Icon name="Users" className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
                 </div>
                 <CardTitle className="text-gray-800 text-lg sm:text-xl">
                   Малые группы
@@ -191,7 +189,7 @@ export default function Index() {
             <div className="rainbow-card text-center">
               <CardHeader className="p-4 sm:p-6">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
-                  <Icon name="Heart" size={28} className="text-white sm:w-8 sm:h-8" />
+                  <Icon name="Heart" className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
                 </div>
                 <CardTitle className="text-gray-800 text-lg sm:text-xl">
                   Опытные тренеры
@@ -222,7 +220,7 @@ export default function Index() {
                 >
                   <div className="flex justify-between items-center">
                     <CardTitle className="text-base sm:text-lg text-gray-800 pr-4">{faq.question}</CardTitle>
-                    <Icon name={openFAQ === index ? "ChevronUp" : "ChevronDown"} size={20} className="flex-shrink-0" />
+                    <Icon name={openFAQ === index ? "ChevronUp" : "ChevronDown"} className="w-5 h-5 flex-shrink-0" />
                   </div>
                 </CardHeader>
                 {openFAQ === index && (
@@ -236,29 +234,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* 3D Model Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 text-center text-gray-800">
-            Наш будущий клуб
-          </h2>
-          <p className="text-center text-gray-600 mb-6 sm:mb-8 text-base sm:text-lg">
-            Интерактивная 3D модель нашего пространства - покрутите, чтобы рассмотреть детали!
-          </p>
-          <div className="mx-auto max-w-6xl">
-            <Suspense fallback={
-              <div className="w-full h-[600px] bg-gray-200 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-500 mx-auto mb-4"></div>
-                  <p className="text-gray-600">Загружаю 3D модель...</p>
-                </div>
-              </div>
-            }>
-              <Club3DModel />
-            </Suspense>
-          </div>
-        </div>
-      </section>
+
 
       {/* CTA Section */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-orange-500/10 to-teal-500/10">
