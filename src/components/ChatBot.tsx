@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 
@@ -20,8 +20,18 @@ export default function ChatBot() {
     }
   ]);
   const [inputText, setInputText] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const clubPhone = '+79204163606';
+
+  // Автоматическая прокрутка к последнему сообщению
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const botResponses = {
     // Возраст и уровни
@@ -235,7 +245,7 @@ export default function ChatBot() {
                   className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
                 >
                   <div
-                    className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
+                    className={`max-w-xs px-3 py-2 rounded-lg text-sm whitespace-pre-line ${
                       message.isBot
                         ? 'bg-gray-100 text-gray-800'
                         : 'bg-purple-500 text-white'
@@ -245,6 +255,7 @@ export default function ChatBot() {
                   </div>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
 
             {/* WhatsApp Button */}
