@@ -108,7 +108,7 @@ export default function Index() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-32"
+      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-40 sm:pt-32"
         style={{
           backgroundImage: `url(/img/59057680-eb39-4b41-bb3c-c4f54d321177.jpg)`,
           backgroundSize: 'cover',
