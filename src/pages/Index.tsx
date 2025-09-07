@@ -95,7 +95,7 @@ export default function Index() {
           <div className="flex items-center justify-between w-full sm:w-auto">
             <div className="flex items-center space-x-2 sm:space-x-3">
               <img 
-                src="https://cdn.poehali.dev/files/819f034c-b5eb-4287-b8ab-14036c8c696f.jpg" 
+                src="https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg" 
                 alt="Kinetic Kids Logo" 
                 className="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover"
               />
