@@ -63,14 +63,9 @@ const DashboardRedirect = () => {
 };
 
 const AppRoutes = () => {
-  const { user } = useAuth();
-  
   return (
     <Routes>
-      <Route 
-        path="/" 
-        element={user ? <Navigate to="/dashboard" replace /> : <Index />} 
-      />
+      <Route path="/" element={<Index />} />
       
       <Route path="/dashboard" element={<DashboardRedirect />} />
       
