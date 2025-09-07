@@ -96,7 +96,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
         <Button 
           onClick={() => handleNavigation('/')} 
           variant="outline" 
-          className="bg-white bg-opacity-20 text-white border-white hover:bg-white hover:text-purple-900"
+          className="bg-white bg-opacity-90 text-purple-900 border-white shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 font-medium"
         >
           🏠 На сайт
         </Button>
@@ -117,7 +117,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
           <DropdownMenuTrigger asChild>
             <Button 
               variant="outline" 
-              className="bg-white bg-opacity-20 text-white border-white hover:bg-white hover:text-purple-900 flex items-center gap-2"
+              className="bg-white bg-opacity-90 text-purple-900 border-white shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 flex items-center gap-2 font-medium"
             >
               {getRoleIcon(user.role)} {user.name}
               <Icon name="ChevronDown" className="w-4 h-4" />
