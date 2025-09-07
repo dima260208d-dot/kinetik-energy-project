@@ -101,7 +101,23 @@ export default function Index() {
               />
               <h1 className="text-base sm:text-2xl font-bold rainbow-text">KINETIC KIDS</h1>
             </div>
-            <div className="sm:hidden text-right text-xs">
+            
+            {/* Мобильная кнопка входа/кабинета */}
+            <div className="md:hidden">
+              {!user ? (
+                <Button 
+                  onClick={() => setShowAuth(true)} 
+                  className="rainbow-button text-xs px-3 py-1"
+                  size="sm"
+                >
+                  Войти
+                </Button>
+              ) : (
+                <Navigation currentPage="home" />
+              )}
+            </div>
+            
+            <div className="sm:hidden md:block text-right text-xs">
               <div className="text-gray-600">Воронеж</div>
               <div className="font-semibold rainbow-text">Май 2026</div>
             </div>
