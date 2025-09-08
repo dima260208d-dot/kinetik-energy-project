@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,6 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = true, onSettingsClick }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [showAccountSwitcher, setShowAccountSwitcher] = useState(false);
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -75,7 +74,6 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
       };
       const updatedAccounts = [...savedAccounts, newAccount];
       localStorage.setItem('saved_accounts', JSON.stringify(updatedAccounts));
-      setShowAccountSwitcher(false);
     }
   };
 
@@ -86,58 +84,62 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
     // Если удаляем текущий аккаунт, выходим
     if (currentAccountId === accountId) {
       logout();
-    } else {
-      setShowAccountSwitcher(false);
     }
   };
 
   return (
-    <div className="flex items-center gap-4">
-      {/* Навигация */}
-      {currentPage === 'dashboard' && (
-        <Button 
-          onClick={() => handleNavigation('/')} 
-          variant="outline" 
-          className="bg-white bg-opacity-90 text-purple-900 border-white shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 font-medium"
-        >
-          🏠 На сайт
-        </Button>
-      )}
-      
-      {currentPage === 'home' && user && (
-        <>
-          <Button 
-            onClick={() => handleNavigation('/dashboard')} 
-            className="rainbow-button"
-          >
-            📊 Кабинет
-          </Button>
-          
-          {/* CRM кнопка для сотрудников */}
-          {['director', 'admin', 'manager'].includes(user.role) && (
-            <Button 
-              onClick={() => handleNavigation('/crm')} 
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors"
-            >
-              🚀 CRM
-            </Button>
-          )}
-        </>
-      )}
-
-      {/* Переключение аккаунтов */}
+    <div className="flex items-center gap-2">
+      {/* Единая навигационная кнопка */}
       {user && (
-        <DropdownMenu open={showAccountSwitcher} onOpenChange={setShowAccountSwitcher}>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button 
               variant="outline" 
               className="bg-white bg-opacity-90 text-purple-900 border-white shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 flex items-center gap-2 font-medium"
             >
-              {getRoleIcon(user.role)} {user.name}
+              {getRoleIcon(user.role)}
+              <span className="hidden sm:inline">{user.name}</span>
               <Icon name="ChevronDown" className="w-4 h-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-80">
+          <DropdownMenuContent className="w-72" align="end">
+            <DropdownMenuLabel className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm">
+                {getRoleIcon(user.role)}
+              </div>
+              <div>
+                <div className="font-medium">{user.name}</div>
+                <div className="text-xs text-gray-500">{getRoleName(user.role)}</div>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            
+            {/* Навигационные ссылки */}
+            {currentPage === 'dashboard' && (
+              <DropdownMenuItem onClick={() => handleNavigation('/')} className="cursor-pointer">
+                <Icon name="Home" className="w-4 h-4 mr-2" />
+                На сайт
+              </DropdownMenuItem>
+            )}
+            
+            {currentPage === 'home' && (
+              <DropdownMenuItem onClick={() => handleNavigation('/dashboard')} className="cursor-pointer">
+                <Icon name="BarChart" className="w-4 h-4 mr-2" />
+                Личный кабинет
+              </DropdownMenuItem>
+            )}
+            
+            {/* CRM для сотрудников */}
+            {['director', 'admin', 'manager'].includes(user.role) && (
+              <DropdownMenuItem onClick={() => handleNavigation('/crm')} className="cursor-pointer">
+                <Icon name="Rocket" className="w-4 h-4 mr-2" />
+                CRM Система
+              </DropdownMenuItem>
+            )}
+            
+            <DropdownMenuSeparator />
+            
+            {/* Переключение аккаунтов */}
             <DropdownMenuLabel className="flex items-center justify-between">
               Аккаунты
               <Button 
@@ -146,27 +148,9 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
                 onClick={addCurrentAccountToSaved}
                 className="text-xs h-6"
               >
-                + Сохранить текущий
+                + Сохранить
               </Button>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            
-            {/* Текущий аккаунт */}
-            <DropdownMenuItem className="p-3 bg-blue-50">
-              <div className="flex items-center justify-between w-full">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm">
-                    {getRoleIcon(user.role)}
-                  </div>
-                  <div>
-                    <div className="font-medium">{user.name}</div>
-                    <div className="text-xs text-gray-500">{user.email}</div>
-                    <div className="text-xs text-blue-600">{getRoleName(user.role)}</div>
-                  </div>
-                </div>
-                <div className="text-green-600 text-sm">✓ Активен</div>
-              </div>
-            </DropdownMenuItem>
             
             {/* Сохраненные аккаунты */}
             {savedAccounts.map((account: any) => (
@@ -177,13 +161,12 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
                       className="flex items-center gap-3 cursor-pointer flex-1"
                       onClick={() => switchAccount(account.id)}
                     >
-                      <div className="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white text-sm">
+                      <div className="w-6 h-6 rounded-full bg-gray-500 flex items-center justify-center text-white text-xs">
                         {getRoleIcon(account.role)}
                       </div>
                       <div>
-                        <div className="font-medium">{account.name}</div>
-                        <div className="text-xs text-gray-500">{account.email}</div>
-                        <div className="text-xs text-purple-600">{getRoleName(account.role)}</div>
+                        <div className="font-medium text-sm">{account.name}</div>
+                        <div className="text-xs text-gray-500">{getRoleName(account.role)}</div>
                       </div>
                     </div>
                     <Button
@@ -203,14 +186,14 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
             ))}
             
             {savedAccounts.length === 0 && (
-              <DropdownMenuItem className="text-gray-500 text-center">
+              <DropdownMenuItem className="text-gray-500 text-center text-sm">
                 Нет сохраненных аккаунтов
               </DropdownMenuItem>
             )}
             
             <DropdownMenuSeparator />
             
-            {/* Настройки */}
+            {/* Настройки и выход */}
             {showSettings && onSettingsClick && (
               <DropdownMenuItem onClick={onSettingsClick} className="cursor-pointer">
                 <Icon name="Settings" className="w-4 h-4 mr-2" />
@@ -218,7 +201,6 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
               </DropdownMenuItem>
             )}
             
-            {/* Выход */}
             <DropdownMenuItem onClick={logout} className="cursor-pointer text-red-600">
               <Icon name="LogOut" className="w-4 h-4 mr-2" />
               Выйти
@@ -226,6 +208,8 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
           </DropdownMenuContent>
         </DropdownMenu>
       )}
+
+
     </div>
   );
 };
