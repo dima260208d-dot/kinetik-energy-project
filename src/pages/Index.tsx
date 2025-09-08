@@ -319,7 +319,7 @@ export default function Index() {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
             <div>
               <h4 className="font-semibold mb-3 sm:mb-4 text-orange-400 text-base sm:text-lg">Контакты</h4>
               <div className="space-y-2 text-sm sm:text-base">
@@ -352,7 +352,7 @@ export default function Index() {
               </div>
             </div>
             
-            <div className="sm:col-span-2 lg:col-span-1">
+            <div>
               <h4 className="font-semibold mb-3 sm:mb-4 text-purple-400 text-base sm:text-lg">Для родителей</h4>
               <div className="space-y-2 text-xs sm:text-sm">
                 <a href="https://vk.com/kinetickidsvrn?from=groups" target="_blank" className="block hover:text-purple-400 transition-colors">
@@ -360,6 +360,25 @@ export default function Index() {
                 </a>
                 <div className="text-gray-300">Дети от 3 лет, взрослые</div>
                 <div className="text-gray-300">Группы до 10 человек</div>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-3 sm:mb-4 text-blue-400 text-base sm:text-lg">CRM Система</h4>
+              <div className="space-y-2 text-sm sm:text-base">
+                <a 
+                  href="/kinetic-crm" 
+                  className="block hover:text-blue-300 transition-colors p-2 bg-blue-900/20 rounded-lg border border-blue-400/30"
+                >
+                  🚀 <strong>Kinetic Kids CRM</strong>
+                </a>
+                <div className="space-y-1 text-xs sm:text-sm text-gray-300">
+                  <div>👥 Управление клиентами</div>
+                  <div>📅 Онлайн-запись</div>
+                  <div>💳 Система абонементов</div>
+                  <div>📊 Аналитика и отчеты</div>
+                  <div>🎯 Live Progress Hub</div>
+                </div>
               </div>
             </div>
           </div>

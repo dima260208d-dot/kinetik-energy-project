@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import DirectorDashboard from "./pages/DirectorDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ClientDashboard from "./pages/ClientDashboard";
+import KineticCrmPage from "./pages/KineticCrmPage";
 
 const queryClient = new QueryClient();
 
@@ -95,6 +96,8 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } 
       />
+      
+      <Route path="/kinetic-crm" element={<KineticCrmPage />} />
       
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />
