@@ -31,6 +31,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
     switch (role) {
       case 'director': return '👑';
       case 'admin': return '⚡';
+      case 'manager': return '🚀';
       case 'client': return '👤';
       default: return '👤';
     }
@@ -40,6 +41,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
     switch (role) {
       case 'director': return 'Директор';
       case 'admin': return 'Администратор';
+      case 'manager': return 'Менеджер';
       case 'client': return 'Клиент';
       default: return 'Пользователь';
     }
@@ -103,12 +105,24 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
       )}
       
       {currentPage === 'home' && user && (
-        <Button 
-          onClick={() => handleNavigation('/dashboard')} 
-          className="rainbow-button"
-        >
-          📊 Кабинет
-        </Button>
+        <>
+          <Button 
+            onClick={() => handleNavigation('/dashboard')} 
+            className="rainbow-button"
+          >
+            📊 Кабинет
+          </Button>
+          
+          {/* CRM кнопка для сотрудников */}
+          {['director', 'admin', 'manager'].includes(user.role) && (
+            <Button 
+              onClick={() => handleNavigation('/crm')} 
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors"
+            >
+              🚀 CRM
+            </Button>
+          )}
+        </>
       )}
 
       {/* Переключение аккаунтов */}

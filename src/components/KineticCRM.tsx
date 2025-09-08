@@ -58,27 +58,7 @@ const KineticCRM = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-              <Icon name="Rocket" className="w-5 h-5 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold text-gray-900">Kinetic Kids CRM</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-green-600 border-green-200">
-              🟢 Система работает
-            </Badge>
-            <Button size="sm">
-              <Icon name="Plus" className="w-4 h-4 mr-2" />
-              Добавить клиента
-            </Button>
-          </div>
-        </div>
-      </div>
-
+    <div>
       <div className="container mx-auto px-6 py-6">
         {selectedClient ? (
           <ClientDetails client={selectedClient} onBack={handleBackToList} />

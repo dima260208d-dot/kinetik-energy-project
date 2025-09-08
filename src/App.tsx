@@ -11,6 +11,7 @@ import DirectorDashboard from "./pages/DirectorDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ClientDashboard from "./pages/ClientDashboard";
 import KineticCrmPage from "./pages/KineticCrmPage";
+import CrmDashboard from "./pages/CrmDashboard";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,8 @@ const DashboardRedirect = () => {
       return <Navigate to="/director" replace />;
     case 'admin':
       return <Navigate to="/admin" replace />;
+    case 'manager':
+      return <Navigate to="/crm" replace />;
     case 'client':
       return <Navigate to="/client" replace />;
     default:
@@ -93,6 +96,15 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <ClientDashboard />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/crm" 
+        element={
+          <ProtectedRoute allowedRoles={['director', 'admin', 'manager']}>
+            <CrmDashboard />
           </ProtectedRoute>
         } 
       />

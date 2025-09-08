@@ -24,18 +24,30 @@ const getStoredData = (): AppData => {
     return JSON.parse(stored);
   }
   
-  // Инициализация с директором по умолчанию
+  // Инициализация с пользователями по умолчанию
   const initialData: AppData = {
-    users: [{
-      id: 'director-1',
-      email: 'dima260208@bk.ru',
-      password: 'Sempay666',
-      name: 'Директор',
-      role: 'director',
-      createdAt: new Date(),
-      lastActivity: new Date(),
-      isActive: true
-    }],
+    users: [
+      {
+        id: 'director-1',
+        email: 'dima260208@bk.ru',
+        password: 'Sempay666',
+        name: 'Дмитрий Болотин',
+        role: 'director',
+        createdAt: new Date(),
+        lastActivity: new Date(),
+        isActive: true
+      },
+      {
+        id: 'manager-1',
+        email: 'manager@kinetic-kids.ru',
+        password: 'manager123',
+        name: 'Менеджер CRM',
+        role: 'manager',
+        createdAt: new Date(),
+        lastActivity: new Date(),
+        isActive: true
+      }
+    ],
     chatMessages: [],
     purchases: [],
     applications: [],
