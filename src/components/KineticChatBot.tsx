@@ -17,13 +17,13 @@ const KineticChatBot: React.FC<KineticChatBotProps> = ({
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
-      text: 'Привет! Я помощник клуба Kinetic Kids 🛹\n\nЯ знаю всё о наших занятиях, ценах, тренерах и мероприятиях. О чём хотите узнать?',
+      text: 'Привет! Я помощник клуба Kinetic Kids 🛹\n\nЯ знаю всё о наших занятиях, тренерах и мероприятиях. О чём хотите узнать?',
       isUser: false,
       timestamp: new Date(),
       quickActions: [
         { text: '📝 Записаться', value: 'записаться', emoji: '📝' },
-        { text: '💰 Цены', value: 'цены', emoji: '💰' },
-        { text: '🛹 Направления', value: 'направления', emoji: '🛹' }
+        { text: '🛹 Направления', value: 'направления', emoji: '🛹' },
+        { text: '👨‍🏫 Тренеры', value: 'тренеры', emoji: '👨‍🏫' }
       ]
     }
   ]);
