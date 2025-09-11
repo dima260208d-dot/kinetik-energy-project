@@ -108,7 +108,7 @@ export default function Index() {
                 alt="Kinetic Kids Logo" 
                 className="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover"
               />
-              <h1 className={`text-base sm:text-2xl font-bold rainbow-text ${user ? 'hidden sm:block' : ''}`}>
+              <h1 className="text-base sm:text-2xl font-bold rainbow-text">
                 KINETIC KIDS
               </h1>
             </div>
