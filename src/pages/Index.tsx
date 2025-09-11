@@ -119,10 +119,7 @@ export default function Index() {
               )}
             </div>
             
-            <div className="sm:hidden md:block text-right text-xs">
-              <div className="text-gray-600">Воронеж</div>
-              <div className="font-semibold rainbow-text">Май 2026</div>
-            </div>
+
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
