@@ -88,7 +88,16 @@ export default function Index() {
   ];
 
   return (
-    <div className="min-h-screen rainbow-pattern">
+    <div className="min-h-screen rainbow-pattern relative overflow-hidden">
+      {/* Радужные фоновые эффекты */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-kinetic-red rounded-full blur-2xl animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-kinetic-yellow rounded-full blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-40 left-20 w-40 h-40 bg-kinetic-green rounded-full blur-3xl animate-pulse delay-2000"></div>
+        <div className="absolute top-1/2 right-10 w-20 h-20 bg-kinetic-blue rounded-full blur-lg animate-pulse delay-3000"></div>
+        <div className="absolute bottom-20 right-1/3 w-28 h-28 bg-kinetic-purple rounded-full blur-2xl animate-pulse delay-4000"></div>
+        <div className="absolute top-1/4 left-1/3 w-36 h-36 bg-kinetic-orange rounded-full blur-2xl animate-pulse delay-5000"></div>
+      </div>
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b-2 border-transparent shadow-lg">
         <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
