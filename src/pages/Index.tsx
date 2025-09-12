@@ -265,7 +265,7 @@ export default function Index() {
             {faqData.map((faq, index) => (
               <Card key={index} className="overflow-hidden">
                 <CardHeader 
-                  className="cursor-pointer hover:bg-gray-50 transition-colors"
+                  className="cursor-pointer hover:bg-gray-50 transition-colors p-4 sm:p-6"
                   onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
                 >
                   <div className="flex justify-between items-center">
@@ -274,8 +274,8 @@ export default function Index() {
                   </div>
                 </CardHeader>
                 {openFAQ === index && (
-                  <CardContent>
-                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  <CardContent className="p-4 sm:p-6 pt-0">
+                    <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{faq.answer}</p>
                   </CardContent>
                 )}
               </Card>
