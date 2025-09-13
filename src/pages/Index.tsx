@@ -263,14 +263,28 @@ export default function Index() {
           </h2>
           <div className="space-y-4">
             {faqData.map((faq, index) => (
-              <Card key={index} className="overflow-hidden">
+              <Card key={index} className="overflow-hidden border border-gray-200 shadow-sm">
                 <CardHeader 
-                  className="cursor-pointer hover:bg-gray-50 transition-colors p-4 sm:p-6"
-                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                  className="cursor-pointer hover:bg-gray-50 transition-all duration-200 p-4 sm:p-6 select-none"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setOpenFAQ(openFAQ === index ? null : index);
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setOpenFAQ(openFAQ === index ? null : index);
+                    }
+                  }}
                 >
-                  <div className="flex justify-between items-center">
-                    <CardTitle className="text-base sm:text-lg text-gray-800 pr-4">{faq.question}</CardTitle>
-                    <Icon name={openFAQ === index ? "ChevronUp" : "ChevronDown"} className="w-5 h-5 flex-shrink-0" />
+                  <div className="flex justify-between items-center w-full">
+                    <CardTitle className="text-base sm:text-lg text-gray-800 pr-4 flex-1 text-left">{faq.question}</CardTitle>
+                    <div className="flex-shrink-0">
+                      <Icon name={openFAQ === index ? "ChevronUp" : "ChevronDown"} className="w-5 h-5 text-gray-500 transition-transform duration-200" />
+                    </div>
                   </div>
                 </CardHeader>
                 {openFAQ === index && (
@@ -296,15 +310,24 @@ export default function Index() {
             Свяжитесь с нами уже сегодня и узнайте больше о том, что нас ждет в мае 2026!
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-4xl mx-auto">
-            <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg lg:text-xl">
+            <Button 
+              onClick={() => window.open('https://t.me/kinetik_kids_vrn', '_blank')}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg lg:text-xl h-auto"
+            >
               💬 Telegram консультация
-            </a>
-            <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg lg:text-xl">
+            </Button>
+            <Button 
+              onClick={() => window.open('https://wa.me/message/WQFGATD3QMSHI1', '_blank')}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg lg:text-xl h-auto"
+            >
               📱 WhatsApp
-            </a>
-            <a href="tel:89204163606" className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg lg:text-xl">
+            </Button>
+            <Button 
+              onClick={() => window.open('tel:89204163606', '_self')}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg lg:text-xl h-auto"
+            >
               📞 Позвонить нам
-            </a>
+            </Button>
           </div>
         </div>
       </section>
@@ -331,21 +354,21 @@ export default function Index() {
             <div>
               <h4 className="font-semibold mb-3 sm:mb-4 text-orange-400 text-base sm:text-lg">Контакты</h4>
               <div className="space-y-2 text-sm sm:text-base">
-                <a href="tel:89204163606" className="block hover:text-orange-400 transition-colors">
+                <button onClick={() => window.open('tel:89204163606', '_self')} className="block hover:text-orange-400 transition-colors cursor-pointer text-left w-full">
                   📞 8 920 416 36 06
-                </a>
-                <a href="mailto:kinetic.kids@bk.ru" className="block hover:text-orange-400 transition-colors">
+                </button>
+                <button onClick={() => window.open('mailto:kinetic.kids@bk.ru', '_self')} className="block hover:text-orange-400 transition-colors cursor-pointer text-left w-full">
                   ✉️ kinetic.kids@bk.ru
-                </a>
-                <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="block hover:text-orange-400 transition-colors">
+                </button>
+                <button onClick={() => window.open('https://t.me/kinetik_kids_vrn', '_blank')} className="block hover:text-orange-400 transition-colors cursor-pointer text-left w-full">
                   💬 Telegram
-                </a>
-                <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" className="block hover:text-orange-400 transition-colors">
+                </button>
+                <button onClick={() => window.open('https://wa.me/message/WQFGATD3QMSHI1', '_blank')} className="block hover:text-orange-400 transition-colors cursor-pointer text-left w-full">
                   📱 WhatsApp
-                </a>
-                <a href="https://vk.com/kinetickidsvrn?from=groups" target="_blank" className="block hover:text-orange-400 transition-colors">
+                </button>
+                <button onClick={() => window.open('https://vk.com/kinetickidsvrn?from=groups', '_blank')} className="block hover:text-orange-400 transition-colors cursor-pointer text-left w-full">
                   🌐 ВКонтакте
-                </a>
+                </button>
               </div>
             </div>
             
@@ -363,9 +386,9 @@ export default function Index() {
             <div>
               <h4 className="font-semibold mb-3 sm:mb-4 text-purple-400 text-base sm:text-lg">Для родителей</h4>
               <div className="space-y-2 text-xs sm:text-sm">
-                <a href="https://vk.com/kinetickidsvrn?from=groups" target="_blank" className="block hover:text-purple-400 transition-colors">
+                <button onClick={() => window.open('https://vk.com/kinetickidsvrn?from=groups', '_blank')} className="block hover:text-purple-400 transition-colors cursor-pointer text-left w-full">
                   Написать отзыв
-                </a>
+                </button>
                 <div className="text-gray-300">Дети от 3 лет, взрослые</div>
                 <div className="text-gray-300">Группы до 10 человек</div>
               </div>
@@ -374,12 +397,12 @@ export default function Index() {
             <div>
               <h4 className="font-semibold mb-3 sm:mb-4 text-blue-400 text-base sm:text-lg">CRM Система</h4>
               <div className="space-y-2 text-sm sm:text-base">
-                <a 
-                  href="/kinetic-crm" 
-                  className="block hover:text-blue-300 transition-colors p-2 bg-blue-900/20 rounded-lg border border-blue-400/30"
+                <button 
+                  onClick={() => window.location.href = '/kinetic-crm'} 
+                  className="block hover:text-blue-300 transition-colors p-2 bg-blue-900/20 rounded-lg border border-blue-400/30 cursor-pointer text-left w-full"
                 >
                   🚀 <strong>Kinetic Kids CRM</strong>
-                </a>
+                </button>
                 <div className="space-y-1 text-xs sm:text-sm text-gray-300">
                   <div>👥 Управление клиентами</div>
                   <div>📅 Онлайн-запись</div>
