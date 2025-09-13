@@ -264,31 +264,18 @@ export default function Index() {
           <div className="space-y-4">
             {faqData.map((faq, index) => (
               <Card key={index} className="overflow-hidden border border-gray-200 shadow-sm">
-                <CardHeader 
-                  className="cursor-pointer hover:bg-gray-50 transition-all duration-200 p-4 sm:p-6 select-none"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setOpenFAQ(openFAQ === index ? null : index);
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setOpenFAQ(openFAQ === index ? null : index);
-                    }
-                  }}
+                <Button
+                  variant="ghost"
+                  className="w-full h-auto p-4 sm:p-6 justify-between hover:bg-gray-50 transition-colors"
+                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
                 >
-                  <div className="flex justify-between items-center w-full">
-                    <CardTitle className="text-base sm:text-lg text-gray-800 pr-4 flex-1 text-left">{faq.question}</CardTitle>
-                    <div className="flex-shrink-0">
-                      <Icon name={openFAQ === index ? "ChevronUp" : "ChevronDown"} className="w-5 h-5 text-gray-500 transition-transform duration-200" />
-                    </div>
+                  <div className="text-left">
+                    <CardTitle className="text-base sm:text-lg text-gray-800 pr-4">{faq.question}</CardTitle>
                   </div>
-                </CardHeader>
+                  <Icon name={openFAQ === index ? "ChevronUp" : "ChevronDown"} className="w-5 h-5 text-gray-500 ml-2 flex-shrink-0" />
+                </Button>
                 {openFAQ === index && (
-                  <CardContent className="p-4 sm:p-6 pt-0">
+                  <CardContent className="p-4 sm:p-6 pt-0 border-t border-gray-100">
                     <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{faq.answer}</p>
                   </CardContent>
                 )}
@@ -354,21 +341,41 @@ export default function Index() {
             <div>
               <h4 className="font-semibold mb-3 sm:mb-4 text-orange-400 text-base sm:text-lg">Контакты</h4>
               <div className="space-y-2 text-sm sm:text-base">
-                <button onClick={() => window.open('tel:89204163606', '_self')} className="block hover:text-orange-400 transition-colors cursor-pointer text-left w-full">
+                <Button 
+                  variant="ghost" 
+                  className="h-auto p-0 justify-start text-white hover:text-orange-400 transition-colors font-normal text-sm sm:text-base"
+                  onClick={() => window.open('tel:89204163606', '_self')}
+                >
                   📞 8 920 416 36 06
-                </button>
-                <button onClick={() => window.open('mailto:kinetic.kids@bk.ru', '_self')} className="block hover:text-orange-400 transition-colors cursor-pointer text-left w-full">
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  className="h-auto p-0 justify-start text-white hover:text-orange-400 transition-colors font-normal text-sm sm:text-base"
+                  onClick={() => window.open('mailto:kinetic.kids@bk.ru', '_self')}
+                >
                   ✉️ kinetic.kids@bk.ru
-                </button>
-                <button onClick={() => window.open('https://t.me/kinetik_kids_vrn', '_blank')} className="block hover:text-orange-400 transition-colors cursor-pointer text-left w-full">
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  className="h-auto p-0 justify-start text-white hover:text-orange-400 transition-colors font-normal text-sm sm:text-base"
+                  onClick={() => window.open('https://t.me/kinetik_kids_vrn', '_blank')}
+                >
                   💬 Telegram
-                </button>
-                <button onClick={() => window.open('https://wa.me/message/WQFGATD3QMSHI1', '_blank')} className="block hover:text-orange-400 transition-colors cursor-pointer text-left w-full">
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  className="h-auto p-0 justify-start text-white hover:text-orange-400 transition-colors font-normal text-sm sm:text-base"
+                  onClick={() => window.open('https://wa.me/message/WQFGATD3QMSHI1', '_blank')}
+                >
                   📱 WhatsApp
-                </button>
-                <button onClick={() => window.open('https://vk.com/kinetickidsvrn?from=groups', '_blank')} className="block hover:text-orange-400 transition-colors cursor-pointer text-left w-full">
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  className="h-auto p-0 justify-start text-white hover:text-orange-400 transition-colors font-normal text-sm sm:text-base"
+                  onClick={() => window.open('https://vk.com/kinetickidsvrn?from=groups', '_blank')}
+                >
                   🌐 ВКонтакте
-                </button>
+                </Button>
               </div>
             </div>
             
@@ -386,9 +393,13 @@ export default function Index() {
             <div>
               <h4 className="font-semibold mb-3 sm:mb-4 text-purple-400 text-base sm:text-lg">Для родителей</h4>
               <div className="space-y-2 text-xs sm:text-sm">
-                <button onClick={() => window.open('https://vk.com/kinetickidsvrn?from=groups', '_blank')} className="block hover:text-purple-400 transition-colors cursor-pointer text-left w-full">
+                <Button 
+                  variant="ghost" 
+                  className="h-auto p-0 justify-start text-white hover:text-purple-400 transition-colors font-normal text-xs sm:text-sm"
+                  onClick={() => window.open('https://vk.com/kinetickidsvrn?from=groups', '_blank')}
+                >
                   Написать отзыв
-                </button>
+                </Button>
                 <div className="text-gray-300">Дети от 3 лет, взрослые</div>
                 <div className="text-gray-300">Группы до 10 человек</div>
               </div>
@@ -397,12 +408,13 @@ export default function Index() {
             <div>
               <h4 className="font-semibold mb-3 sm:mb-4 text-blue-400 text-base sm:text-lg">CRM Система</h4>
               <div className="space-y-2 text-sm sm:text-base">
-                <button 
-                  onClick={() => window.location.href = '/kinetic-crm'} 
-                  className="block hover:text-blue-300 transition-colors p-2 bg-blue-900/20 rounded-lg border border-blue-400/30 cursor-pointer text-left w-full"
+                <Button 
+                  variant="outline"
+                  className="h-auto p-2 justify-start text-white hover:text-blue-300 bg-blue-900/20 border-blue-400/30 hover:bg-blue-800/30 font-normal text-sm sm:text-base"
+                  onClick={() => window.location.href = '/kinetic-crm'}
                 >
                   🚀 <strong>Kinetic Kids CRM</strong>
-                </button>
+                </Button>
                 <div className="space-y-1 text-xs sm:text-sm text-gray-300">
                   <div>👥 Управление клиентами</div>
                   <div>📅 Онлайн-запись</div>
