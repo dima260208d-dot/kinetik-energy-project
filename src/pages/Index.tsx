@@ -264,20 +264,19 @@ export default function Index() {
           <div className="space-y-4">
             {faqData.map((faq, index) => (
               <Card key={index} className="overflow-hidden border border-gray-200 shadow-sm">
-                <Button
-                  variant="ghost"
-                  className="w-full h-auto p-4 sm:p-6 justify-between hover:bg-gray-50 transition-colors"
+                <div 
+                  className="cursor-pointer hover:bg-gray-50 transition-colors p-4 sm:p-6" 
                   onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
                 >
-                  <div className="text-left">
-                    <CardTitle className="text-base sm:text-lg text-gray-800 pr-4">{faq.question}</CardTitle>
+                  <div className="flex justify-between items-center w-full">
+                    <CardTitle className="text-base sm:text-lg text-gray-800 pr-4 flex-1 text-left">{faq.question}</CardTitle>
+                    <Icon name={openFAQ === index ? "ChevronUp" : "ChevronDown"} className="w-5 h-5 text-gray-500 transition-transform duration-200" />
                   </div>
-                  <Icon name={openFAQ === index ? "ChevronUp" : "ChevronDown"} className="w-5 h-5 text-gray-500 ml-2 flex-shrink-0" />
-                </Button>
+                </div>
                 {openFAQ === index && (
-                  <CardContent className="p-4 sm:p-6 pt-0 border-t border-gray-100">
+                  <div className="p-4 sm:p-6 pt-0 border-t border-gray-100">
                     <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{faq.answer}</p>
-                  </CardContent>
+                  </div>
                 )}
               </Card>
             ))}
@@ -341,41 +340,44 @@ export default function Index() {
             <div>
               <h4 className="font-semibold mb-3 sm:mb-4 text-orange-400 text-base sm:text-lg">Контакты</h4>
               <div className="space-y-2 text-sm sm:text-base">
-                <Button 
-                  variant="ghost" 
-                  className="h-auto p-0 justify-start text-white hover:text-orange-400 transition-colors font-normal text-sm sm:text-base"
-                  onClick={() => window.open('tel:89204163606', '_self')}
+                <a 
+                  href="tel:89204163606" 
+                  className="block text-white hover:text-orange-400 transition-colors cursor-pointer"
                 >
-                  📞 8 920 416 36 06
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  className="h-auto p-0 justify-start text-white hover:text-orange-400 transition-colors font-normal text-sm sm:text-base"
-                  onClick={() => window.open('mailto:kinetic.kids@bk.ru', '_self')}
+                  📞 8 (920) 416-36-06
+                </a>
+                <a 
+                  href="mailto:kinetic.kids@bk.ru" 
+                  className="block text-white hover:text-orange-400 transition-colors cursor-pointer"
                 >
                   ✉️ kinetic.kids@bk.ru
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  className="h-auto p-0 justify-start text-white hover:text-orange-400 transition-colors font-normal text-sm sm:text-base"
-                  onClick={() => window.open('https://t.me/kinetik_kids_vrn', '_blank')}
+                </a>
+                <a 
+                  href="https://t.me/kinetik_kids_vrn" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block text-white hover:text-orange-400 transition-colors cursor-pointer"
                 >
                   💬 Telegram
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  className="h-auto p-0 justify-start text-white hover:text-orange-400 transition-colors font-normal text-sm sm:text-base"
-                  onClick={() => window.open('https://wa.me/message/WQFGATD3QMSHI1', '_blank')}
-                >
-                  📱 WhatsApp
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  className="h-auto p-0 justify-start text-white hover:text-orange-400 transition-colors font-normal text-sm sm:text-base"
-                  onClick={() => window.open('https://vk.com/kinetickidsvrn?from=groups', '_blank')}
+                </a>
+                <a 
+                  href="https://vk.com/kinetickidsvrn" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block text-white hover:text-orange-400 transition-colors cursor-pointer"
                 >
                   🌐 ВКонтакте
-                </Button>
+                </a>
+              </div>
+              <div className="mt-3">
+                <a 
+                  href="https://wa.me/79204163606" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block text-white hover:text-green-400 transition-colors cursor-pointer text-sm sm:text-base"
+                >
+                  📱 WhatsApp
+                </a>
               </div>
             </div>
             
@@ -393,13 +395,14 @@ export default function Index() {
             <div>
               <h4 className="font-semibold mb-3 sm:mb-4 text-purple-400 text-base sm:text-lg">Для родителей</h4>
               <div className="space-y-2 text-xs sm:text-sm">
-                <Button 
-                  variant="ghost" 
-                  className="h-auto p-0 justify-start text-white hover:text-purple-400 transition-colors font-normal text-xs sm:text-sm"
-                  onClick={() => window.open('https://vk.com/kinetickidsvrn?from=groups', '_blank')}
+                <a 
+                  href="https://vk.com/kinetickidsvrn" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block text-white hover:text-purple-400 transition-colors cursor-pointer text-xs sm:text-sm"
                 >
                   Написать отзыв
-                </Button>
+                </a>
                 <div className="text-gray-300">Дети от 3 лет, взрослые</div>
                 <div className="text-gray-300">Группы до 10 человек</div>
               </div>
