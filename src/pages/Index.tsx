@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, CardHeader, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import Countdown from '@/components/Countdown';
