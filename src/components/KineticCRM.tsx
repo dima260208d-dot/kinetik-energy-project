@@ -13,45 +13,13 @@ import TrainerList from './crm/TrainerList';
 import FinanceModule from './crm/FinanceModule';
 import { Client, Trainer } from '@/types/crm';
 import { mockClients, mockTrainers } from '@/data/mockData';
-import { useAuth } from '@/contexts/AuthContext';
 
 const KineticCRM = () => {
-  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [clients, setClients] = useState<Client[]>(mockClients);
   const [trainers, setTrainers] = useState<Trainer[]>(mockTrainers);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Проверка доступа только для директора
-  if (!user || user.role !== 'director') {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <Card className="w-96">
-          <CardHeader>
-            <CardTitle className="text-center text-red-600">
-              <Icon name="ShieldAlert" className="w-16 h-16 mx-auto mb-4" />
-              Доступ запрещен
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <p className="text-gray-600">
-              CRM-система доступна только директору клуба.
-            </p>
-            <p className="text-sm text-gray-500">
-              Ваша роль: {user?.role === 'client' ? 'Клиент' : user?.role === 'manager' ? 'Менеджер' : 'Пользователь'}
-            </p>
-            <Button 
-              onClick={() => window.location.href = '/'}
-              className="w-full"
-            >
-              Вернуться на главную
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   // Сохранение данных в localStorage
   useEffect(() => {
@@ -80,19 +48,6 @@ const KineticCRM = () => {
     client.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
     client.phone.includes(searchQuery)
   );
-
-  // Сохранение истории занятий в localStorage
-  const saveLessonHistory = (clientId: string, lessonData: any) => {
-    const historyKey = `lesson_history_${clientId}`;
-    const existingHistory = JSON.parse(localStorage.getItem(historyKey) || '[]');
-    const newHistory = [...existingHistory, { ...lessonData, timestamp: Date.now() }];
-    localStorage.setItem(historyKey, JSON.stringify(newHistory));
-  };
-
-  const getLessonHistory = (clientId: string) => {
-    const historyKey = `lesson_history_${clientId}`;
-    return JSON.parse(localStorage.getItem(historyKey) || '[]');
-  };
 
   const handleClientSelect = (client: Client) => {
     setSelectedClient(client);

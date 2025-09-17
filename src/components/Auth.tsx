@@ -81,7 +81,7 @@ const Auth: React.FC<AuthProps> = ({ onClose }) => {
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle className="text-2xl font-bold">
-              Вход в систему
+              {isLogin ? 'Вход' : 'Регистрация'}
             </CardTitle>
             {onClose && (
               <Button variant="ghost" size="icon" onClick={onClose}>
@@ -92,7 +92,19 @@ const Auth: React.FC<AuthProps> = ({ onClose }) => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-
+            {!isLogin && (
+              <div>
+                <Label htmlFor="name">Имя</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Введите ваше имя"
+                  required={!isLogin}
+                />
+              </div>
+            )}
             
             <div>
               <Label htmlFor="email">Email</Label>
@@ -126,21 +138,27 @@ const Auth: React.FC<AuthProps> = ({ onClose }) => {
               {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
-                  Вход...
+                  {isLogin ? 'Вход...' : 'Регистрация...'}
                 </div>
               ) : (
-                'Войти'
+                isLogin ? 'Войти' : 'Зарегистрироваться'
               )}
             </Button>
           </form>
           
-          <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <div className="flex items-start space-x-2">
-              <Icon name="Info" className="w-4 h-4 text-yellow-600 mt-0.5" />
-              <p className="text-xs text-yellow-800">
-                <strong>Примечание:</strong> Новые аккаунты создаются только директором клуба. Обратитесь к администрации для получения доступа.
-              </p>
-            </div>
+          <div className="mt-4 text-center">
+            <Button
+              variant="link"
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setEmail('');
+                setPassword('');
+                setName('');
+              }}
+              className="text-sm"
+            >
+              {isLogin ? 'Нет аккаунта? Зарегистрируйтесь' : 'Уже есть аккаунт? Войдите'}
+            </Button>
           </div>
         </CardContent>
       </Card>

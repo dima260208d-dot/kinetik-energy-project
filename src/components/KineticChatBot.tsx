@@ -153,7 +153,7 @@ const KineticChatBot: React.FC<KineticChatBotProps> = ({
   }
 
   return (
-    <div className="fixed bottom-20 right-6 z-50 w-96 max-w-[calc(100vw-2rem)] max-h-[70vh]">
+    <div className="fixed bottom-6 right-6 z-50 w-96 max-w-[calc(100vw-2rem)] max-h-[70vh]">
       <Card className="shadow-2xl border-0 overflow-hidden">
         <CardHeader className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4">
           <div className="flex items-center justify-between">
