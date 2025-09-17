@@ -243,19 +243,7 @@ export default function ChatBot() {
 
   return (
     <>
-      {/* Floating Chat Button */}
-      <div className={`fixed bottom-20 right-6 z-50 transition-all duration-300 ${isOpen ? 'scale-0' : 'scale-100'}`}>
-        <button
-          onClick={() => setIsOpen(true)}
-          className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
-        >
-          <img 
-            src="https://cdn.poehali.dev/files/819f034c-b5eb-4287-b8ab-14036c8c696f.jpg" 
-            alt="KINETIC KIDS Bot" 
-            className="w-10 h-10 rounded-full object-cover group-hover:scale-110 transition-transform"
-          />
-        </button>
-      </div>
+
 
       {/* Chat Window */}
       <div className={`fixed bottom-20 right-6 z-50 transition-all duration-300 ${isOpen ? 'scale-100' : 'scale-0'}`}>
