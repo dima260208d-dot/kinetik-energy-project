@@ -4,15 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 3D CSS Utilities */
-.perspective-1000 {
-  perspective: 1000px;
-}
-
-.transform-gpu {
-  transform-style: preserve-3d;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -54,9 +45,16 @@
   body {
     @apply bg-background text-foreground font-sans overflow-x-hidden;
     font-family: "Exo 2", sans-serif;
-    background: linear-gradient(135deg, #ef4444 0%, #f97316 50%, #eab308 100%);
-    background-size: 200% 200%;
-    animation: gradientShift 10s ease infinite;
+    background: linear-gradient(
+      135deg,
+      #ff6b40 0%,
+      #ffeb3b 25%,
+      #00e676 50%,
+      #2196f3 75%,
+      #9c27b0 100%
+    );
+    background-size: 400% 400%;
+    animation: rainbowShift 15s ease infinite;
   }
 
   h1,
@@ -71,13 +69,20 @@
 }
 
 @layer components {
-  /* Three-color Effects */
+  /* Rainbow Effects */
   .rainbow-text {
-    background: linear-gradient(45deg, #ef4444, #f97316, #eab308);
+    background: linear-gradient(
+      45deg,
+      #ff6b40,
+      #ffeb3b,
+      #00e676,
+      #2196f3,
+      #9c27b0
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradientMove 3s ease-in-out infinite alternate;
+    animation: rainbowMove 3s ease-in-out infinite alternate;
   }
 
   .neon-glow {
@@ -88,7 +93,7 @@
       inset 0 0 20px rgba(255, 255, 255, 0.1);
   }
 
-  /* Three-color pattern overlay */
+  /* Rainbow pattern overlay */
   .rainbow-pattern {
     position: relative;
   }
@@ -99,12 +104,15 @@
     inset: 0;
     background: linear-gradient(
       45deg,
-      rgba(239, 68, 68, 0.05) 0%,
-      rgba(249, 115, 22, 0.05) 50%,
-      rgba(234, 179, 8, 0.05) 100%
+      rgba(255, 107, 64, 0.05) 0%,
+      rgba(255, 235, 59, 0.05) 20%,
+      rgba(0, 230, 118, 0.05) 40%,
+      rgba(33, 150, 243, 0.05) 60%,
+      rgba(156, 39, 176, 0.05) 80%,
+      rgba(255, 107, 64, 0.05) 100%
     );
-    background-size: 200% 200%;
-    animation: gradientShift 15s ease infinite;
+    background-size: 400% 400%;
+    animation: rainbowShift 20s ease infinite;
     pointer-events: none;
   }
 
@@ -113,16 +121,17 @@
     @apply relative overflow-hidden bg-white/90 backdrop-blur-md border-2 border-transparent rounded-xl;
     background:
       linear-gradient(white, white) padding-box,
-      linear-gradient(45deg, #22c55e, #eab308, #22c55e) border-box;
+      linear-gradient(45deg, #ff6b40, #ffeb3b, #00e676, #2196f3, #9c27b0)
+        border-box;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .sport-card:hover {
     transform: translateY(-10px) scale(1.05);
     box-shadow:
-      0 20px 40px rgba(239, 68, 68, 0.3),
-      0 0 60px rgba(249, 115, 22, 0.2),
-      inset 0 0 30px rgba(234, 179, 8, 0.1);
+      0 20px 40px rgba(255, 107, 64, 0.3),
+      0 0 60px rgba(0, 230, 118, 0.2),
+      inset 0 0 30px rgba(156, 39, 176, 0.1);
   }
 
   .sport-card::before {
@@ -131,9 +140,9 @@
     inset: 0;
     background: linear-gradient(
       135deg,
-      rgba(239, 68, 68, 0.1) 0%,
+      rgba(255, 107, 0, 0.1) 0%,
       transparent 50%,
-      rgba(234, 179, 8, 0.1) 100%
+      rgba(138, 43, 226, 0.1) 100%
     );
     opacity: 0;
     transition: opacity 0.3s;
@@ -143,12 +152,19 @@
     opacity: 1;
   }
 
-  /* Three-color Button Effects */
+  /* Cyber Button Effects */
   .rainbow-button {
     @apply relative px-8 py-4 font-bold text-white overflow-hidden rounded-xl;
-    background: linear-gradient(45deg, #ef4444, #f97316, #eab308);
-    background-size: 200% 200%;
-    animation: gradientMove 3s ease infinite;
+    background: linear-gradient(
+      45deg,
+      #ff6b40,
+      #ffeb3b,
+      #00e676,
+      #2196f3,
+      #9c27b0
+    );
+    background-size: 300% 300%;
+    animation: rainbowMove 3s ease infinite;
     transition: all 0.3s;
   }
 
@@ -173,8 +189,8 @@
   .rainbow-button:hover {
     transform: scale(1.05);
     box-shadow:
-      0 10px 30px rgba(239, 68, 68, 0.4),
-      0 0 40px rgba(249, 115, 22, 0.3);
+      0 10px 30px rgba(255, 107, 64, 0.4),
+      0 0 40px rgba(0, 230, 118, 0.3);
   }
 
   /* Trainer Cards */
@@ -232,7 +248,7 @@
     content: "";
     position: absolute;
     inset: -2px;
-    background: conic-gradient(from 0deg, #ef4444, #f97316, #eab308, #ef4444);
+    background: conic-gradient(from 0deg, #ff6b00, #8a2be2, #00ced1, #ff6b00);
     border-radius: inherit;
     z-index: -1;
     animation: spin-slow 3s linear infinite;
@@ -242,10 +258,17 @@
   .digital-counter {
     font-family: "Orbitron", monospace;
     @apply text-4xl font-black;
-    background: linear-gradient(45deg, #ef4444, #f97316, #eab308);
+    background: linear-gradient(
+      45deg,
+      #ff6b40,
+      #ffeb3b,
+      #00e676,
+      #2196f3,
+      #9c27b0
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradientMove 2s ease infinite;
+    animation: rainbowMove 2s ease infinite;
   }
 
   /* Mobile Optimized */
@@ -282,13 +305,13 @@
   }
 
   .interactive-icon:hover {
-    background: linear-gradient(45deg, #ef4444, #f97316, #eab308);
+    background: linear-gradient(45deg, #ff6b40, #ffeb3b, #00e676);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  /* Three-color Background Animation */
-  @keyframes gradientShift {
+  /* Rainbow Background Animation */
+  @keyframes rainbowShift {
     0% {
       background-position: 0% 50%;
     }
@@ -300,7 +323,7 @@
     }
   }
 
-  @keyframes gradientMove {
+  @keyframes rainbowMove {
     0% {
       background-position: 0% 50%;
     }
@@ -312,19 +335,20 @@
     }
   }
 
-  /* Card with three-color border */
+  /* Card with rainbow border */
   .rainbow-card {
     @apply relative overflow-hidden bg-white/95 backdrop-blur-md rounded-xl;
     border: 2px solid transparent;
     background:
       linear-gradient(white, white) padding-box,
-      linear-gradient(45deg, #22c55e, #eab308, #22c55e) border-box;
+      linear-gradient(45deg, #ff6b40, #ffeb3b, #00e676, #2196f3, #9c27b0)
+        border-box;
   }
 
   .rainbow-card:hover {
     box-shadow:
-      0 10px 30px rgba(239, 68, 68, 0.2),
-      0 0 50px rgba(249, 115, 22, 0.1);
+      0 10px 30px rgba(255, 107, 64, 0.2),
+      0 0 50px rgba(0, 230, 118, 0.1);
   }
 
   /* FAQ Cards */
@@ -334,7 +358,7 @@
   }
 
   .faq-card:hover {
-    border-color: #ef4444;
-    box-shadow: 0 5px 20px rgba(239, 68, 68, 0.1);
+    border-color: #ff6b40;
+    box-shadow: 0 5px 20px rgba(255, 107, 64, 0.1);
   }
 }
