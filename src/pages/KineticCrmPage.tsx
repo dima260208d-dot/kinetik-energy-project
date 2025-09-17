@@ -113,12 +113,12 @@ const KineticCrmPage = () => {
           
           <div className="border-t pt-6">
             <Button
-              onClick={() => window.open('https://kineticcontrol.poehali.dev', '_blank')}
+              onClick={() => window.location.href = '/'}
               className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
               size="lg"
             >
-              <Icon name="ExternalLink" className="w-4 h-4 mr-2" />
-              Перейти на сайт CRM
+              <Icon name="Home" className="w-4 h-4 mr-2" />
+              Перейти на главную страницу сайта
             </Button>
           </div>
           
