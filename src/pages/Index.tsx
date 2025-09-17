@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
 
 export default function Index() {
+  const [selectedCategory, setSelectedCategory] = useState('group');
   const [openFAQ, setOpenFAQ] = useState(null);
 
   const sports = [
@@ -50,12 +54,52 @@ export default function Index() {
     }
   ];
 
-
+  const plans = {
+    trial: [
+      { name: 'Пробное', duration: '1 час', price: '750₽' },
+      { name: 'Пробное+', duration: '1.5 часа', price: '1000₽' }
+    ],
+    group: [
+      { name: 'Старт', sessions: '4 занятия', duration: '1 час', price: '3350₽' },
+      { name: 'Старт+', sessions: '4 занятия', duration: '1.5 часа', price: '5000₽' },
+      { name: 'Актив', sessions: '8 занятий', duration: '1 час', price: '5650₽' },
+      { name: 'Актив+', sessions: '8 занятий', duration: '1.5 часа', price: '7900₽' },
+      { name: 'Мега', sessions: '12 занятий', duration: '1 час', price: '8150₽' },
+      { name: 'Мега+', sessions: '12 занятий', duration: '1.5 часа', price: '12700₽' },
+      { name: 'Годовой', sessions: '50 занятий', duration: '1 час', price: '40150₽' },
+      { name: 'Годовой+', sessions: '50 занятий', duration: '1.5 часа', price: '55200₽' }
+    ],
+    individual: [
+      { name: 'Лайт', sessions: '3 занятия', duration: '1 час', price: '3650₽' },
+      { name: 'Лайт+', sessions: '3 занятия', duration: '1.5 часа', price: '5100₽' },
+      { name: 'Индивидуальное', sessions: '5 занятий', duration: '1 час', price: '6350₽' },
+      { name: 'Индивидуальное+', sessions: '5 занятий', duration: '1.5 часа', price: '8100₽' },
+      { name: 'Премиум', sessions: '10 занятий', duration: '1 час', price: '12150₽' },
+      { name: 'Премиум+', sessions: '10 занятий', duration: '1.5 часа', price: '15900₽' }
+    ],
+    family: [
+      { name: 'Лайт', sessions: '2 занятия', duration: '1 час', price: '2250₽' },
+      { name: 'Лайт+', sessions: '2 занятия', duration: '1.5 часа', price: '3200₽' },
+      { name: 'Семейный', sessions: '4 занятия', duration: '1 час', price: '4150₽' },
+      { name: 'Семейный+', sessions: '4 занятия', duration: '1.5 часа', price: '5800₽' },
+      { name: 'Премиум', sessions: '8 занятий', duration: '1 час', price: '8150₽' },
+      { name: 'Премиум+', sessions: '8 занятий', duration: '1.5 часа', price: '11200₽' },
+      { name: 'Мега', sessions: '16 занятий (8+8)', duration: '1 час', price: '16100₽' },
+      { name: 'Мега+', sessions: '16 занятий (8+8)', duration: '1.5 часа', price: '21400₽' }
+    ],
+    special: [
+      { name: 'Ночной заезд', sessions: 'Пт/Вс 22:00-01:00', duration: '3 часа', price: '3000₽', note: 'Строго 18+' },
+      { name: 'BMX-марафон', sessions: '6 занятий', duration: '2 часа', price: '15500₽' },
+      { name: 'Прогрессия', sessions: '4 индив + 8 групп', duration: '1 час', price: '2960₽' },
+      { name: 'Детсад', sessions: '20 занятий Пн-Пт', duration: '09:00-12:00', price: '25000₽' },
+      { name: 'Свободное катание', sessions: 'Аренда зала + инвентарь', duration: '1 час', price: '600₽' }
+    ]
+  };
 
   const faqData = [
     {
       question: 'С какого возраста можно заниматься?',
-      answer: 'Обучаем детей с трех лет, а также взрослых. Для малышей от 3-4 лет рекомендуем беговел, с 5 лет можно осваивать все остальные направления.'
+      answer: 'Мы обучаем детей с 3 лет и взрослых. Для малышей от 3-4 лет рекомендуем беговел, с 5 лет можно осваивать все остальные направления.'
     },
     {
       question: 'Нужно ли покупать свой инвентарь?',
@@ -95,7 +139,7 @@ export default function Index() {
           <div className="hidden md:flex space-x-8">
             <a href="#sports" className="interactive-icon transition-colors font-medium">Направления</a>
             <a href="#safety" className="interactive-icon transition-colors font-medium">Безопасность</a>
-            <a href="#faq" className="interactive-icon transition-colors font-medium">FAQ</a>
+            <a href="#plans" className="interactive-icon transition-colors font-medium">Абонементы</a>
             <a href="#faq" className="interactive-icon transition-colors font-medium">FAQ</a>
           </div>
           <div className="text-right">
@@ -122,7 +166,7 @@ export default function Index() {
           </p>
           <div className="rainbow-card p-8 mb-12">
             <div className="text-2xl font-bold text-gray-800 mb-4">📅 Открытие в мае 2026!</div>
-            <p className="text-lg text-gray-700 mb-6">Обучаем детей с трех лет, а также взрослых</p>
+            <p className="text-lg text-gray-700 mb-6">Школа экстремального спорта для детей от 3 лет и взрослых в Воронеже</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="tel:89204163606" className="rainbow-button text-lg">
                 📞 8 920 416 36 06
@@ -213,7 +257,86 @@ export default function Index() {
         </div>
       </section>
 
-
+      {/* Plans Section */}
+      <section id="plans" className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-8 text-gray-800">
+            Абонементы
+          </h2>
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-600 mb-4">
+              💡 <strong>Важно:</strong> Стоимость включает аренду всего инвентаря. 
+              При наличии своего инвентаря - скидка. 
+            </p>
+            <p className="text-orange-600 font-semibold">
+              🎁 Купите абонемент в день пробного занятия - и пробное бесплатно!
+            </p>
+          </div>
+          
+          <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="max-w-6xl mx-auto">
+            <TabsList className="grid w-full grid-cols-5 mb-8 bg-white border">
+              <TabsTrigger value="trial" className="text-sm data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+                Пробные
+              </TabsTrigger>
+              <TabsTrigger value="group" className="text-sm data-[state=active]:bg-teal-500 data-[state=active]:text-white">
+                Групповые
+              </TabsTrigger>
+              <TabsTrigger value="individual" className="text-sm data-[state=active]:bg-purple-500 data-[state=active]:text-white">
+                Индивидуальные
+              </TabsTrigger>
+              <TabsTrigger value="family" className="text-sm data-[state=active]:bg-blue-500 data-[state=active]:text-white">
+                Семейные
+              </TabsTrigger>
+              <TabsTrigger value="special" className="text-sm data-[state=active]:bg-green-500 data-[state=active]:text-white">
+                Специальные
+              </TabsTrigger>
+            </TabsList>
+            
+            {Object.entries(plans).map(([category, categoryPlans]) => (
+              <TabsContent key={category} value={category}>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {categoryPlans.map((plan, index) => (
+                    <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+                      <CardHeader>
+                        <CardTitle className="text-xl text-gray-800">{plan.name}</CardTitle>
+                        {plan.sessions && (
+                          <CardDescription className="text-gray-600">
+                            {plan.sessions} • {plan.duration}
+                          </CardDescription>
+                        )}
+                        {plan.duration && !plan.sessions && (
+                          <CardDescription className="text-gray-600">
+                            {plan.duration}
+                          </CardDescription>
+                        )}
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-3xl font-bold text-orange-500 mb-2">
+                          {plan.price}
+                        </div>
+                        {plan.note && (
+                          <div className="text-sm text-red-600 font-semibold">{plan.note}</div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+          
+          <div className="text-center mt-12">
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg max-w-2xl mx-auto">
+              <p className="text-gray-700 mb-2">
+                <strong>📞 Все акции и скидки уточняйте по телефону:</strong>
+              </p>
+              <a href="tel:89204163606" className="text-2xl font-bold text-blue-600 hover:text-blue-800">
+                8 920 416 36 06
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <section id="faq" className="py-20 bg-white">
