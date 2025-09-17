@@ -283,7 +283,7 @@ export default function Index() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 text-gray-800">
             Готовы к приключениям?
           </h2>
-          <p className="text-base sm:text-lg lg:text-xl mb-8 sm:mb-12 text-gray-600 max-w-2xl mx-auto px-2">
+          <p className="text-base sm:text-lg lg:text-xl mb-8 sm:mb-12 max-w-2xl mx-auto px-2 text-[#000000]">
             Свяжитесь с нами уже сегодня и узнайте больше о том, что нас ждет в мае 2026!
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-4xl mx-auto">
