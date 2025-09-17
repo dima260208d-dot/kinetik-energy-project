@@ -244,7 +244,7 @@ export default function ChatBot() {
   return (
     <>
       {/* Floating Chat Button */}
-      <div className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ${isOpen ? 'scale-0' : 'scale-100'}`}>
+      <div className={`fixed bottom-20 right-6 z-50 transition-all duration-300 ${isOpen ? 'scale-0' : 'scale-100'}`}>
         <button
           onClick={() => setIsOpen(true)}
           className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
@@ -258,7 +258,7 @@ export default function ChatBot() {
       </div>
 
       {/* Chat Window */}
-      <div className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ${isOpen ? 'scale-100' : 'scale-0'}`}>
+      <div className={`fixed bottom-20 right-6 z-50 transition-all duration-300 ${isOpen ? 'scale-100' : 'scale-0'}`}>
         <Card className="w-80 h-96 shadow-2xl border-2 border-purple-200">
           <CardHeader className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-t-lg">
             <div className="flex items-center justify-between">
