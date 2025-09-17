@@ -112,30 +112,14 @@ const KineticCrmPage = () => {
           </form>
           
           <div className="border-t pt-6">
-            <h3 className="font-medium text-gray-900 mb-3">Демо-доступы:</h3>
-            <div className="space-y-2">
-              {demoCredentials.map((cred, index) => (
-                <div key={index} className="p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium text-sm">{cred.role}</p>
-                      <p className="text-xs text-gray-600">
-                        {cred.username} / {cred.password}
-                      </p>
-                    </div>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => {
-                        setCredentials({ username: cred.username, password: cred.password });
-                      }}
-                    >
-                      Заполнить
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <Button
+              onClick={() => window.open('https://kineticcontrol.poehali.dev', '_blank')}
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+              size="lg"
+            >
+              <Icon name="ExternalLink" className="w-4 h-4 mr-2" />
+              Перейти на сайт CRM
+            </Button>
           </div>
           
           <div className="text-center">
