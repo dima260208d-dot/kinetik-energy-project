@@ -1,0 +1,35 @@
+{
+  "tests": [
+    {
+      "name": "Test visitor analytics tracking",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "visitorId": "test-visitor-uuid",
+        "referrer": "https://google.com",
+        "landingPage": "/",
+        "currentPage": "/",
+        "utm": {
+          "source": "google",
+          "medium": "organic"
+        }
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "visitorId": "string",
+        "sessionId": "string",
+        "isNewVisitor": "boolean"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Test CORS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": "",
+      "bodyMatcher": "exact"
+    }
+  ]
+}
