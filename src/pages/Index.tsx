@@ -142,7 +142,7 @@ export default function Index() {
           
           <div className="hidden sm:block text-right text-xs sm:text-sm">
             <div className="text-gray-600 mb-1">г. Воронеж</div>
-            <div className="font-semibold rainbow-text">Открытие в мае 2026</div>
+            <div className="font-semibold rainbow-text">Открытие в декабре 2025</div>
           </div>
         </div>
       </nav>
@@ -284,7 +284,7 @@ export default function Index() {
             Готовы к приключениям?
           </h2>
           <p className="text-base sm:text-lg lg:text-xl mb-8 sm:mb-12 max-w-2xl mx-auto px-2 text-[#000000]">
-            Свяжитесь с нами уже сегодня и узнайте больше о том, что нас ждет в мае 2026!
+            Свяжитесь с нами уже сегодня и узнайте больше о том, что нас ждет в декабре 2025!
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-4xl mx-auto">
             <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 sm:py-4 sm:px-8 rounded-xl transition-all duration-300 text-base sm:text-lg lg:text-xl">
@@ -314,7 +314,7 @@ export default function Index() {
             </div>
             <div className="text-center md:text-right">
               <div className="text-base sm:text-lg font-semibold mb-1 sm:mb-2">г. Воронеж</div>
-              <div className="text-orange-400 text-sm sm:text-base">Открытие в мае 2026 года</div>
+              <div className="text-orange-400 text-sm sm:text-base">Открытие в декабре 2025 года</div>
             </div>
           </div>
           
@@ -384,7 +384,7 @@ export default function Index() {
           
           <div className="text-center pt-8 border-t border-gray-700">
             <p className="text-gray-400">
-              © 2024 Kinetic Kids. Школа экстремального спорта в Воронеже
+              © 2025 Kinetic Kids. Школа экстремального спорта в Воронеже
             </p>
           </div>
         </div>

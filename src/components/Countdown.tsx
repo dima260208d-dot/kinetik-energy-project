@@ -16,8 +16,8 @@ export default function Countdown() {
   });
 
   useEffect(() => {
-    // Дата открытия - 1 мая 2026 года
-    const targetDate = new Date('2026-05-01T00:00:00').getTime();
+    // Дата открытия - 1 декабря 2025 года
+    const targetDate = new Date('2025-12-01T00:00:00').getTime();
 
     const timer = setInterval(() => {
       const now = new Date().getTime();
@@ -72,7 +72,7 @@ export default function Countdown() {
       </div>
 
       <div className="text-center text-2xl font-semibold text-gray-700 mb-4">
-        📅 Открытие 1 мая 2026 года!
+        📅 Открытие 1 декабря 2025 года!
       </div>
       <p className="text-lg text-gray-700 mb-6 text-center">Обучаем детей с трех лет, а также взрослых</p>
       
