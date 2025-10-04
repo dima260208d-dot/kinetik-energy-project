@@ -1,0 +1,46 @@
+{
+  "tests": [
+    {
+      "name": "Get diary entries for student",
+      "method": "GET",
+      "path": "/entries?student_id=1",
+      "headers": {
+        "X-User-Id": "1",
+        "X-Role": "student"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "entries": "array"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get lesson plans",
+      "method": "GET",
+      "path": "/plans",
+      "headers": {
+        "X-User-Id": "1",
+        "X-Role": "trainer"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "plans": "array"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get students list",
+      "method": "GET",
+      "path": "/students",
+      "headers": {
+        "X-User-Id": "1",
+        "X-Role": "director"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "students": "array"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

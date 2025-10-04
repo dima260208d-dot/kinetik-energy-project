@@ -13,6 +13,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ClientDashboard from "./pages/ClientDashboard";
 import KineticCrmPage from "./pages/KineticCrmPage";
 import CrmDashboard from "./pages/CrmDashboard";
+import StudentDiary from "./pages/StudentDiary";
+import TrainerPanel from "./pages/TrainerPanel";
+import DirectorPanel from "./pages/DirectorPanel";
 
 const queryClient = new QueryClient();
 
@@ -111,6 +114,33 @@ const AppRoutes = () => {
       />
       
       <Route path="/kinetic-crm" element={<KineticCrmPage />} />
+      
+      <Route 
+        path="/diary" 
+        element={
+          <ProtectedRoute allowedRoles={['student', 'parent', 'client']}>
+            <StudentDiary />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/trainer" 
+        element={
+          <ProtectedRoute allowedRoles={['trainer', 'admin']}>
+            <TrainerPanel />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/director-panel" 
+        element={
+          <ProtectedRoute allowedRoles={['director']}>
+            <DirectorPanel />
+          </ProtectedRoute>
+        } 
+      />
       
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />
