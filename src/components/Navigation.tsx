@@ -159,11 +159,11 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
               </>
             )}
 
-            {/* Панель директора */}
+            {/* Дневник */}
             {user.role === 'director' && (
               <DropdownMenuItem onClick={() => handleNavigation('/director-panel')} className="cursor-pointer">
                 <Icon name="Crown" className="w-4 h-4 mr-2" />
-                Панель директора
+                Дневник
               </DropdownMenuItem>
             )}
             
