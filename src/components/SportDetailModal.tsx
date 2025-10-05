@@ -47,8 +47,8 @@ const sportDetailsData: Record<string, SportDetails> = {
       'Социальные навыки'
     ],
     images: [
-      'https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=800&q=80',
-      'https://images.unsplash.com/photo-1564982752979-3f7bc974d29a?w=800&q=80'
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg',
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg'
     ]
   },
   roller: {
@@ -73,8 +73,8 @@ const sportDetailsData: Record<string, SportDetails> = {
       'Целеустремленность'
     ],
     images: [
-      'https://images.unsplash.com/photo-1609710228159-0fa9bd7c0827?w=800&q=80',
-      'https://images.unsplash.com/photo-1565699894576-fd6e1756d6e0?w=800&q=80'
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg',
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg'
     ]
   },
   bike: {
@@ -99,8 +99,8 @@ const sportDetailsData: Record<string, SportDetails> = {
       'Экологическое мышление'
     ],
     images: [
-      'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=800&q=80',
-      'https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?w=800&q=80'
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg',
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg'
     ]
   },
   bmx: {
@@ -125,8 +125,8 @@ const sportDetailsData: Record<string, SportDetails> = {
       'Спортивный азарт'
     ],
     images: [
-      'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80',
-      'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80'
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg',
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg'
     ]
   },
   scooter: {
@@ -151,8 +151,8 @@ const sportDetailsData: Record<string, SportDetails> = {
       'Чувство стиля'
     ],
     images: [
-      'https://images.unsplash.com/photo-1621544402532-6756a6ab5999?w=800&q=80',
-      'https://images.unsplash.com/photo-1624542918116-d3b94a81c1a5?w=800&q=80'
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg',
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg'
     ]
   },
   runbike: {
@@ -177,8 +177,8 @@ const sportDetailsData: Record<string, SportDetails> = {
       'Любовь к спорту'
     ],
     images: [
-      'https://images.unsplash.com/photo-1634131307991-2767f97f8e7f?w=800&q=80',
-      'https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=800&q=80'
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg',
+      'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg'
     ]
   }
 };
