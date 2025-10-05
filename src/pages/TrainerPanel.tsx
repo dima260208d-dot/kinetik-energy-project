@@ -21,6 +21,131 @@ interface Group {
   sport_type: string;
 }
 
+interface DiaryEntry {
+  id: number;
+  student_id: string;
+  student_name: string;
+  trainer_name: string;
+  entry_date: string;
+  comment: string;
+  homework?: string;
+  grade?: string;
+  attendance: string;
+  media?: { url: string; type: string }[];
+}
+
+function DiaryView({ studentId }: { studentId: string }) {
+  const [entries, setEntries] = useState<DiaryEntry[]>([]);
+
+  useEffect(() => {
+    loadEntries();
+  }, [studentId]);
+
+  const loadEntries = () => {
+    const stored = localStorage.getItem('fitness_app_data');
+    if (stored) {
+      const data = JSON.parse(stored);
+      const studentEntries = (data.diary_entries || []).filter(
+        (e: DiaryEntry) => String(e.student_id) === studentId
+      );
+      setEntries(studentEntries.sort((a: DiaryEntry, b: DiaryEntry) => 
+        new Date(b.entry_date).getTime() - new Date(a.entry_date).getTime()
+      ));
+    }
+  };
+
+  const getAttendanceBadge = (attendance: string) => {
+    const variants: Record<string, { label: string; variant: 'default' | 'destructive' | 'outline' | 'secondary' }> = {
+      present: { label: '✅ Присутствовал', variant: 'default' },
+      absent: { label: '❌ Отсутствовал', variant: 'destructive' },
+      late: { label: '⏰ Опоздал', variant: 'secondary' },
+      excused: { label: '📝 Уважительная', variant: 'outline' }
+    };
+    const info = variants[attendance] || variants.present;
+    return <Badge variant={info.variant}>{info.label}</Badge>;
+  };
+
+  if (entries.length === 0) {
+    return (
+      <Card>
+        <CardContent className="py-12 text-center">
+          <Icon name="FileText" size={48} className="mx-auto mb-4 text-muted-foreground" />
+          <p className="text-muted-foreground">У этого ученика пока нет записей в дневнике</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {entries.map((entry) => (
+        <Card key={entry.id}>
+          <CardHeader>
+            <div className="flex items-start justify-between">
+              <div>
+                <CardTitle className="text-lg">{entry.student_name}</CardTitle>
+                <CardDescription>
+                  {new Date(entry.entry_date).toLocaleDateString('ru-RU', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </CardDescription>
+              </div>
+              <div className="flex gap-2">
+                {getAttendanceBadge(entry.attendance)}
+                {entry.grade && <Badge variant="outline">Оценка: {entry.grade}</Badge>}
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {entry.comment && (
+              <div>
+                <h4 className="font-semibold mb-2 flex items-center gap-2">
+                  <Icon name="MessageSquare" size={16} />
+                  Комментарий тренера
+                </h4>
+                <p className="text-sm text-muted-foreground">{entry.comment}</p>
+              </div>
+            )}
+
+            {entry.media && entry.media.length > 0 && (
+              <div>
+                <h4 className="font-semibold mb-2 flex items-center gap-2">
+                  <Icon name="Image" size={16} />
+                  Фото и видео
+                </h4>
+                <div className="grid grid-cols-3 gap-3">
+                  {entry.media.map((media, idx) => (
+                    <div key={idx} className="rounded-lg overflow-hidden">
+                      {media.type === 'video' ? (
+                        <video src={media.url} controls className="w-full h-32 object-cover" />
+                      ) : (
+                        <img src={media.url} alt="Media" className="w-full h-32 object-cover" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {entry.homework && (
+              <div>
+                <h4 className="font-semibold mb-2 flex items-center gap-2">
+                  <Icon name="BookMarked" size={16} />
+                  Домашнее задание
+                </h4>
+                <p className="text-sm text-muted-foreground">{entry.homework}</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
 export default function TrainerPanel() {
   const [students, setStudents] = useState<Student[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
@@ -80,8 +205,33 @@ export default function TrainerPanel() {
 
   const handleCreateEntry = async () => {
     try {
-      // TODO: отправить на backend API
-      console.log('Creating entry:', entryForm);
+      const stored = localStorage.getItem('fitness_app_data');
+      const data = stored ? JSON.parse(stored) : { diary_entries: [] };
+      
+      if (!data.diary_entries) {
+        data.diary_entries = [];
+      }
+
+      const student = students.find(s => String(s.id) === entryForm.student_id);
+      
+      const newEntry = {
+        id: Date.now(),
+        student_id: entryForm.student_id,
+        student_name: student?.name || 'Неизвестный ученик',
+        trainer_name: 'Тренер',
+        entry_date: entryForm.entry_date,
+        comment: entryForm.comment,
+        homework: entryForm.homework,
+        grade: entryForm.grade,
+        attendance: entryForm.attendance,
+        media: mediaPreviews.map(m => ({
+          url: m.url,
+          type: m.type
+        }))
+      };
+
+      data.diary_entries.push(newEntry);
+      localStorage.setItem('fitness_app_data', JSON.stringify(data));
       
       setIsEntryDialogOpen(false);
       setEntryForm({
@@ -92,8 +242,13 @@ export default function TrainerPanel() {
         grade: '',
         attendance: 'present'
       });
+      setMediaPreviews([]);
+      setMediaFiles([]);
+      
+      alert('Запись добавлена в дневник!');
     } catch (error) {
       console.error('Error creating entry:', error);
+      alert('Ошибка при сохранении записи');
     }
   };
 
@@ -310,14 +465,18 @@ export default function TrainerPanel() {
             </Dialog>
           </div>
 
-          <Card>
-            <CardContent className="py-12 text-center">
-              <Icon name="BookOpen" size={48} className="mx-auto mb-4 text-muted-foreground" />
-              <p className="text-muted-foreground mb-4">
-                Выберите ученика или создайте новую запись
-              </p>
-            </CardContent>
-          </Card>
+          {selectedStudent ? (
+            <DiaryView studentId={selectedStudent} />
+          ) : (
+            <Card>
+              <CardContent className="py-12 text-center">
+                <Icon name="BookOpen" size={48} className="mx-auto mb-4 text-muted-foreground" />
+                <p className="text-muted-foreground mb-4">
+                  Выберите ученика для просмотра его дневника или создайте новую запись
+                </p>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="planning" className="mt-6">

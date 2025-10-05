@@ -49,6 +49,7 @@ export default function DirectorPanel() {
   const [students, setStudents] = useState<Student[]>([]);
   const [selectedTrainer, setSelectedTrainer] = useState('all');
   const [selectedStudent, setSelectedStudent] = useState('all');
+  const [selectedStudent, setSelectedStudent] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   
   const [showAddTrainer, setShowAddTrainer] = useState(false);
@@ -132,8 +133,8 @@ export default function DirectorPanel() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-bold mb-2 text-gray-900">Панель директора</h1>
-              <p className="text-gray-700">Контроль работы тренеров и успеваемости учеников</p>
+              <h1 className="text-4xl font-bold mb-2 text-gray-900">Дневник</h1>
+              <p className="text-gray-700">Просмотр записей тренеров и успеваемости учеников</p>
             </div>
             <Button 
               onClick={() => navigate('/')}
