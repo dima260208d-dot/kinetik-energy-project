@@ -412,20 +412,69 @@ export default function DirectorPanel() {
                     Тренеров пока нет. Добавьте первого тренера!
                   </p>
                 ) : (
-                  trainers.map((trainer) => (
-                    <div key={trainer.id} className="flex items-center justify-between p-3 border rounded-lg bg-white hover:shadow-md transition-shadow">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-lg">
-                          🎯
+                  trainers.map((trainer) => {
+                    const stored = localStorage.getItem('fitness_app_data');
+                    const data = stored ? JSON.parse(stored) : { users: [] };
+                    const trainerData = data.users.find((u: any) => u.id === trainer.id);
+                    const isActive = trainerData?.isActive !== false;
+                    
+                    return (
+                      <div key={trainer.id} className="flex items-center justify-between p-3 border rounded-lg bg-white hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-lg">
+                            🎯
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <p className="font-medium">{trainer.name}</p>
+                              {!isActive && (
+                                <Badge variant="destructive" className="text-xs">Заблокирован</Badge>
+                              )}
+                            </div>
+                            <p className="text-sm text-muted-foreground">{trainer.email}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium">{trainer.name}</p>
-                          <p className="text-sm text-muted-foreground">{trainer.email}</p>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            size="sm"
+                            variant={isActive ? "outline" : "default"}
+                            onClick={() => {
+                              const stored = localStorage.getItem('fitness_app_data');
+                              const data = stored ? JSON.parse(stored) : { users: [] };
+                              const userIndex = data.users.findIndex((u: any) => u.id === trainer.id);
+                              
+                              if (userIndex !== -1) {
+                                data.users[userIndex].isActive = !data.users[userIndex].isActive;
+                                localStorage.setItem('fitness_app_data', JSON.stringify(data));
+                                loadAllData();
+                                alert(data.users[userIndex].isActive ? 'Тренер разблокирован' : 'Тренер заблокирован');
+                              }
+                            }}
+                          >
+                            <Icon name={isActive ? "Ban" : "CheckCircle"} className="w-4 h-4 mr-1" />
+                            {isActive ? 'Заблокировать' : 'Разблокировать'}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => {
+                              if (confirm(`Вы уверены, что хотите удалить тренера ${trainer.name}? Это действие нельзя отменить.`)) {
+                                const stored = localStorage.getItem('fitness_app_data');
+                                const data = stored ? JSON.parse(stored) : { users: [] };
+                                data.users = data.users.filter((u: any) => u.id !== trainer.id);
+                                localStorage.setItem('fitness_app_data', JSON.stringify(data));
+                                loadAllData();
+                                alert('Тренер удалён');
+                              }
+                            }}
+                          >
+                            <Icon name="Trash2" className="w-4 h-4 mr-1" />
+                            Удалить
+                          </Button>
                         </div>
                       </div>
-                      <Badge variant="outline">Тренер</Badge>
-                    </div>
-                  ))
+                    );
+                  })
                 )}
               </CardContent>
             </Card>
