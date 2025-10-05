@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
@@ -20,6 +22,7 @@ interface Group {
 }
 
 export default function TrainerPanel() {
+  const navigate = useNavigate();
   const [students, setStudents] = useState<Student[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [selectedStudent, setSelectedStudent] = useState('');
@@ -50,18 +53,30 @@ export default function TrainerPanel() {
   };
 
   const handleEntryCreated = () => {
-    if (selectedStudent) {
-      setSelectedStudent('');
-      setTimeout(() => setSelectedStudent(selectedStudent), 0);
-    }
+    const currentStudent = selectedStudent;
+    setSelectedStudent('');
+    setTimeout(() => {
+      setSelectedStudent(currentStudent);
+    }, 50);
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Панель тренера</h1>
-        <p className="text-muted-foreground">Управляйте записями в дневниках и планируйте занятия</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 py-8">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold mb-2">Панель тренера</h1>
+            <p className="text-muted-foreground">Управляйте записями в дневниках и планируйте занятия</p>
+          </div>
+          <Button 
+            onClick={() => navigate('/')}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <Icon name="Home" size={18} />
+            На главную
+          </Button>
+        </div>
 
       <Tabs defaultValue="entries" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
@@ -101,7 +116,7 @@ export default function TrainerPanel() {
           </div>
 
           {selectedStudent ? (
-            <DiaryView studentId={selectedStudent} />
+            <DiaryView key={selectedStudent} studentId={selectedStudent} />
           ) : (
             <Card>
               <CardContent className="py-12 text-center">
@@ -148,6 +163,7 @@ export default function TrainerPanel() {
           </Card>
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   );
 }

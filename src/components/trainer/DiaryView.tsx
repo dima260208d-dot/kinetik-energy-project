@@ -22,21 +22,34 @@ interface DiaryViewProps {
 
 export default function DiaryView({ studentId }: DiaryViewProps) {
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadEntries();
+    if (studentId) {
+      loadEntries();
+    }
   }, [studentId]);
 
   const loadEntries = () => {
-    const stored = localStorage.getItem('fitness_app_data');
-    if (stored) {
-      const data = JSON.parse(stored);
-      const studentEntries = (data.diary_entries || []).filter(
-        (e: DiaryEntry) => String(e.student_id) === studentId
-      );
-      setEntries(studentEntries.sort((a: DiaryEntry, b: DiaryEntry) => 
-        new Date(b.entry_date).getTime() - new Date(a.entry_date).getTime()
-      ));
+    setLoading(true);
+    try {
+      const stored = localStorage.getItem('fitness_app_data');
+      if (stored) {
+        const data = JSON.parse(stored);
+        const studentEntries = (data.diary_entries || []).filter(
+          (e: DiaryEntry) => String(e.student_id) === String(studentId)
+        );
+        setEntries(studentEntries.sort((a: DiaryEntry, b: DiaryEntry) => 
+          new Date(b.entry_date).getTime() - new Date(a.entry_date).getTime()
+        ));
+      } else {
+        setEntries([]);
+      }
+    } catch (error) {
+      console.error('Error loading diary entries:', error);
+      setEntries([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,12 +64,24 @@ export default function DiaryView({ studentId }: DiaryViewProps) {
     return <Badge variant={info.variant}>{info.label}</Badge>;
   };
 
+  if (loading) {
+    return (
+      <Card>
+        <CardContent className="py-12 text-center">
+          <Icon name="Loader2" size={48} className="mx-auto mb-4 text-muted-foreground animate-spin" />
+          <p className="text-muted-foreground">Загрузка записей...</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (entries.length === 0) {
     return (
       <Card>
         <CardContent className="py-12 text-center">
           <Icon name="FileText" size={48} className="mx-auto mb-4 text-muted-foreground" />
           <p className="text-muted-foreground">У этого ученика пока нет записей в дневнике</p>
+          <p className="text-sm text-muted-foreground mt-2">Добавьте первую запись, нажав кнопку "Добавить запись"</p>
         </CardContent>
       </Card>
     );

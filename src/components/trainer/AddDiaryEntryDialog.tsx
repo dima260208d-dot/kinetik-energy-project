@@ -39,25 +39,37 @@ export default function AddDiaryEntryDialog({
   const [mediaPreviews, setMediaPreviews] = useState<{url: string, type: string, file: File}[]>([]);
 
   const handleCreateEntry = async () => {
+    if (!entryForm.student_id) {
+      alert('Пожалуйста, выберите ученика');
+      return;
+    }
+
+    if (!entryForm.comment.trim()) {
+      alert('Пожалуйста, добавьте комментарий о тренировке');
+      return;
+    }
+
     try {
       const stored = localStorage.getItem('fitness_app_data');
-      const data = stored ? JSON.parse(stored) : { diary_entries: [] };
+      const data = stored ? JSON.parse(stored) : { users: [], diary_entries: [] };
       
       if (!data.diary_entries) {
         data.diary_entries = [];
       }
 
+      const currentUser = localStorage.getItem('current_user');
+      const trainer = currentUser ? JSON.parse(currentUser) : null;
       const student = students.find(s => String(s.id) === entryForm.student_id);
       
       const newEntry = {
         id: Date.now(),
         student_id: entryForm.student_id,
         student_name: student?.name || 'Неизвестный ученик',
-        trainer_name: 'Тренер',
+        trainer_name: trainer?.name || 'Тренер',
         entry_date: entryForm.entry_date,
         comment: entryForm.comment,
-        homework: entryForm.homework,
-        grade: entryForm.grade,
+        homework: entryForm.homework || '',
+        grade: entryForm.grade || '',
         attendance: entryForm.attendance,
         media: mediaPreviews.map(m => ({
           url: m.url,
@@ -68,7 +80,6 @@ export default function AddDiaryEntryDialog({
       data.diary_entries.push(newEntry);
       localStorage.setItem('fitness_app_data', JSON.stringify(data));
       
-      onOpenChange(false);
       setEntryForm({
         student_id: '',
         entry_date: new Date().toISOString().split('T')[0],
@@ -80,11 +91,15 @@ export default function AddDiaryEntryDialog({
       setMediaPreviews([]);
       setMediaFiles([]);
       
-      alert('Запись добавлена в дневник!');
-      onEntryCreated();
+      onOpenChange(false);
+      alert('✅ Запись успешно добавлена в дневник!');
+      
+      setTimeout(() => {
+        onEntryCreated();
+      }, 100);
     } catch (error) {
       console.error('Error creating entry:', error);
-      alert('Ошибка при сохранении записи');
+      alert('❌ Ошибка при сохранении записи');
     }
   };
 

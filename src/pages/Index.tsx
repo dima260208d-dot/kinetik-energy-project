@@ -6,11 +6,13 @@ import Countdown from '@/components/Countdown';
 import ChatBot from '@/components/ChatBot';
 import Auth from '@/components/Auth';
 import Navigation from '@/components/Navigation';
+import SportDetailModal from '@/components/SportDetailModal';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Index() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [showAuth, setShowAuth] = useState(false);
+  const [selectedSport, setSelectedSport] = useState<any>(null);
   const { user } = useAuth();
 
   const sports = [
@@ -174,7 +176,11 @@ export default function Index() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {sports.map((sport) => (
-              <div key={sport.id} className="rainbow-card group cursor-pointer">
+              <div 
+                key={sport.id} 
+                className="rainbow-card group cursor-pointer"
+                onClick={() => setSelectedSport(sport)}
+              >
                 <CardHeader className="text-center p-4 sm:p-6">
                   <div className="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
                     {sport.icon}
@@ -397,6 +403,13 @@ export default function Index() {
       {showAuth && (
         <Auth onClose={() => setShowAuth(false)} />
       )}
+
+      {/* Sport Detail Modal */}
+      <SportDetailModal 
+        sport={selectedSport}
+        isOpen={!!selectedSport}
+        onClose={() => setSelectedSport(null)}
+      />
     </div>
   );
 }
