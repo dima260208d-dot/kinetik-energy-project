@@ -346,35 +346,35 @@ export default function SportDetailModal({ sport, isOpen, onClose }: SportDetail
           <div className="bg-gray-50 rounded-lg p-6 border-2 border-gray-200">
             <h3 className="text-xl font-semibold mb-4 text-center">Контакты для связи</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <a href="mailto:info@kinetickids.ru" className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-gray-100 transition-colors">
+              <a href="mailto:kinetic.kids@bk.ru" className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-gray-100 transition-colors">
                 <Icon name="Mail" size={24} className="text-red-500" />
                 <div>
                   <div className="text-sm text-gray-500">Email</div>
-                  <div className="font-medium">info@kinetickids.ru</div>
+                  <div className="font-medium">kinetic.kids@bk.ru</div>
                 </div>
               </a>
 
-              <a href="https://vk.com/kinetickids" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-gray-100 transition-colors">
+              <a href="https://vk.com/kinetickidsvrn?from=groups" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-gray-100 transition-colors">
                 <Icon name="Share2" size={24} className="text-blue-500" />
                 <div>
                   <div className="text-sm text-gray-500">ВКонтакте</div>
-                  <div className="font-medium">vk.com/kinetickids</div>
+                  <div className="font-medium">vk.com/kinetickidsvrn</div>
                 </div>
               </a>
 
-              <a href="https://t.me/kinetickids" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-gray-100 transition-colors">
+              <a href="https://t.me/kinetik_kids_vrn" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-gray-100 transition-colors">
                 <Icon name="Send" size={24} className="text-blue-400" />
                 <div>
                   <div className="text-sm text-gray-500">Telegram</div>
-                  <div className="font-medium">@kinetickids</div>
+                  <div className="font-medium">@kinetik_kids_vrn</div>
                 </div>
               </a>
 
-              <a href="https://wa.me/79991234567" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-gray-100 transition-colors">
+              <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-white rounded-lg hover:bg-gray-100 transition-colors">
                 <Icon name="MessageCircle" size={24} className="text-green-500" />
                 <div>
                   <div className="text-sm text-gray-500">WhatsApp</div>
-                  <div className="font-medium">+7 (999) 123-45-67</div>
+                  <div className="font-medium">8 920 416 36 06</div>
                 </div>
               </a>
             </div>
