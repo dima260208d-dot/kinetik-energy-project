@@ -29,7 +29,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   return (
     <>
       {/* История чата */}
-      <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
+      <Card className="rainbow-card">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>💬 История чат-бота</CardTitle>

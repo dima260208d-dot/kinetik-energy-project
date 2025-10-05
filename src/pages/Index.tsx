@@ -111,7 +111,7 @@ export default function Index() {
               {!user ? (
                 <Button 
                   onClick={() => setShowAuth(true)} 
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-xs px-3 py-1"
+                  className="rainbow-button text-xs px-3 py-1"
                   size="sm"
                 >
                   Войти
@@ -132,7 +132,7 @@ export default function Index() {
             {!user ? (
               <Button 
                 onClick={() => setShowAuth(true)} 
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+                className="rainbow-button"
                 size="sm"
               >
                 Войти
@@ -178,7 +178,7 @@ export default function Index() {
             {sports.map((sport) => (
               <div 
                 key={sport.id} 
-                className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 group cursor-pointer"
+                className="rainbow-card group cursor-pointer"
                 onClick={() => setSelectedSport(sport)}
               >
                 <CardHeader className="text-center p-4 sm:p-6">
@@ -205,9 +205,9 @@ export default function Index() {
             Безопасность превыше всего
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-            <div className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 text-center">
+            <div className="rainbow-card text-center">
               <CardHeader className="p-4 sm:p-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
                   <span className="text-2xl sm:text-3xl">🛡️</span>
                 </div>
                 <CardTitle className="text-gray-800 text-lg sm:text-xl">
@@ -219,9 +219,9 @@ export default function Index() {
               </CardContent>
             </div>
             
-            <div className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 text-center">
+            <div className="rainbow-card text-center">
               <CardHeader className="p-4 sm:p-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
                   <span className="text-2xl sm:text-3xl">👥</span>
                 </div>
                 <CardTitle className="text-gray-800 text-lg sm:text-xl">
@@ -233,9 +233,9 @@ export default function Index() {
               </CardContent>
             </div>
             
-            <div className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 text-center">
+            <div className="rainbow-card text-center">
               <CardHeader className="p-4 sm:p-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center rainbow-button">
                   <span className="text-2xl sm:text-3xl">👨‍🏫</span>
                 </div>
                 <CardTitle className="text-gray-800 text-lg sm:text-xl">

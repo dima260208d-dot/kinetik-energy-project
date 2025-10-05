@@ -108,7 +108,7 @@ const SecurityTab: React.FC = () => {
         </div>
       </div>
 
-      <Button onClick={changePassword} className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white w-full">
+      <Button onClick={changePassword} className="rainbow-button w-full">
         Изменить пароль
       </Button>
     </div>

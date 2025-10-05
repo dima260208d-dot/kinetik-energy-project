@@ -10,7 +10,7 @@ interface ApplicationsListProps {
 
 const ApplicationsList = ({ applications, onApplicationAction }: ApplicationsListProps) => {
   return (
-    <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
+    <Card className="rainbow-card">
       <CardHeader>
         <CardTitle>📋 Заявки клиентов</CardTitle>
       </CardHeader>

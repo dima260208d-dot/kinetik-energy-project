@@ -4,7 +4,7 @@ import { useToast } from '@/hooks/use-toast';
 import Icon from '@/components/ui/icon';
 
 interface UserPreferences {
-  theme: 'light' | 'dark' | 'colorful';
+  theme: 'light' | 'dark' | 'rainbow';
   language: 'ru' | 'en';
   notifications: {
     email: boolean;
@@ -100,7 +100,7 @@ const PrivacyTab: React.FC<PrivacyTabProps> = ({ preferences, setPreferences }) 
         </div>
       </div>
 
-      <Button onClick={savePrivacySettings} className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white w-full">
+      <Button onClick={savePrivacySettings} className="rainbow-button w-full">
         Сохранить настройки приватности
       </Button>
     </div>

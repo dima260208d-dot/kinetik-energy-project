@@ -39,7 +39,7 @@ export default function Countdown() {
   }, []);
 
   return (
-    <div className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 p-8 mb-12">
+    <div className="rainbow-card p-8 mb-12">
       <div className="text-3xl font-bold text-gray-800 mb-6 text-center">
         🚀 До открытия осталось:
       </div>
@@ -77,13 +77,13 @@ export default function Countdown() {
       <p className="text-lg text-gray-700 mb-6 text-center">Обучаем детей с трех лет, а также взрослых</p>
       
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="tel:89204163606" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-lg">
+        <a href="tel:89204163606" className="rainbow-button text-lg">
           📞 8 920 416 36 06
         </a>
-        <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-lg">
+        <a href="https://t.me/kinetik_kids_vrn" target="_blank" className="rainbow-button text-lg">
           💬 Telegram консультация
         </a>
-        <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-lg">
+        <a href="https://wa.me/message/WQFGATD3QMSHI1" target="_blank" className="rainbow-button text-lg">
           📱 WhatsApp
         </a>
       </div>

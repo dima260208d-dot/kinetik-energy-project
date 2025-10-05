@@ -336,7 +336,7 @@ export default function SportDetailModal({ sport, isOpen, onClose }: SportDetail
                 />
               </div>
 
-              <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-lg py-6">
+              <Button type="submit" className="w-full rainbow-button text-lg py-6">
                 <Icon name="Send" className="mr-2" size={20} />
                 Отправить заявку
               </Button>

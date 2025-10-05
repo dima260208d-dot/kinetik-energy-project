@@ -40,13 +40,13 @@ const UserManagement: React.FC<UserManagementProps> = ({
   };
 
   return (
-    <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
+    <Card className="rainbow-card">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle>👥 Пользователи</CardTitle>
           <Button 
             onClick={() => setShowAddAdmin(!showAddAdmin)}
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+            className="rainbow-button"
             size="sm"
           >
             + Добавить админа
@@ -84,7 +84,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
                 />
               </div>
               <div className="flex gap-2">
-                <Button onClick={handleAddAdmin} size="sm" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white">
+                <Button onClick={handleAddAdmin} size="sm" className="rainbow-button">
                   Добавить
                 </Button>
                 <Button 
