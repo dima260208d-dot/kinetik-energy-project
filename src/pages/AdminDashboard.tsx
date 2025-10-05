@@ -82,7 +82,7 @@ const AdminDashboard = () => {
 
         {/* Статистика */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="rainbow-card">
+          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">⏳ Ожидают обработки</CardTitle>
             </CardHeader>
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="rainbow-card">
+          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">✅ Обработано</CardTitle>
             </CardHeader>
@@ -100,7 +100,7 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="rainbow-card">
+          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">📋 Всего заявок</CardTitle>
             </CardHeader>
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Заявки, ожидающие обработки */}
-        <Card className="rainbow-card mb-8">
+        <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <span>⏳</span>
@@ -155,7 +155,7 @@ const AdminDashboard = () => {
                     <div className="flex gap-3">
                       <Button
                         onClick={() => handleApplicationAction(app.id, 'approved')}
-                        className="rainbow-button flex-1"
+                        className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white flex-1"
                       >
                         ✅ Одобрить
                       </Button>
@@ -175,7 +175,7 @@ const AdminDashboard = () => {
         </Card>
 
         {/* История обработанных заявок */}
-        <Card className="rainbow-card">
+        <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <span>📊</span>

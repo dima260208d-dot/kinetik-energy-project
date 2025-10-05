@@ -17,7 +17,7 @@ interface StatsCardsProps {
 const StatsCards: React.FC<StatsCardsProps> = ({ stats }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-      <Card className="rainbow-card">
+      <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg">👥 Пользователи</CardTitle>
         </CardHeader>
@@ -27,7 +27,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ stats }) => {
         </CardContent>
       </Card>
 
-      <Card className="rainbow-card">
+      <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg">⚡ Роли</CardTitle>
         </CardHeader>
@@ -38,7 +38,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ stats }) => {
         </CardContent>
       </Card>
 
-      <Card className="rainbow-card">
+      <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg">📋 Заявки</CardTitle>
         </CardHeader>
@@ -48,7 +48,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ stats }) => {
         </CardContent>
       </Card>
 
-      <Card className="rainbow-card">
+      <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg">💰 Доход</CardTitle>
         </CardHeader>

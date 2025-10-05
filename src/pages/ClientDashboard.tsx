@@ -69,7 +69,7 @@ const ClientDashboard = () => {
 
         {/* Статистика */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="rainbow-card">
+          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">🛒 Покупки</CardTitle>
             </CardHeader>
@@ -79,7 +79,7 @@ const ClientDashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="rainbow-card">
+          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">💰 Потрачено</CardTitle>
             </CardHeader>
@@ -89,7 +89,7 @@ const ClientDashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="rainbow-card">
+          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">✅ Завершено</CardTitle>
             </CardHeader>
@@ -99,7 +99,7 @@ const ClientDashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="rainbow-card">
+          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">📋 Заявки</CardTitle>
             </CardHeader>
@@ -112,7 +112,7 @@ const ClientDashboard = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* История покупок */}
-          <Card className="rainbow-card">
+          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <span>🛒</span>
@@ -155,7 +155,7 @@ const ClientDashboard = () => {
           </Card>
 
           {/* Мои заявки */}
-          <Card className="rainbow-card">
+          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <span>📋</span>
@@ -204,7 +204,7 @@ const ClientDashboard = () => {
           </Card>
 
           {/* История чата */}
-          <Card className="rainbow-card lg:col-span-2">
+          <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50 lg:col-span-2">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <span>💬</span>

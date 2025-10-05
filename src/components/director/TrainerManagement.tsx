@@ -12,13 +12,15 @@ interface TrainerManagementProps {
   onAddTrainer: (email: string, name: string, phone: string, password: string) => void;
   onToggleUserStatus: (userId: string) => void;
   onDeleteUser: (userId: string) => void;
+  onViewUserDetails: (user: User) => void;
 }
 
 const TrainerManagement = ({ 
   users, 
   onAddTrainer, 
   onToggleUserStatus,
-  onDeleteUser 
+  onDeleteUser,
+  onViewUserDetails
 }: TrainerManagementProps) => {
   const [showAddTrainer, setShowAddTrainer] = useState(false);
   const [newTrainerEmail, setNewTrainerEmail] = useState('');
@@ -108,7 +110,11 @@ const TrainerManagement = ({
             <p className="text-gray-500 text-center py-4">Тренеров пока нет</p>
           ) : (
             users.filter(u => u.role === 'trainer').map(trainer => (
-              <div key={trainer.id} className="flex items-center justify-between p-3 border rounded-lg bg-gradient-to-r from-blue-50 to-purple-50">
+              <div 
+                key={trainer.id} 
+                className="flex items-center justify-between p-3 border rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 cursor-pointer transition-colors"
+                onClick={() => onViewUserDetails(trainer)}
+              >
                 <div>
                   <div className="font-medium">{trainer.name}</div>
                   <div className="text-sm text-gray-600">{trainer.email}</div>
@@ -122,7 +128,7 @@ const TrainerManagement = ({
                     </Badge>
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
                   <Button
                     size="sm"
                     variant={trainer.isActive ? "outline" : "default"}
@@ -134,10 +140,12 @@ const TrainerManagement = ({
                   <Button
                     size="sm"
                     variant="destructive"
-                    onClick={() => onDeleteUser(trainer.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeleteUser(trainer.id);
+                    }}
                   >
-                    <Icon name="Trash2" className="w-4 h-4 mr-1" />
-                    Удалить
+                    <Icon name="X" className="w-4 h-4" />
                   </Button>
                 </div>
               </div>

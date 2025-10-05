@@ -41,6 +41,8 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ preferences, setPreferences }) 
   const [phone, setPhone] = useState('');
   const [bio, setBio] = useState('');
   const [avatar, setAvatar] = useState('');
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string>('');
 
   useEffect(() => {
     const stored = localStorage.getItem('fitness_app_data');
@@ -51,6 +53,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ preferences, setPreferences }) 
         setPhone(userData.phone || '');
         setBio(userData.bio || '');
         setAvatar(userData.avatar || '');
+        setAvatarPreview(userData.avatarPhoto || '');
       }
     }
   }, [user]);
@@ -70,13 +73,14 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ preferences, setPreferences }) 
           phone,
           bio,
           avatar,
+          avatarPhoto: avatarPreview,
           preferences,
           updatedAt: new Date()
         };
         
         localStorage.setItem('fitness_app_data', JSON.stringify(data));
         
-        const updatedUser = { ...user, name, phone, bio, avatar, preferences };
+        const updatedUser = { ...user, name, phone, bio, avatar, avatarPhoto: avatarPreview, preferences };
         localStorage.setItem('current_user', JSON.stringify(updatedUser));
         
         toast({
@@ -91,23 +95,77 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ preferences, setPreferences }) 
     '👤', '😊', '😎', '🤓', '😺', '🦁', '🐸', '🦄', '🚀', '⭐', '🎯', '🏆', '🎨', '🎸', '⚽', '🏀'
   ];
 
+  const handleAvatarFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setAvatarFile(file);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setAvatarPreview(event.target?.result as string);
+        setAvatar(''); // Очистить эмодзи аватар
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="text-6xl mb-4">{avatar || '👤'}</div>
-        <div className="flex flex-wrap justify-center gap-2 mb-4">
-          {avatarOptions.map(ava => (
-            <Button
-              key={ava}
-              variant={avatar === ava ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setAvatar(ava)}
-              className="text-2xl p-2 h-12 w-12"
-            >
-              {ava}
+        {avatarPreview ? (
+          <div className="mb-4 flex justify-center">
+            <div className="relative w-32 h-32">
+              <img 
+                src={avatarPreview} 
+                alt="Avatar" 
+                className="w-full h-full rounded-full object-cover border-4 border-gray-200"
+              />
+              <Button
+                variant="destructive"
+                size="sm"
+                className="absolute -top-2 -right-2 rounded-full h-8 w-8 p-0"
+                onClick={() => {
+                  setAvatarPreview('');
+                  setAvatarFile(null);
+                }}
+              >
+                ×
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="text-6xl mb-4">{avatar || '👤'}</div>
+        )}
+        
+        <div className="mb-4">
+          <input
+            type="file"
+            id="avatar-upload"
+            accept="image/*"
+            className="hidden"
+            onChange={handleAvatarFileChange}
+          />
+          <Label htmlFor="avatar-upload" className="cursor-pointer">
+            <Button type="button" variant="outline" size="sm" asChild>
+              <span>📷 Загрузить фото</span>
             </Button>
-          ))}
+          </Label>
         </div>
+        
+        {!avatarPreview && (
+          <div className="flex flex-wrap justify-center gap-2 mb-4">
+            {avatarOptions.map(ava => (
+              <Button
+                key={ava}
+                variant={avatar === ava ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setAvatar(ava)}
+                className="text-2xl p-2 h-12 w-12"
+              >
+                {ava}
+              </Button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

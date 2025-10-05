@@ -5,7 +5,7 @@ import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 
 interface UserPreferences {
-  theme: 'light' | 'dark' | 'rainbow';
+  theme: 'light' | 'dark' | 'colorful';
   language: 'ru' | 'en';
   notifications: {
     email: boolean;
@@ -45,7 +45,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ preferences, setPreferences }
         <Label>Тема интерфейса</Label>
         <Select 
           value={preferences.theme} 
-          onValueChange={(value: 'light' | 'dark' | 'rainbow') => 
+          onValueChange={(value: 'light' | 'dark' | 'colorful') => 
             setPreferences({...preferences, theme: value})
           }
         >
@@ -150,7 +150,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ preferences, setPreferences }
         </div>
       </div>
 
-      <Button onClick={saveSettings} className="rainbow-button w-full">
+      <Button onClick={saveSettings} className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white w-full">
         Сохранить настройки
       </Button>
     </div>

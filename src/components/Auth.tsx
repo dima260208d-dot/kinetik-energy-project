@@ -132,7 +132,7 @@ const Auth: React.FC<AuthProps> = ({ onClose }) => {
             
             <Button 
               type="submit" 
-              className="w-full rainbow-button"
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
               disabled={isLoading}
             >
               {isLoading ? (

@@ -14,6 +14,7 @@ import ActivityHistory from '@/components/director/ActivityHistory';
 import ChatHistory from '@/components/director/ChatHistory';
 import FullChatHistoryModal from '@/components/director/FullChatHistoryModal';
 import UserMonitoringModal from '@/components/director/UserMonitoringModal';
+import UserDetailModal from '@/components/director/UserDetailModal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import CrmSpecification from '@/components/CrmSpecification';
 
@@ -28,6 +29,8 @@ const DirectorDashboard = () => {
   const [showFullChatHistory, setShowFullChatHistory] = useState(false);
   const [showCrmSpec, setShowCrmSpec] = useState(false);
   const [showUserMonitoring, setShowUserMonitoring] = useState(false);
+  const [selectedUserDetail, setSelectedUserDetail] = useState<User | null>(null);
+  const [showUserDetail, setShowUserDetail] = useState(false);
   
   const { user } = useAuth();
   const { toast } = useToast();
@@ -162,6 +165,12 @@ const DirectorDashboard = () => {
     );
     setUsers(updatedUsers);
     saveData(updatedUsers);
+    
+    const userToToggle = users.find(u => u.id === userId);
+    toast({
+      title: userToToggle?.isActive ? "Пользователь заблокирован" : "Пользователь разблокирован",
+      description: `${userToToggle?.name} ${userToToggle?.isActive ? 'заблокирован' : 'разблокирован'}`
+    });
   };
 
   const changeUserRole = (userId: string, newRole: UserRole) => {
@@ -176,7 +185,10 @@ const DirectorDashboard = () => {
     const userToDelete = users.find(u => u.id === userId);
     if (!userToDelete) return;
 
-    if (!confirm(`Вы уверены, что хотите удалить ${userToDelete.role === 'trainer' ? 'тренера' : 'администратора'} ${userToDelete.name}? Это действие нельзя отменить.`)) {
+    const roleLabel = userToDelete.role === 'trainer' ? 'тренера' : 
+                     userToDelete.role === 'admin' ? 'администратора' : 'пользователя';
+
+    if (!window.confirm(`Вы уверены, что хотите удалить ${roleLabel} ${userToDelete.name}? Это действие нельзя отменить.`)) {
       return;
     }
 
@@ -186,8 +198,13 @@ const DirectorDashboard = () => {
 
     toast({
       title: "Удалено",
-      description: `${userToDelete.role === 'trainer' ? 'Тренер' : 'Администратор'} ${userToDelete.name} удалён`
+      description: `${roleLabel.charAt(0).toUpperCase() + roleLabel.slice(1)} ${userToDelete.name} удалён`
     });
+  };
+
+  const handleViewUserDetails = (user: User) => {
+    setSelectedUserDetail(user);
+    setShowUserDetail(true);
   };
 
   const handleApplicationAction = (appId: string, action: 'approved' | 'rejected') => {
@@ -252,6 +269,7 @@ const DirectorDashboard = () => {
             onToggleUserStatus={toggleUserStatus}
             onChangeUserRole={changeUserRole}
             onDeleteUser={deleteUser}
+            onViewUserDetails={handleViewUserDetails}
           />
 
           <TrainerManagement
@@ -259,6 +277,7 @@ const DirectorDashboard = () => {
             onAddTrainer={addTrainer}
             onToggleUserStatus={toggleUserStatus}
             onDeleteUser={deleteUser}
+            onViewUserDetails={handleViewUserDetails}
           />
         </div>
 
@@ -289,6 +308,12 @@ const DirectorDashboard = () => {
       {showSettings && (
         <ProfileSettings onClose={() => setShowSettings(false)} />
       )}
+
+      <UserDetailModal
+        user={selectedUserDetail}
+        isOpen={showUserDetail}
+        onClose={() => setShowUserDetail(false)}
+      />
 
       {showFullChatHistory && (
         <FullChatHistoryModal

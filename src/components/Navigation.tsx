@@ -148,13 +148,13 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
             {/* Панель тренера */}
             {user.role === 'trainer' && (
               <>
-                <DropdownMenuItem onClick={() => handleNavigation('/trainer')} className="cursor-pointer">
-                  <Icon name="Dumbbell" className="w-4 h-4 mr-2" />
-                  Панель тренера
-                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => handleNavigation('/diary')} className="cursor-pointer">
                   <Icon name="BookOpen" className="w-4 h-4 mr-2" />
                   Дневник тренировок
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleNavigation('/trainer')} className="cursor-pointer">
+                  <Icon name="Dumbbell" className="w-4 h-4 mr-2" />
+                  Панель тренера
                 </DropdownMenuItem>
               </>
             )}

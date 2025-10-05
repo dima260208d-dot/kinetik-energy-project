@@ -13,7 +13,7 @@ interface ProfileSettingsProps {
 }
 
 interface UserPreferences {
-  theme: 'light' | 'dark' | 'rainbow';
+  theme: 'light' | 'dark' | 'colorful';
   language: 'ru' | 'en';
   notifications: {
     email: boolean;
@@ -36,7 +36,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onClose }) => {
   const { user } = useAuth();
   
   const [preferences, setPreferences] = useState<UserPreferences>({
-    theme: 'rainbow',
+    theme: 'colorful',
     language: 'ru',
     notifications: {
       email: true,

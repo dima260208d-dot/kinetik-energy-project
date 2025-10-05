@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { User, UserRole } from '@/types/auth';
+import UserDetailModal from './UserDetailModal';
 
 interface UserManagementProps {
   users: User[];
@@ -14,6 +15,7 @@ interface UserManagementProps {
   onToggleUserStatus: (userId: string) => void;
   onChangeUserRole: (userId: string, newRole: UserRole) => void;
   onDeleteUser: (userId: string) => void;
+  onViewUserDetails: (user: User) => void;
 }
 
 const UserManagement: React.FC<UserManagementProps> = ({ 
@@ -21,7 +23,8 @@ const UserManagement: React.FC<UserManagementProps> = ({
   onAddAdmin, 
   onToggleUserStatus, 
   onChangeUserRole,
-  onDeleteUser 
+  onDeleteUser,
+  onViewUserDetails 
 }) => {
   const [showAddAdmin, setShowAddAdmin] = useState(false);
   const [newAdminEmail, setNewAdminEmail] = useState('');
@@ -37,13 +40,13 @@ const UserManagement: React.FC<UserManagementProps> = ({
   };
 
   return (
-    <Card className="rainbow-card">
+    <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle>👥 Пользователи</CardTitle>
           <Button 
             onClick={() => setShowAddAdmin(!showAddAdmin)}
-            className="rainbow-button"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
             size="sm"
           >
             + Добавить админа
@@ -81,7 +84,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
                 />
               </div>
               <div className="flex gap-2">
-                <Button onClick={handleAddAdmin} size="sm" className="rainbow-button">
+                <Button onClick={handleAddAdmin} size="sm" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white">
                   Добавить
                 </Button>
                 <Button 
@@ -98,7 +101,11 @@ const UserManagement: React.FC<UserManagementProps> = ({
 
         <div className="space-y-3">
           {users.filter(u => u.role !== 'trainer').map(u => (
-            <div key={u.id} className="flex items-center justify-between p-3 border rounded-lg">
+            <div 
+              key={u.id} 
+              className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+              onClick={() => onViewUserDetails(u)}
+            >
               <div>
                 <div className="font-medium">{u.name}</div>
                 <div className="text-sm text-gray-600">{u.email}</div>
@@ -112,7 +119,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
                 </div>
               </div>
               {u.role !== 'director' && (
-                <div className="flex gap-2">
+                <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
                   {u.role !== 'admin' && (
                     <Select value={u.role} onValueChange={(role: UserRole) => onChangeUserRole(u.id, role)}>
                       <SelectTrigger className="w-24">
@@ -132,15 +139,16 @@ const UserManagement: React.FC<UserManagementProps> = ({
                     <Icon name={u.isActive ? "Ban" : "CheckCircle"} className="w-4 h-4 mr-1" />
                     {u.isActive ? 'Блок' : 'Разблок'}
                   </Button>
-                  {u.role === 'admin' && (
-                    <Button
-                      size="sm"
-                      variant="destructive"
-                      onClick={() => onDeleteUser(u.id)}
-                    >
-                      <Icon name="Trash2" className="w-4 h-4" />
-                    </Button>
-                  )}
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeleteUser(u.id);
+                    }}
+                  >
+                    <Icon name="X" className="w-4 h-4" />
+                  </Button>
                 </div>
               )}
             </div>
