@@ -136,6 +136,36 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
                 CRM Система
               </DropdownMenuItem>
             )}
+
+            {/* Дневник тренировок для клиентов */}
+            {user.role === 'client' && (
+              <DropdownMenuItem onClick={() => handleNavigation('/diary')} className="cursor-pointer">
+                <Icon name="BookOpen" className="w-4 h-4 mr-2" />
+                Дневник тренировок
+              </DropdownMenuItem>
+            )}
+
+            {/* Панель тренера */}
+            {user.role === 'trainer' && (
+              <>
+                <DropdownMenuItem onClick={() => handleNavigation('/trainer')} className="cursor-pointer">
+                  <Icon name="Dumbbell" className="w-4 h-4 mr-2" />
+                  Панель тренера
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleNavigation('/diary')} className="cursor-pointer">
+                  <Icon name="BookOpen" className="w-4 h-4 mr-2" />
+                  Дневник тренировок
+                </DropdownMenuItem>
+              </>
+            )}
+
+            {/* Панель директора */}
+            {user.role === 'director' && (
+              <DropdownMenuItem onClick={() => handleNavigation('/director-panel')} className="cursor-pointer">
+                <Icon name="Crown" className="w-4 h-4 mr-2" />
+                Панель директора
+              </DropdownMenuItem>
+            )}
             
             <DropdownMenuSeparator />
             

@@ -39,6 +39,10 @@ export default function TrainerPanel() {
     attendance: 'present'
   });
 
+  // Медиа файлы для загрузки
+  const [mediaFiles, setMediaFiles] = useState<File[]>([]);
+  const [mediaPreviews, setMediaPreviews] = useState<{url: string, type: string, file: File}[]>([]);
+
   // Форма плана занятия
   const [planForm, setPlanForm] = useState({
     group_id: '',
@@ -221,6 +225,68 @@ export default function TrainerPanel() {
                       onChange={(e) => setEntryForm({ ...entryForm, comment: e.target.value })}
                       rows={4}
                     />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Фото и видео с тренировки</Label>
+                    <div className="border-2 border-dashed rounded-lg p-6 text-center hover:border-primary transition-colors">
+                      <input
+                        type="file"
+                        id="media-upload"
+                        multiple
+                        accept="image/*,video/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files || []);
+                          setMediaFiles([...mediaFiles, ...files]);
+                          
+                          files.forEach(file => {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                              setMediaPreviews(prev => [...prev, {
+                                url: event.target?.result as string,
+                                type: file.type.startsWith('video') ? 'video' : 'image',
+                                file: file
+                              }]);
+                            };
+                            reader.readAsDataURL(file);
+                          });
+                        }}
+                      />
+                      <label htmlFor="media-upload" className="cursor-pointer">
+                        <Icon name="Upload" size={32} className="mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground mb-1">Перетащите файлы сюда или нажмите для выбора</p>
+                        <p className="text-xs text-muted-foreground">Поддерживаются фото и видео</p>
+                      </label>
+                    </div>
+
+                    {mediaPreviews.length > 0 && (
+                      <div className="grid grid-cols-3 gap-3 mt-4">
+                        {mediaPreviews.map((preview, idx) => (
+                          <div key={idx} className="relative rounded-lg overflow-hidden group">
+                            {preview.type === 'video' ? (
+                              <div className="relative">
+                                <video src={preview.url} className="w-full h-24 object-cover" />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                                  <Icon name="Play" size={24} className="text-white" />
+                                </div>
+                              </div>
+                            ) : (
+                              <img src={preview.url} alt="Preview" className="w-full h-24 object-cover" />
+                            )}
+                            <button
+                              onClick={() => {
+                                setMediaPreviews(mediaPreviews.filter((_, i) => i !== idx));
+                                setMediaFiles(mediaFiles.filter((_, i) => i !== idx));
+                              }}
+                              className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <Icon name="X" size={16} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-2">
