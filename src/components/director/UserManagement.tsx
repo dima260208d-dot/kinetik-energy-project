@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import Icon from '@/components/ui/icon';
 import { User, UserRole } from '@/types/auth';
 
 interface UserManagementProps {
@@ -12,13 +13,15 @@ interface UserManagementProps {
   onAddAdmin: (email: string, name: string, password: string) => void;
   onToggleUserStatus: (userId: string) => void;
   onChangeUserRole: (userId: string, newRole: UserRole) => void;
+  onDeleteUser: (userId: string) => void;
 }
 
 const UserManagement: React.FC<UserManagementProps> = ({ 
   users, 
   onAddAdmin, 
   onToggleUserStatus, 
-  onChangeUserRole 
+  onChangeUserRole,
+  onDeleteUser 
 }) => {
   const [showAddAdmin, setShowAddAdmin] = useState(false);
   const [newAdminEmail, setNewAdminEmail] = useState('');
@@ -94,7 +97,7 @@ const UserManagement: React.FC<UserManagementProps> = ({
         )}
 
         <div className="space-y-3">
-          {users.map(u => (
+          {users.filter(u => u.role !== 'trainer').map(u => (
             <div key={u.id} className="flex items-center justify-between p-3 border rounded-lg">
               <div>
                 <div className="font-medium">{u.name}</div>
@@ -110,22 +113,34 @@ const UserManagement: React.FC<UserManagementProps> = ({
               </div>
               {u.role !== 'director' && (
                 <div className="flex gap-2">
-                  <Select value={u.role} onValueChange={(role: UserRole) => onChangeUserRole(u.id, role)}>
-                    <SelectTrigger className="w-24">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="client">Клиент</SelectItem>
-                      <SelectItem value="admin">Админ</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  {u.role !== 'admin' && (
+                    <Select value={u.role} onValueChange={(role: UserRole) => onChangeUserRole(u.id, role)}>
+                      <SelectTrigger className="w-24">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="client">Клиент</SelectItem>
+                        <SelectItem value="admin">Админ</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
                   <Button
                     size="sm"
-                    variant={u.isActive ? "destructive" : "default"}
+                    variant={u.isActive ? "outline" : "default"}
                     onClick={() => onToggleUserStatus(u.id)}
                   >
-                    {u.isActive ? '🚫' : '✅'}
+                    <Icon name={u.isActive ? "Ban" : "CheckCircle"} className="w-4 h-4 mr-1" />
+                    {u.isActive ? 'Блок' : 'Разблок'}
                   </Button>
+                  {u.role === 'admin' && (
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => onDeleteUser(u.id)}
+                    >
+                      <Icon name="Trash2" className="w-4 h-4" />
+                    </Button>
+                  )}
                 </div>
               )}
             </div>

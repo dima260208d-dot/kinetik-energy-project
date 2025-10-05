@@ -6,6 +6,7 @@ interface StatsCardsProps {
     totalUsers: number;
     activeUsers: number;
     admins: number;
+    trainers: number;
     clients: number;
     pendingApplications: number;
     totalPurchases: number;
@@ -32,6 +33,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ stats }) => {
         </CardHeader>
         <CardContent>
           <div className="text-sm">Админы: {stats.admins}</div>
+          <div className="text-sm">Тренеры: {stats.trainers}</div>
           <div className="text-sm">Клиенты: {stats.clients}</div>
         </CardContent>
       </Card>
