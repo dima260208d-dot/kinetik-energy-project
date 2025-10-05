@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 
 interface DiaryEntry {
@@ -39,6 +41,7 @@ interface Student {
 }
 
 export default function DirectorPanel() {
+  const navigate = useNavigate();
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
   const [plans, setPlans] = useState<LessonPlan[]>([]);
   const [trainers, setTrainers] = useState<Trainer[]>([]);
@@ -134,11 +137,24 @@ export default function DirectorPanel() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Панель директора</h1>
-        <p className="text-muted-foreground">Контроль работы тренеров и успеваемости учеников</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 p-4">
+      <div className="container mx-auto max-w-7xl">
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-4xl font-bold mb-2 text-gray-900">Панель директора</h1>
+              <p className="text-gray-700">Контроль работы тренеров и успеваемости учеников</p>
+            </div>
+            <Button 
+              onClick={() => navigate('/')}
+              variant="outline"
+              className="flex items-center gap-2 bg-white"
+            >
+              <Icon name="Home" className="w-4 h-4" />
+              На сайт
+            </Button>
+          </div>
+        </div>
 
       {/* Фильтры */}
       <Card className="mb-6">
@@ -329,6 +345,7 @@ export default function DirectorPanel() {
           </div>
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   );
 }

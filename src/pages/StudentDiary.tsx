@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -34,6 +35,7 @@ interface LessonPlan {
 }
 
 export default function StudentDiary() {
+  const navigate = useNavigate();
   const [entries, setEntries] = useState<DiaryEntry[]>([]);
   const [plans, setPlans] = useState<LessonPlan[]>([]);
   const [loading, setLoading] = useState(true);
@@ -131,8 +133,20 @@ export default function StudentDiary() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Дневник ученика</h1>
-        <p className="text-muted-foreground">Просматривайте записи о тренировках, домашние задания и планы занятий</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold mb-2">Дневник ученика</h1>
+            <p className="text-muted-foreground">Просматривайте записи о тренировках, домашние задания и планы занятий</p>
+          </div>
+          <Button 
+            onClick={() => navigate('/')}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <Icon name="Home" className="w-4 h-4" />
+            На сайт
+          </Button>
+        </div>
       </div>
 
       <Tabs defaultValue="entries" className="w-full">
