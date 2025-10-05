@@ -187,6 +187,24 @@ const DirectorDashboard = () => {
     saveData(updatedUsers);
   };
 
+  const deleteUser = (userId: string) => {
+    const userToDelete = users.find(u => u.id === userId);
+    if (!userToDelete) return;
+
+    if (!confirm(`Вы уверены, что хотите удалить ${userToDelete.role === 'trainer' ? 'тренера' : 'администратора'} ${userToDelete.name}? Это действие нельзя отменить.`)) {
+      return;
+    }
+
+    const updatedUsers = users.filter(u => u.id !== userId);
+    setUsers(updatedUsers);
+    saveData(updatedUsers);
+
+    toast({
+      title: "Удалено",
+      description: `${userToDelete.role === 'trainer' ? 'Тренер' : 'Администратор'} ${userToDelete.name} удалён`
+    });
+  };
+
   const handleApplicationAction = (appId: string, action: 'approved' | 'rejected') => {
     const updatedApplications = applications.map(app =>
       app.id === appId 
@@ -425,22 +443,34 @@ const DirectorDashboard = () => {
                     </div>
                     {u.role !== 'director' && (
                       <div className="flex gap-2">
-                        <Select value={u.role} onValueChange={(role: UserRole) => changeUserRole(u.id, role)}>
-                          <SelectTrigger className="w-24">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="client">Клиент</SelectItem>
-                            <SelectItem value="admin">Админ</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        {u.role !== 'admin' && (
+                          <Select value={u.role} onValueChange={(role: UserRole) => changeUserRole(u.id, role)}>
+                            <SelectTrigger className="w-24">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="client">Клиент</SelectItem>
+                              <SelectItem value="admin">Админ</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        )}
                         <Button
                           size="sm"
-                          variant={u.isActive ? "destructive" : "default"}
+                          variant={u.isActive ? "outline" : "default"}
                           onClick={() => toggleUserStatus(u.id)}
                         >
-                          {u.isActive ? '🚫' : '✅'}
+                          <Icon name={u.isActive ? "Ban" : "CheckCircle"} className="w-4 h-4 mr-1" />
+                          {u.isActive ? 'Блок' : 'Разблок'}
                         </Button>
+                        {u.role === 'admin' && (
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => deleteUser(u.id)}
+                          >
+                            <Icon name="Trash2" className="w-4 h-4" />
+                          </Button>
+                        )}
                       </div>
                     )}
                   </div>
@@ -474,13 +504,24 @@ const DirectorDashboard = () => {
                           </Badge>
                         </div>
                       </div>
-                      <Button
-                        size="sm"
-                        variant={trainer.isActive ? "destructive" : "default"}
-                        onClick={() => toggleUserStatus(trainer.id)}
-                      >
-                        {trainer.isActive ? '🚫 Заблокировать' : '✅ Разблокировать'}
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant={trainer.isActive ? "outline" : "default"}
+                          onClick={() => toggleUserStatus(trainer.id)}
+                        >
+                          <Icon name={trainer.isActive ? "Ban" : "CheckCircle"} className="w-4 h-4 mr-1" />
+                          {trainer.isActive ? 'Заблокировать' : 'Разблокировать'}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => deleteUser(trainer.id)}
+                        >
+                          <Icon name="Trash2" className="w-4 h-4 mr-1" />
+                          Удалить
+                        </Button>
+                      </div>
                     </div>
                   ))
                 )}
