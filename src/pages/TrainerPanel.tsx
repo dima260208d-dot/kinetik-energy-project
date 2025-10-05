@@ -61,10 +61,13 @@ export default function TrainerPanel() {
   const loadData = async () => {
     try {
       // TODO: заменить на реальный API после деплоя
-      setStudents([
-        { id: 1, name: 'Иван Петров', email: 'ivan@example.com' },
-        { id: 2, name: 'Мария Сидорова', email: 'maria@example.com' }
-      ]);
+      // Загружаем реальных учеников из системы
+      const stored = localStorage.getItem('fitness_app_data');
+      if (stored) {
+        const data = JSON.parse(stored);
+        const clients = (data.users || []).filter((u: any) => u.role === 'client');
+        setStudents(clients.map((c: any) => ({ id: c.id, name: c.name, email: c.email })));
+      }
 
       setGroups([
         { id: 1, name: 'Скейтборд начинающие', sport_type: 'skateboard' },

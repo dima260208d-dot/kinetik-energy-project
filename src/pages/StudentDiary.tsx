@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 interface DiaryEntry {
   id: number;
@@ -58,40 +60,9 @@ export default function StudentDiary() {
       // const data = await response.json();
       // setEntries(data.entries);
       
-      // Временные данные для демонстрации
-      setEntries([
-        {
-          id: 1,
-          student_name: 'Иван Петров',
-          trainer_name: 'Сергей Иванов',
-          entry_date: '2024-10-03',
-          comment: 'Отличная работа на тренировке! Освоил новый трюк на скейте.',
-          homework: 'Практиковать олли 30 раз в день',
-          grade: '5',
-          attendance: 'present',
-          media: [
-            {
-              media_type: 'video',
-              media_url: 'https://example.com/video.mp4',
-              thumbnail_url: 'https://cdn.poehali.dev/files/424f8693-463c-4c9d-b5ac-863b4376608d.jpg',
-              description: 'Первый успешный олли'
-            }
-          ]
-        }
-      ]);
-
-      setPlans([
-        {
-          id: 1,
-          group_name: 'Скейтборд начинающие',
-          trainer_name: 'Сергей Иванов',
-          lesson_date: '2024-10-05',
-          topic: 'Базовые трюки: Kickflip',
-          description: 'Изучение техники kickflip',
-          goals: 'Освоить базовое движение',
-          status: 'planned'
-        }
-      ]);
+      // Загрузка из реальных данных (пока пусто, будет заполняться тренером)
+      setEntries([]);
+      setPlans([]);
     } catch (error) {
       console.error('Error loading diary:', error);
     } finally {
@@ -120,6 +91,29 @@ export default function StudentDiary() {
     return <Badge variant={info.variant}>{info.label}</Badge>;
   };
 
+  const exportToPDF = async () => {
+    const element = document.getElementById('diary-content');
+    if (!element) return;
+
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('dnevnik-trenirovok.pdf');
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -138,18 +132,29 @@ export default function StudentDiary() {
             <h1 className="text-4xl font-bold mb-2">Дневник ученика</h1>
             <p className="text-muted-foreground">Просматривайте записи о тренировках, домашние задания и планы занятий</p>
           </div>
-          <Button 
-            onClick={() => navigate('/')}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
-            <Icon name="Home" className="w-4 h-4" />
-            На сайт
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+              onClick={exportToPDF}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <Icon name="Download" className="w-4 h-4" />
+              Экспорт в PDF
+            </Button>
+            <Button 
+              onClick={() => navigate('/')}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <Icon name="Home" className="w-4 h-4" />
+              На сайт
+            </Button>
+          </div>
         </div>
       </div>
 
-      <Tabs defaultValue="entries" className="w-full">
+      <div id="diary-content">
+        <Tabs defaultValue="entries" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="entries" className="flex items-center gap-2">
             <Icon name="BookOpen" size={18} />
@@ -298,6 +303,7 @@ export default function StudentDiary() {
           )}
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   );
 }
