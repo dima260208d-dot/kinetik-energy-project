@@ -220,17 +220,6 @@ export default function SportDetailModal({ sport, isOpen, onClose }: SportDetail
         </DialogHeader>
 
         <div className="space-y-6 py-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {details.images.map((img, idx) => (
-              <img 
-                key={idx}
-                src={img} 
-                alt={`${details.name} ${idx + 1}`}
-                className="w-full h-64 object-cover rounded-lg"
-              />
-            ))}
-          </div>
-
           <div>
             <h3 className="text-xl font-semibold mb-2 flex items-center gap-2">
               <Icon name="Info" size={20} />
