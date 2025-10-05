@@ -49,7 +49,6 @@ export default function DirectorPanel() {
   const [students, setStudents] = useState<Student[]>([]);
   const [selectedTrainer, setSelectedTrainer] = useState('all');
   const [selectedStudent, setSelectedStudent] = useState('all');
-  const [selectedStudent, setSelectedStudent] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   
   const [showAddTrainer, setShowAddTrainer] = useState(false);
