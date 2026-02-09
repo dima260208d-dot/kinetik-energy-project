@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import Countdown from '@/components/Countdown';
 import ChatBot from '@/components/ChatBot';
+import GlobalChatBot from '@/components/GlobalChatBot';
 import Auth from '@/components/Auth';
 import Navigation from '@/components/Navigation';
 import SportDetailModal from '@/components/SportDetailModal';
@@ -381,6 +382,7 @@ export default function Index() {
 
       {/* Chat Bot */}
       <ChatBot />
+      <GlobalChatBot />
 
       {/* Auth Modal */}
       {showAuth && (

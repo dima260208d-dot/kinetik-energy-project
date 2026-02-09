@@ -15,6 +15,7 @@ const KineticUniverse = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [character, setCharacter] = useState<Character | null>(null);
+  const [characters, setCharacters] = useState<Character[]>([]);
   const [tricks, setTricks] = useState<Trick[]>([]);
   const [masteredTricks, setMasteredTricks] = useState<CharacterTrick[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,7 @@ const KineticUniverse = () => {
     }
 
     setCharacter(userCharacter);
+    setCharacters(data.characters || []);
     setMasteredTricks(data.masteredTricks?.filter((mt: CharacterTrick) => mt.character_id === userCharacter.id) || []);
     
     // Загружаем трюки для выбранного спорта
@@ -115,6 +117,7 @@ const KineticUniverse = () => {
               hairstyle={character.hairstyle}
               hairColor={character.hair_color}
               name={character.name}
+              level={character.level}
             />
           </div>
 
@@ -356,29 +359,38 @@ const KineticUniverse = () => {
 
                   <TabsContent value="daily" className="mt-4">
                     <div className="space-y-2">
-                      {[1, 2, 3, 4, 5].map((pos) => (
-                        <div key={pos} className={`p-4 rounded-lg border-2 ${
-                          pos === 1 ? 'border-yellow-400 bg-yellow-50' :
-                          pos === 2 ? 'border-gray-400 bg-gray-50' :
-                          pos === 3 ? 'border-orange-400 bg-orange-50' :
+                      {characters
+                        .sort((a, b) => b.level - a.level || b.experience - a.experience)
+                        .slice(0, 10)
+                        .map((char, idx) => (
+                        <div key={char.id} className={`p-4 rounded-lg border-2 ${
+                          idx === 0 ? 'border-yellow-400 bg-yellow-50' :
+                          idx === 1 ? 'border-gray-400 bg-gray-50' :
+                          idx === 2 ? 'border-orange-400 bg-orange-50' :
                           'border-gray-300 bg-white'
                         }`}>
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                              <div className="text-2xl font-bold w-8">{pos === 1 ? '🥇' : pos === 2 ? '🥈' : pos === 3 ? '🥉' : `${pos}.`}</div>
-                              <div className="text-3xl">{pos === 1 ? '🛹' : pos === 2 ? '🛼' : pos === 3 ? '🚴‍♂️' : pos === 4 ? '🛴' : '🚲'}</div>
+                              <div className="text-2xl font-bold w-8">{idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}.`}</div>
+                              <div className="text-3xl">{SPORT_ICONS[char.sport_type]}</div>
                               <div>
-                                <div className="font-bold">{pos === 1 ? character.name : `Игрок ${pos}`}</div>
-                                <div className="text-sm text-gray-600">Уровень {pos === 1 ? character.level : 15 - pos}</div>
+                                <div className="font-bold">{char.name}</div>
+                                <div className="text-sm text-gray-600">Уровень {char.level}</div>
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="font-bold text-lg">{pos === 1 ? character.experience : (1000 - pos * 150)} XP</div>
-                              <div className="text-sm text-gray-600">за сегодня</div>
+                              <div className="font-bold text-lg">{char.experience} XP</div>
+                              <div className="text-sm text-gray-600">всего</div>
                             </div>
                           </div>
                         </div>
                       ))}
+                      {characters.length === 0 && (
+                        <div className="text-center py-12 text-gray-500">
+                          <div className="text-4xl mb-2">🏆</div>
+                          <p>Пока нет участников</p>
+                        </div>
+                      )}
                     </div>
                   </TabsContent>
 
