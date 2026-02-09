@@ -11,8 +11,6 @@ import NotFound from "./pages/NotFound";
 import DirectorDashboard from "./pages/DirectorDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ClientDashboard from "./pages/ClientDashboard";
-import KineticCrmPage from "./pages/KineticCrmPage";
-import CrmDashboard from "./pages/CrmDashboard";
 import StudentDiary from "./pages/StudentDiary";
 import TrainerPanel from "./pages/TrainerPanel";
 import DirectorPanel from "./pages/DirectorPanel";
@@ -61,8 +59,6 @@ const DashboardRedirect = () => {
       return <Navigate to="/director" replace />;
     case 'admin':
       return <Navigate to="/admin" replace />;
-    case 'manager':
-      return <Navigate to="/crm" replace />;
     case 'client':
       return <Navigate to="/client" replace />;
     default:
@@ -104,16 +100,6 @@ const AppRoutes = () => {
         } 
       />
       
-      <Route 
-        path="/crm" 
-        element={
-          <ProtectedRoute allowedRoles={['director', 'admin', 'manager']}>
-            <CrmDashboard />
-          </ProtectedRoute>
-        } 
-      />
-      
-      <Route path="/kinetic-crm" element={<KineticCrmPage />} />
       
       <Route 
         path="/diary" 

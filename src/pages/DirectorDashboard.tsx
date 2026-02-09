@@ -16,7 +16,7 @@ import FullChatHistoryModal from '@/components/director/FullChatHistoryModal';
 import UserMonitoringModal from '@/components/director/UserMonitoringModal';
 import UserDetailModal from '@/components/director/UserDetailModal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import CrmSpecification from '@/components/CrmSpecification';
+
 
 const DirectorDashboard = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -27,7 +27,6 @@ const DirectorDashboard = () => {
   
   const [showSettings, setShowSettings] = useState(false);
   const [showFullChatHistory, setShowFullChatHistory] = useState(false);
-  const [showCrmSpec, setShowCrmSpec] = useState(false);
   const [showUserMonitoring, setShowUserMonitoring] = useState(false);
   const [selectedUserDetail, setSelectedUserDetail] = useState<User | null>(null);
   const [showUserDetail, setShowUserDetail] = useState(false);
@@ -240,13 +239,6 @@ const DirectorDashboard = () => {
           <h1 className="text-3xl font-bold text-white">Панель директора</h1>
           <div className="flex items-center gap-4">
             <Button
-              onClick={() => setShowCrmSpec(true)}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
-            >
-              <Icon name="FileText" className="w-4 h-4 mr-2" />
-              Техническое задание CRM
-            </Button>
-            <Button
               onClick={() => setShowUserMonitoring(true)}
               className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white"
             >
@@ -298,9 +290,6 @@ const DirectorDashboard = () => {
             showFullChatHistory={showFullChatHistory}
             onShowFullChatHistory={() => setShowFullChatHistory(true)}
             onHideFullChatHistory={() => setShowFullChatHistory(false)}
-            showCrmSpec={showCrmSpec}
-            onShowCrmSpec={() => setShowCrmSpec(true)}
-            onHideCrmSpec={() => setShowCrmSpec(false)}
           />
         </div>
       </div>
@@ -321,29 +310,6 @@ const DirectorDashboard = () => {
           users={users}
           onClose={() => setShowFullChatHistory(false)}
         />
-      )}
-
-      {showCrmSpec && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <Card className="w-full max-w-6xl max-h-[90vh] overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-2xl font-bold flex items-center gap-3">
-                <Icon name="Rocket" className="w-6 h-6 text-purple-600" />
-                Техническое задание CRM «Kinetic Control»
-              </CardTitle>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => setShowCrmSpec(false)}
-              >
-                <Icon name="X" className="w-4 h-4" />
-              </Button>
-            </CardHeader>
-            <CardContent className="max-h-[calc(90vh-120px)] overflow-y-auto">
-              <CrmSpecification />
-            </CardContent>
-          </Card>
-        </div>
       )}
 
       {showUserMonitoring && (

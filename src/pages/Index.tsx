@@ -12,7 +12,7 @@ import { useAuth } from '@/contexts/AuthContext';
 export default function Index() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [showAuth, setShowAuth] = useState(false);
-  const [selectedSport, setSelectedSport] = useState<any>(null);
+  const [selectedSport, setSelectedSport] = useState<typeof sports[0] | null>(null);
   const { user } = useAuth();
 
   const sports = [
@@ -368,24 +368,7 @@ export default function Index() {
               </div>
             </div>
             
-            <div>
-              <h4 className="font-semibold mb-3 sm:mb-4 text-blue-400 text-base sm:text-lg">CRM Система</h4>
-              <div className="space-y-2 text-sm sm:text-base">
-                <a 
-                  href="/kinetic-crm" 
-                  className="block hover:text-blue-300 transition-colors p-2 bg-blue-900/20 rounded-lg border border-blue-400/30"
-                >
-                  🚀 <strong>Kinetic Kids CRM</strong>
-                </a>
-                <div className="space-y-1 text-xs sm:text-sm text-gray-300">
-                  <div>👥 Управление клиентами</div>
-                  <div>📅 Онлайн-запись</div>
-                  <div>💳 Система абонементов</div>
-                  <div>📊 Аналитика и отчеты</div>
-                  <div>🎯 Live Progress Hub</div>
-                </div>
-              </div>
-            </div>
+
           </div>
           
           <div className="text-center pt-8 border-t border-gray-700">

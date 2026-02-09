@@ -37,16 +37,7 @@ const getStoredData = (): AppData => {
         lastActivity: new Date(),
         isActive: true
       },
-      {
-        id: 'manager-1',
-        email: 'manager@kinetic-kids.ru',
-        password: 'manager123',
-        name: 'Менеджер CRM',
-        role: 'manager',
-        createdAt: new Date(),
-        lastActivity: new Date(),
-        isActive: true
-      }
+
     ],
     chatMessages: [],
     purchases: [],

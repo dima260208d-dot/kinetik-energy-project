@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { User, ChatMessage } from '@/types/auth';
-import CrmSpecification from '@/components/CrmSpecification';
+
 
 interface ChatHistoryProps {
   chatMessages: ChatMessage[];
@@ -11,9 +11,6 @@ interface ChatHistoryProps {
   showFullChatHistory: boolean;
   onShowFullChatHistory: () => void;
   onHideFullChatHistory: () => void;
-  showCrmSpec: boolean;
-  onShowCrmSpec: () => void;
-  onHideCrmSpec: () => void;
 }
 
 const ChatHistory: React.FC<ChatHistoryProps> = ({
@@ -21,10 +18,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   users,
   showFullChatHistory,
   onShowFullChatHistory,
-  onHideFullChatHistory,
-  showCrmSpec,
-  onShowCrmSpec,
-  onHideCrmSpec
+  onHideFullChatHistory
 }) => {
   return (
     <>
@@ -135,29 +129,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
         </div>
       )}
 
-      {/* Техническое задание CRM */}
-      {showCrmSpec && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <Card className="w-full max-w-6xl max-h-[90vh] overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-2xl font-bold flex items-center gap-3">
-                <Icon name="Rocket" className="w-6 h-6 text-purple-600" />
-                Техническое задание CRM «Kinetic Control»
-              </CardTitle>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={onHideCrmSpec}
-              >
-                <Icon name="X" className="w-4 h-4" />
-              </Button>
-            </CardHeader>
-            <CardContent className="max-h-[calc(90vh-120px)] overflow-y-auto">
-              <CrmSpecification />
-            </CardContent>
-          </Card>
-        </div>
-      )}
+
     </>
   );
 };

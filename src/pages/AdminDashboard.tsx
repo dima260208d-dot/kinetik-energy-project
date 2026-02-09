@@ -6,14 +6,13 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Application, User } from '@/types/auth';
 import Navigation from '@/components/Navigation';
 import ProfileSettings from '@/components/ProfileSettings';
-import CrmSpecification from '@/components/CrmSpecification';
+
 import Icon from '@/components/ui/icon';
 
 const AdminDashboard = () => {
   const [applications, setApplications] = useState<Application[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [showSettings, setShowSettings] = useState(false);
-  const [showCrmSpec, setShowCrmSpec] = useState(false);
   
   const { user, logout } = useAuth();
 
@@ -66,13 +65,6 @@ const AdminDashboard = () => {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-white">Панель администратора</h1>
           <div className="flex items-center gap-4">
-            <Button
-              onClick={() => setShowCrmSpec(true)}
-              className="rainbow-button"
-            >
-              <Icon name="FileText" className="w-4 h-4 mr-2" />
-              Техническое задание CRM
-            </Button>
             <Navigation 
               currentPage="dashboard" 
               onSettingsClick={() => setShowSettings(true)}
@@ -227,28 +219,7 @@ const AdminDashboard = () => {
       )}
 
       {/* Техническое задание CRM */}
-      {showCrmSpec && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <Card className="w-full max-w-6xl max-h-[90vh] overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-2xl font-bold flex items-center gap-3">
-                <Icon name="Rocket" className="w-6 h-6 text-purple-600" />
-                Техническое задание CRM «Kinetic Control»
-              </CardTitle>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => setShowCrmSpec(false)}
-              >
-                <Icon name="X" className="w-4 h-4" />
-              </Button>
-            </CardHeader>
-            <CardContent className="max-h-[calc(90vh-120px)] overflow-y-auto">
-              <CrmSpecification />
-            </CardContent>
-          </Card>
-        </div>
-      )}
+
     </div>
   );
 };

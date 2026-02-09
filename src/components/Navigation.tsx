@@ -30,7 +30,6 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
     switch (role) {
       case 'director': return '👑';
       case 'admin': return '⚡';
-      case 'manager': return '🚀';
       case 'client': return '👤';
       default: return '👤';
     }
@@ -40,7 +39,6 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
     switch (role) {
       case 'director': return 'Директор';
       case 'admin': return 'Администратор';
-      case 'manager': return 'Менеджер';
       case 'client': return 'Клиент';
       default: return 'Пользователь';
     }
@@ -54,7 +52,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
     const stored = localStorage.getItem('fitness_app_data');
     if (stored) {
       const data = JSON.parse(stored);
-      const targetUser = data.users.find((u: any) => u.id === accountId);
+      const targetUser = data.users.find((u: User) => u.id === accountId);
       if (targetUser) {
         localStorage.setItem('current_user', JSON.stringify(targetUser));
         localStorage.setItem('current_user_id', accountId);
@@ -64,7 +62,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
   };
 
   const addCurrentAccountToSaved = () => {
-    if (user && !savedAccounts.find((acc: any) => acc.id === user.id)) {
+    if (user && !savedAccounts.find((acc: { id: string }) => acc.id === user.id)) {
       const newAccount = {
         id: user.id,
         name: user.name,
@@ -78,7 +76,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
   };
 
   const removeAccount = (accountId: string) => {
-    const updatedAccounts = savedAccounts.filter((acc: any) => acc.id !== accountId);
+    const updatedAccounts = savedAccounts.filter((acc: { id: string }) => acc.id !== accountId);
     localStorage.setItem('saved_accounts', JSON.stringify(updatedAccounts));
     
     // Если удаляем текущий аккаунт, выходим
@@ -129,13 +127,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
               </DropdownMenuItem>
             )}
             
-            {/* CRM для сотрудников */}
-            {['director', 'admin', 'manager'].includes(user.role) && (
-              <DropdownMenuItem onClick={() => handleNavigation('/crm')} className="cursor-pointer">
-                <Icon name="Rocket" className="w-4 h-4 mr-2" />
-                CRM Система
-              </DropdownMenuItem>
-            )}
+
 
             {/* Дневник тренировок для клиентов */}
             {user.role === 'client' && (
@@ -183,7 +175,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
             </DropdownMenuLabel>
             
             {/* Сохраненные аккаунты */}
-            {savedAccounts.map((account: any) => (
+            {savedAccounts.map((account: { id: string; name: string; role: string; email: string }) => (
               account.id !== user.id && (
                 <DropdownMenuItem key={account.id} className="p-3">
                   <div className="flex items-center justify-between w-full">
