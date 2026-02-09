@@ -9,11 +9,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
 import Navigation from '@/components/Navigation';
 import CharacterPreview from '@/components/kinetic/CharacterPreview';
+import TrickSimulator from '@/components/kinetic/games/TrickSimulator';
+import TournamentArena from '@/components/kinetic/games/TournamentArena';
+import CardBattle from '@/components/kinetic/games/CardBattle';
+import ARQuest from '@/components/kinetic/games/ARQuest';
 import { Character, Trick, CharacterTrick, SPORT_NAMES, SPORT_ICONS, CATEGORY_NAMES, DIFFICULTY_NAMES, DIFFICULTY_COLORS } from '@/types/kinetic';
+import { useToast } from '@/hooks/use-toast';
 
 const KineticUniverse = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [character, setCharacter] = useState<Character | null>(null);
   const [characters, setCharacters] = useState<Character[]>([]);
   const [tricks, setTricks] = useState<Trick[]>([]);
@@ -23,6 +29,7 @@ const KineticUniverse = () => {
   const [showGames, setShowGames] = useState(false);
   const [showTournaments, setShowTournaments] = useState(false);
   const [showPro, setShowPro] = useState(false);
+  const [activeGame, setActiveGame] = useState<'simulator' | 'arena' | 'cards' | 'ar' | null>(null);
 
   useEffect(() => {
     loadData();
@@ -83,6 +90,42 @@ const KineticUniverse = () => {
     const total = tricks.length;
     const mastered = tricks.filter(t => isTrickMastered(t.id)).length;
     return total > 0 ? (mastered / total) * 100 : 0;
+  };
+
+  const handleGameComplete = (earnedXP: number = 0, earnedKinetics: number = 0, won: boolean = true) => {
+    if (!character) return;
+
+    const stored = localStorage.getItem('kinetic_universe_data');
+    const data = stored ? JSON.parse(stored) : { characters: [], masteredTricks: [] };
+    
+    const updatedCharacters = data.characters.map((c: Character) => {
+      if (c.id === character.id) {
+        const newExp = c.experience + earnedXP;
+        const newLevel = Math.min(Math.floor(newExp / 100) + 1, 100);
+        return { 
+          ...c, 
+          experience: newExp,
+          level: newLevel,
+          kinetics: c.kinetics + earnedKinetics 
+        };
+      }
+      return c;
+    });
+
+    data.characters = updatedCharacters;
+    localStorage.setItem('kinetic_universe_data', JSON.stringify(data));
+    
+    const updatedChar = updatedCharacters.find((c: Character) => c.id === character.id);
+    setCharacter(updatedChar);
+    setCharacters(updatedCharacters);
+
+    toast({
+      title: won ? 'Игра завершена!' : 'Хорошая попытка!',
+      description: `+${earnedXP} XP, +${earnedKinetics} 💰`
+    });
+
+    setActiveGame(null);
+    setShowGames(false);
   };
 
   if (loading || !character) {
@@ -567,27 +610,65 @@ const KineticUniverse = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[
-                    { name: 'Трюковой симулятор', desc: 'Повтори трюки из паспорта', icon: '🎯', rewards: '+50 XP' },
-                    { name: 'Турнирная арена', desc: 'Сражайся 1 на 1', icon: '⚔️', rewards: 'Эксклюзив' },
-                    { name: 'Карточная битва', desc: 'Используй свои трюки', icon: '🃏', rewards: '+30 💰' },
-                    { name: 'AR-квесты', desc: 'Сканируй QR-коды в клубе', icon: '📱', rewards: 'Артефакты' }
-                  ].map((game, idx) => (
-                    <div key={idx} className="p-6 bg-gradient-to-br from-green-50 to-teal-50 rounded-lg border-2 border-green-300 hover:border-green-500 transition-all">
-                      <div className="text-center mb-4">
-                        <div className="text-6xl mb-2">{game.icon}</div>
-                        <div className="font-bold text-lg">{game.name}</div>
-                        <p className="text-sm text-gray-600">{game.desc}</p>
-                      </div>
-                      <div className="text-center text-sm text-green-600 mb-3">
-                        Награда: {game.rewards}
-                      </div>
-                      <Button className="w-full bg-gradient-to-r from-green-600 to-teal-600">
-                        <Icon name="Play" className="w-4 h-4 mr-2" />
-                        Играть
-                      </Button>
+                  <div className="p-6 bg-gradient-to-br from-green-50 to-teal-50 rounded-lg border-2 border-green-300 hover:border-green-500 transition-all">
+                    <div className="text-center mb-4">
+                      <div className="text-6xl mb-2">🎯</div>
+                      <div className="font-bold text-lg">Трюковой симулятор</div>
+                      <p className="text-sm text-gray-600">Повтори последовательность кнопок</p>
                     </div>
-                  ))}
+                    <div className="text-center text-sm text-green-600 mb-3">
+                      Награда: +50 XP
+                    </div>
+                    <Button onClick={() => { setActiveGame('simulator'); setShowGames(false); }} className="w-full bg-gradient-to-r from-green-600 to-teal-600">
+                      <Icon name="Play" className="w-4 h-4 mr-2" />
+                      Играть
+                    </Button>
+                  </div>
+
+                  <div className="p-6 bg-gradient-to-br from-orange-50 to-red-50 rounded-lg border-2 border-orange-300 hover:border-orange-500 transition-all">
+                    <div className="text-center mb-4">
+                      <div className="text-6xl mb-2">⚔️</div>
+                      <div className="font-bold text-lg">Турнирная арена</div>
+                      <p className="text-sm text-gray-600">Сражайся 1 на 1</p>
+                    </div>
+                    <div className="text-center text-sm text-orange-600 mb-3">
+                      Награда: +100 💰
+                    </div>
+                    <Button onClick={() => { setActiveGame('arena'); setShowGames(false); }} className="w-full bg-gradient-to-r from-orange-600 to-red-600">
+                      <Icon name="Play" className="w-4 h-4 mr-2" />
+                      Играть
+                    </Button>
+                  </div>
+
+                  <div className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border-2 border-purple-300 hover:border-purple-500 transition-all">
+                    <div className="text-center mb-4">
+                      <div className="text-6xl mb-2">🃏</div>
+                      <div className="font-bold text-lg">Карточная битва</div>
+                      <p className="text-sm text-gray-600">Используй карты трюков</p>
+                    </div>
+                    <div className="text-center text-sm text-purple-600 mb-3">
+                      Награда: +80 💰
+                    </div>
+                    <Button onClick={() => { setActiveGame('cards'); setShowGames(false); }} className="w-full bg-gradient-to-r from-purple-600 to-pink-600">
+                      <Icon name="Play" className="w-4 h-4 mr-2" />
+                      Играть
+                    </Button>
+                  </div>
+
+                  <div className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border-2 border-blue-300 hover:border-blue-500 transition-all">
+                    <div className="text-center mb-4">
+                      <div className="text-6xl mb-2">📱</div>
+                      <div className="font-bold text-lg">AR-квесты</div>
+                      <p className="text-sm text-gray-600">Сканируй QR-коды в клубе</p>
+                    </div>
+                    <div className="text-center text-sm text-blue-600 mb-3">
+                      Награда: Артефакты
+                    </div>
+                    <Button onClick={() => { setActiveGame('ar'); setShowGames(false); }} className="w-full bg-gradient-to-r from-blue-600 to-cyan-600">
+                      <Icon name="Play" className="w-4 h-4 mr-2" />
+                      Играть
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -699,6 +780,39 @@ const KineticUniverse = () => {
               </CardContent>
             </Card>
           </div>
+        )}
+
+        {/* Игры */}
+        {activeGame === 'simulator' && (
+          <TrickSimulator
+            tricks={tricks}
+            onComplete={(xp, kinetics) => handleGameComplete(xp, kinetics, true)}
+            onClose={() => setActiveGame(null)}
+          />
+        )}
+
+        {activeGame === 'arena' && (
+          <TournamentArena
+            tricks={tricks}
+            playerName={character.name}
+            onComplete={(won, kinetics) => handleGameComplete(0, kinetics, won)}
+            onClose={() => setActiveGame(null)}
+          />
+        )}
+
+        {activeGame === 'cards' && (
+          <CardBattle
+            tricks={tricks}
+            onComplete={(kinetics) => handleGameComplete(0, kinetics, true)}
+            onClose={() => setActiveGame(null)}
+          />
+        )}
+
+        {activeGame === 'ar' && (
+          <ARQuest
+            onComplete={(kinetics) => handleGameComplete(0, kinetics, true)}
+            onClose={() => setActiveGame(null)}
+          />
         )}
       </div>
     </div>
