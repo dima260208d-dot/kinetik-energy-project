@@ -74,7 +74,7 @@ const KineticModals = ({
 
       {showGames && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowGames(false)}>
-          <Card className="max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
+          <Card className="max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-2xl">🎮 Мини-игры</CardTitle>
               <Button variant="ghost" size="icon" onClick={() => setShowGames(false)}>

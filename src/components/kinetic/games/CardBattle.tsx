@@ -12,6 +12,12 @@ interface CardBattleProps {
 }
 
 const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
+  function getRandomCards(count: number): Trick[] {
+    if (tricks.length === 0) return [];
+    const shuffled = [...tricks].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, Math.min(count, tricks.length));
+  }
+
   const [gameState, setGameState] = useState<'playing' | 'result'>('playing');
   const [playerHand, setPlayerHand] = useState<Trick[]>(getRandomCards(5));
   const [opponentHand] = useState<Trick[]>(getRandomCards(5));
@@ -20,11 +26,6 @@ const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
   const [playerScore, setPlayerScore] = useState(0);
   const [opponentScore, setOpponentScore] = useState(0);
   const [round, setRound] = useState(1);
-
-  function getRandomCards(count: number): Trick[] {
-    const shuffled = [...tricks].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, count);
-  }
 
   const getCardPower = (trick: Trick): number => {
     const difficultyPower = {

@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { SportType, SPORT_NAMES, BODY_TYPES, HAIRSTYLES } from '@/types/kinetic';
+import { SportType, BODY_TYPES, HAIRSTYLES } from '@/types/kinetic';
 
 interface CharacterAvatarProps {
   sportType: SportType;
@@ -11,167 +10,174 @@ interface CharacterAvatarProps {
 }
 
 const CharacterAvatar = ({ sportType, bodyType, hairstyle, hairColor, name, size = 'md' }: CharacterAvatarProps) => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
   const sizeClasses = {
     sm: 'w-16 h-16',
     md: 'w-32 h-32',
     lg: 'w-64 h-64'
   };
 
-  useEffect(() => {
-    generateCharacterImage();
-  }, [sportType, bodyType, hairstyle, hairColor]);
-
-  const generateCharacterImage = async () => {
-    setLoading(true);
-    setError(false);
-
-    try {
-      const bodyTypeName = BODY_TYPES.find(bt => bt.id === bodyType)?.name || 'атлетический';
-      const hairstyleName = HAIRSTYLES.find(hs => hs.id === hairstyle)?.name || 'короткая стрижка';
-      const sportName = SPORT_NAMES[sportType];
-
-      // Создаём детальный промпт для генерации
-      const prompt = `Cartoon style character avatar for ${name}, a young athlete doing ${sportName}. ${bodyTypeName} body type, ${hairstyleName} hairstyle with ${hairColor} hair color. Friendly, energetic expression. Simple background. Digital art, vibrant colors, kid-friendly style.`;
-
-      // Пытаемся сгенерировать изображение
-      // В реальности здесь был бы вызов API для генерации
-      // Пока используем заглушку
-      
-      // Имитация загрузки
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Используем заглушку - можно заменить на реальную генерацию
-      setImageUrl(null);
-      setError(true);
-      
-    } catch (err) {
-      console.error('Error generating character image:', err);
-      setError(true);
-    } finally {
-      setLoading(false);
+  const bodyColors = {
+    1: '#FFB3BA',
+    2: '#BAE1FF', 
+    3: '#FFFFBA',
+    4: '#BAFFC9',
+    5: '#FFD9BA'
+  };
+  
+  const bodyColor = bodyColors[bodyType as keyof typeof bodyColors] || '#FFB3BA';
+  
+  const getAnimeHairstyle = () => {
+    const hairBase = hairColor;
+    const hairHighlight = `${hairColor}99`;
+    
+    switch(hairstyle) {
+      case 1:
+        return (
+          <g>
+            <path d="M 60 55 Q 50 40 60 35 Q 70 30 80 35 Q 85 30 90 30 Q 95 30 100 28 Q 105 30 110 30 Q 115 30 120 35 Q 130 30 140 35 Q 150 40 140 55 Z" fill={hairBase} />
+            <ellipse cx="80" cy="40" rx="8" ry="12" fill={hairHighlight} opacity="0.5" />
+            <ellipse cx="120" cy="40" rx="8" ry="12" fill={hairHighlight} opacity="0.5" />
+          </g>
+        );
+      case 2:
+        return (
+          <g>
+            <path d="M 100 20 L 90 60 L 95 65 L 100 50 L 105 65 L 110 60 Z" fill={hairBase} />
+            <ellipse cx="100" cy="50" rx="40" ry="18" fill={hairBase} />
+            <path d="M 100 25 L 95 55 L 100 52 L 105 55 Z" fill={hairHighlight} opacity="0.6" />
+          </g>
+        );
+      case 3:
+        return (
+          <g>
+            <ellipse cx="100" cy="55" rx="42" ry="25" fill={hairBase} />
+            <rect x="58" y="65" width="12" height="30" rx="3" fill={hairBase} />
+            <rect x="130" y="65" width="12" height="30" rx="3" fill={hairBase} />
+            <path d="M 75 45 Q 70 50 75 55" stroke={hairHighlight} strokeWidth="4" fill="none" opacity="0.5" />
+            <path d="M 125 45 Q 130 50 125 55" stroke={hairHighlight} strokeWidth="4" fill="none" opacity="0.5" />
+          </g>
+        );
+      case 4:
+        return (
+          <g>
+            <ellipse cx="100" cy="55" rx="42" ry="32" fill={hairBase} />
+            <path d="M 65 70 Q 60 90 65 110 Q 68 95 70 75" fill={hairBase} />
+            <path d="M 135 70 Q 140 90 135 110 Q 132 95 130 75" fill={hairBase} />
+            <path d="M 85 48 Q 90 52 95 48" stroke={hairHighlight} strokeWidth="3" fill="none" opacity="0.5" />
+            <path d="M 105 48 Q 110 52 115 48" stroke={hairHighlight} strokeWidth="3" fill="none" opacity="0.5" />
+          </g>
+        );
+      case 5:
+        return (
+          <g>
+            <ellipse cx="100" cy="60" rx="44" ry="32" fill={hairBase} />
+            <circle cx="70" cy="70" r="10" fill={hairBase} />
+            <circle cx="82" cy="75" r="10" fill={hairBase} />
+            <circle cx="118" cy="75" r="10" fill={hairBase} />
+            <circle cx="130" cy="70" r="10" fill={hairBase} />
+            <ellipse cx="72" cy="68" rx="5" ry="8" fill={hairHighlight} opacity="0.5" />
+            <ellipse cx="128" cy="68" rx="5" ry="8" fill={hairHighlight} opacity="0.5" />
+          </g>
+        );
+      case 8:
+        return (
+          <g>
+            <circle cx="100" cy="50" r="48" fill={hairBase} />
+            <ellipse cx="85" cy="45" rx="15" ry="20" fill={hairHighlight} opacity="0.4" />
+            <ellipse cx="115" cy="45" rx="15" ry="20" fill={hairHighlight} opacity="0.4" />
+          </g>
+        );
+      case 9:
+        return (
+          <g>
+            <ellipse cx="100" cy="55" rx="40" ry="28" fill={hairBase} />
+            <ellipse cx="100" cy="40" rx="18" ry="50" fill={hairBase} transform="rotate(25 100 40)" />
+            <path d="M 95 35 Q 100 30 105 35" stroke={hairHighlight} strokeWidth="4" fill="none" opacity="0.5" />
+          </g>
+        );
+      case 10:
+        return (
+          <g>
+            <ellipse cx="100" cy="55" rx="40" ry="25" fill={hairBase} />
+            <path d="M 70 60 Q 65 65 68 75 Q 70 78 72 85" stroke={hairBase} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <path d="M 130 60 Q 135 65 132 75 Q 130 78 128 85" stroke={hairBase} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <ellipse cx="90" cy="50" rx="8" ry="12" fill={hairHighlight} opacity="0.5" />
+            <ellipse cx="110" cy="50" rx="8" ry="12" fill={hairHighlight} opacity="0.5" />
+          </g>
+        );
+      default:
+        return (
+          <g>
+            <ellipse cx="100" cy="55" rx="40" ry="25" fill={hairBase} />
+            <path d="M 80 48 Q 85 52 90 48" stroke={hairHighlight} strokeWidth="3" fill="none" opacity="0.5" />
+            <path d="M 110 48 Q 115 52 120 48" stroke={hairHighlight} strokeWidth="3" fill="none" opacity="0.5" />
+          </g>
+        );
     }
   };
-
-  // Пока нет сгенерированного изображения, показываем SVG-аватар
-  const getSvgAvatar = () => {
-    const hairColorHex = hairColor;
-    const skinTone = '#FFD1A3';
-    
-    const bodyColors = {
-      1: '#4299e1',
-      2: '#48bb78', 
-      3: '#ed8936',
-      4: '#9f7aea',
-      5: '#f56565'
-    };
-    
-    const bodyColor = bodyColors[bodyType as keyof typeof bodyColors] || '#4299e1';
-    
-    const hairstyleShape = () => {
-      switch(hairstyle) {
-        case 1:
-          return <ellipse cx="100" cy="60" rx="38" ry="20" fill={hairColorHex} />;
-        case 2:
-          return (
-            <>
-              <path d="M 100 40 L 90 70 L 110 70 Z" fill={hairColorHex} />
-              <ellipse cx="100" cy="55" rx="35" ry="15" fill={hairColorHex} />
-            </>
-          );
-        case 3:
-          return (
-            <>
-              <ellipse cx="100" cy="62" rx="38" ry="22" fill={hairColorHex} />
-              <rect x="62" y="75" width="15" height="25" fill={hairColorHex} />
-              <rect x="123" y="75" width="15" height="25" fill={hairColorHex} />
-            </>
-          );
-        case 4:
-          return (
-            <>
-              <ellipse cx="100" cy="60" rx="38" ry="30" fill={hairColorHex} />
-              <path d="M 70 80 Q 65 100 70 120 Q 75 100 75 80" fill={hairColorHex} />
-              <path d="M 130 80 Q 135 100 130 120 Q 125 100 125 80" fill={hairColorHex} />
-            </>
-          );
-        case 5:
-          return (
-            <>
-              <ellipse cx="100" cy="65" rx="40" ry="30" fill={hairColorHex} />
-              <circle cx="75" cy="75" r="8" fill={hairColorHex} />
-              <circle cx="85" cy="80" r="8" fill={hairColorHex} />
-              <circle cx="115" cy="80" r="8" fill={hairColorHex} />
-              <circle cx="125" cy="75" r="8" fill={hairColorHex} />
-            </>
-          );
-        case 8:
-          return (
-            <>
-              <ellipse cx="100" cy="55" rx="45" ry="35" fill={hairColorHex} />
-              <circle cx="100" cy="55" r="45" fill={hairColorHex} />
-            </>
-          );
-        case 9:
-          return (
-            <>
-              <ellipse cx="100" cy="60" rx="38" ry="25" fill={hairColorHex} />
-              <ellipse cx="100" cy="50" rx="15" ry="45" fill={hairColorHex} transform="rotate(20 100 50)" />
-            </>
-          );
-        default:
-          return <ellipse cx="100" cy="60" rx="38" ry="25" fill={hairColorHex} />;
-      }
-    };
-    
-    return (
+  
+  return (
+    <div className="relative">
       <svg viewBox="0 0 200 200" className={sizeClasses[size]} xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id={`grad-${name}`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id={`grad-bg-${name}`} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#667eea" />
             <stop offset="100%" stopColor="#764ba2" />
           </linearGradient>
+          <linearGradient id={`grad-body-${name}`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor={bodyColor} />
+            <stop offset="100%" stopColor={bodyColor} stopOpacity="0.8" />
+          </linearGradient>
           <filter id={`shadow-${name}`}>
-            <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.3"/>
+            <feDropShadow dx="0" dy="3" stdDeviation="4" floodOpacity="0.3"/>
           </filter>
+          <radialGradient id={`face-grad-${name}`}>
+            <stop offset="0%" stopColor="#FFE4D6" />
+            <stop offset="100%" stopColor="#FFD1BA" />
+          </radialGradient>
         </defs>
 
-        <circle cx="100" cy="100" r="100" fill={`url(#grad-${name})`} />
+        <circle cx="100" cy="100" r="100" fill={`url(#grad-bg-${name})`} />
 
         <g filter={`url(#shadow-${name})`}>
-          <ellipse cx="100" cy="150" rx="50" ry="55" fill={bodyColor} />
+          <ellipse cx="100" cy="155" rx="45" ry="50" fill={`url(#grad-body-${name})`} />
           
-          <ellipse cx="65" cy="155" rx="15" ry="40" fill={skinTone} />
-          <ellipse cx="135" cy="155" rx="15" ry="40" fill={skinTone} />
-          <circle cx="65" cy="185" r="12" fill={skinTone} />
-          <circle cx="135" cy="185" r="12" fill={skinTone} />
+          <ellipse cx="68" cy="160" rx="14" ry="38" fill="#FFE4D6" />
+          <ellipse cx="132" cy="160" rx="14" ry="38" fill="#FFE4D6" />
+          <circle cx="68" cy="190" r="11" fill="#FFE4D6" />
+          <circle cx="132" cy="190" r="11" fill="#FFE4D6" />
 
-          <circle cx="100" cy="85" r="40" fill={skinTone} />
+          <ellipse cx="100" cy="95" rx="38" ry="42" fill={`url(#face-grad-${name})`} />
 
-          <ellipse cx="100" cy="100" rx="42" ry="25" fill={bodyColor} />
+          <ellipse cx="100" cy="115" rx="40" ry="22" fill={`url(#grad-body-${name})`} />
 
-          {hairstyleShape()}
+          {getAnimeHairstyle()}
 
-          <ellipse cx="85" cy="82" rx="5" ry="8" fill="#2d3748" />
-          <ellipse cx="115" cy="82" rx="5" ry="8" fill="#2d3748" />
-          <circle cx="87" cy="79" r="2.5" fill="white" />
-          <circle cx="117" cy="79" r="2.5" fill="white" />
+          <ellipse cx="83" cy="88" rx="8" ry="12" fill="#2d3748" />
+          <ellipse cx="117" cy="88" rx="8" ry="12" fill="#2d3748" />
+          
+          <ellipse cx="85" cy="85" rx="4" ry="6" fill="white" />
+          <ellipse cx="119" cy="85" rx="4" ry="6" fill="white" />
+          <circle cx="86" cy="84" r="2" fill="white" />
+          <circle cx="120" cy="84" r="2" fill="white" />
 
-          <ellipse cx="85" cy="75" rx="8" ry="3" fill="#2d3748" opacity="0.3" />
-          <ellipse cx="115" cy="75" rx="8" ry="3" fill="#2d3748" opacity="0.3" />
+          <path d="M 75 80 Q 80 78 85 80" stroke="#6B4423" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          <path d="M 115 80 Q 120 78 125 80" stroke="#6B4423" strokeWidth="2.5" fill="none" strokeLinecap="round" />
 
-          <circle cx="100" cy="92" r="3" fill="#d69e7d" />
+          <ellipse cx="100" cy="98" rx="4" ry="5" fill="#FFB8A6" />
+          <path d="M 100 98 L 100 103" stroke="#FFB8A6" strokeWidth="1.5" />
 
-          <path d="M 88 100 Q 100 108 112 100" stroke="#2d3748" strokeWidth="3" fill="none" strokeLinecap="round" />
+          <path d="M 88 108 Q 100 114 112 108" stroke="#FF6B9D" strokeWidth="3" fill="none" strokeLinecap="round" />
+          <ellipse cx="100" cy="113" rx="8" ry="4" fill="#FF6B9D" opacity="0.3" />
 
-          <ellipse cx="78" cy="88" rx="6" ry="4" fill="#ff6b9d" opacity="0.5" />
-          <ellipse cx="122" cy="88" rx="6" ry="4" fill="#ff6b9d" opacity="0.5" />
+          <ellipse cx="72" cy="95" rx="8" ry="5" fill="#FFB8A6" opacity="0.6" />
+          <ellipse cx="128" cy="95" rx="8" ry="5" fill="#FFB8A6" opacity="0.6" />
+
+          <circle cx="90" cy="92" r="1.5" fill="white" opacity="0.8" />
+          <circle cx="110" cy="92" r="1.5" fill="white" opacity="0.8" />
         </g>
 
-        <text x="100" y="185" fontSize="32" textAnchor="middle" opacity="0.9">
+        <text x="100" y="188" fontSize="28" textAnchor="middle" opacity="0.95">
           {sportType === 'skate' && '🛹'}
           {sportType === 'rollers' && '🛼'}
           {sportType === 'bmx' && '🚴‍♂️'}
@@ -179,28 +185,6 @@ const CharacterAvatar = ({ sportType, bodyType, hairstyle, hairColor, name, size
           {sportType === 'bike' && '🚲'}
         </text>
       </svg>
-    );
-  };
-
-  if (loading) {
-    return (
-      <div className={`${sizeClasses[size]} bg-gradient-to-br from-purple-200 to-blue-200 rounded-full flex items-center justify-center animate-pulse`}>
-        <span className="text-2xl">✨</span>
-      </div>
-    );
-  }
-
-  if (error || !imageUrl) {
-    return (
-      <div className="relative">
-        {getSvgAvatar()}
-      </div>
-    );
-  }
-
-  return (
-    <div className={`${sizeClasses[size]} rounded-full overflow-hidden border-4 border-purple-400 shadow-lg`}>
-      <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
     </div>
   );
 };

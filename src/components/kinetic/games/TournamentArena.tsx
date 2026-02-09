@@ -18,7 +18,7 @@ const TournamentArena = ({ tricks, playerName, onComplete, onClose }: Tournament
   const [round, setRound] = useState(1);
   const [selectedTrick, setSelectedTrick] = useState<Trick | null>(null);
   const [opponentTrick, setOpponentTrick] = useState<Trick | null>(null);
-  const [playerTricks] = useState<Trick[]>(tricks.slice(0, 5));
+  const playerTricks = tricks.length > 0 ? tricks.slice(0, Math.min(5, tricks.length)) : [];
 
   const opponentName = 'Макс Скейтер';
 
