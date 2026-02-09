@@ -16,6 +16,7 @@ import TrainerPanel from "./pages/TrainerPanel";
 import DirectorPanel from "./pages/DirectorPanel";
 import KineticUniverse from "./pages/KineticUniverse";
 import CharacterCreation from "./pages/CharacterCreation";
+import KineticAdmin from "./pages/KineticAdmin";
 
 const queryClient = new QueryClient();
 
@@ -144,6 +145,15 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['client', 'admin', 'director']}>
             <CharacterCreation />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/kinetic-admin" 
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'director']}>
+            <KineticAdmin />
           </ProtectedRoute>
         } 
       />

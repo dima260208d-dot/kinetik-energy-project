@@ -17,6 +17,7 @@ import {
   HAIRSTYLES,
   HAIR_COLORS
 } from '@/types/kinetic';
+import CharacterPreview from '@/components/kinetic/CharacterPreview';
 
 const CharacterCreation = () => {
   const { user } = useAuth();
@@ -132,21 +133,45 @@ const CharacterCreation = () => {
           </div>
         </div>
 
-        <Card className="bg-white/95 backdrop-blur-md shadow-2xl">
-          <CardHeader>
-            <CardTitle className="text-2xl">
-              {step === 1 && '📝 Основная информация'}
-              {step === 2 && '🏆 Выбери свой путь'}
-              {step === 3 && '✨ Кастомизация'}
-            </CardTitle>
-            <CardDescription>
-              {step === 1 && 'Как будут звать твоего персонажа?'}
-              {step === 2 && 'Выбери вид спорта и стиль катания'}
-              {step === 3 && 'Создай уникальный образ'}
-            </CardDescription>
-          </CardHeader>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Превью персонажа */}
+          <div className="order-2 lg:order-1">
+            <div className="sticky top-4">
+              <h3 className="text-white text-xl font-bold mb-4 text-center">Твой персонаж</h3>
+              {sportType && (
+                <CharacterPreview
+                  sportType={sportType as SportType}
+                  bodyType={bodyType}
+                  hairstyle={hairstyle}
+                  hairColor={hairColor}
+                  name={characterName || 'Твой герой'}
+                />
+              )}
+              {!sportType && (
+                <div className="bg-white/90 rounded-2xl p-8 text-center">
+                  <div className="text-6xl mb-4">🌟</div>
+                  <p className="text-gray-600">Выбери вид спорта, чтобы увидеть своего персонажа</p>
+                </div>
+              )}
+            </div>
+          </div>
 
-          <CardContent>
+          {/* Форма создания */}
+          <Card className="bg-white/95 backdrop-blur-md shadow-2xl order-1 lg:order-2">
+            <CardHeader>
+              <CardTitle className="text-2xl">
+                {step === 1 && '📝 Основная информация'}
+                {step === 2 && '🏆 Выбери свой путь'}
+                {step === 3 && '✨ Кастомизация'}
+              </CardTitle>
+              <CardDescription>
+                {step === 1 && 'Как будут звать твоего персонажа?'}
+                {step === 2 && 'Выбери вид спорта и стиль катания'}
+                {step === 3 && 'Создай уникальный образ'}
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent>
             {/* Шаг 1: Имя */}
             {step === 1 && (
               <div className="space-y-4">
@@ -321,6 +346,7 @@ const CharacterCreation = () => {
             </div>
           </CardContent>
         </Card>
+        </div>
 
         {/* Подсказка */}
         <div className="text-center mt-6 text-white/80 text-sm">

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
+
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
@@ -124,10 +124,12 @@ const KineticUniverse = () => {
               {/* Прогресс уровня */}
               <div>
                 <div className="text-sm text-gray-600 mb-2">Опыт до следующего уровня</div>
-                <Progress 
-                  value={(character.experience / getExperienceForNextLevel(character.level)) * 100} 
-                  className="mb-2"
-                />
+                <div className="w-full bg-gray-200 rounded-full h-4 mb-2">
+                  <div 
+                    className="bg-gradient-to-r from-purple-500 to-blue-500 h-4 rounded-full transition-all"
+                    style={{ width: `${(character.experience / getExperienceForNextLevel(character.level)) * 100}%` }}
+                  />
+                </div>
                 <div className="text-sm text-gray-600">
                   {character.experience} / {getExperienceForNextLevel(character.level)} XP
                 </div>
@@ -171,7 +173,12 @@ const KineticUniverse = () => {
                     {tricks.filter(t => isTrickMastered(t.id)).length} / {tricks.length}
                   </Badge>
                 </CardTitle>
-                <Progress value={getTrickProgress()} className="mt-2" />
+                <div className="w-full bg-gray-200 rounded-full h-3 mt-2">
+                  <div 
+                    className="bg-gradient-to-r from-green-500 to-teal-500 h-3 rounded-full transition-all"
+                    style={{ width: `${getTrickProgress()}%` }}
+                  />
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">

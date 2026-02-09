@@ -137,6 +137,14 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
               </DropdownMenuItem>
             )}
 
+            {/* Kinetic Admin */}
+            {['admin', 'director'].includes(user.role) && (
+              <DropdownMenuItem onClick={() => handleNavigation('/kinetic-admin')} className="cursor-pointer">
+                <Icon name="Settings" className="w-4 h-4 mr-2" />
+                Kinetic Admin ⚙️
+              </DropdownMenuItem>
+            )}
+
             {/* Дневник тренировок для клиентов */}
             {user.role === 'client' && (
               <DropdownMenuItem onClick={() => handleNavigation('/diary')} className="cursor-pointer">
