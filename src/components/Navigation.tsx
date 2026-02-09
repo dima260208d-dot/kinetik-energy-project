@@ -129,6 +129,14 @@ const Navigation: React.FC<NavigationProps> = ({ currentPage, showSettings = tru
             
 
 
+            {/* Kinetic Universe */}
+            {['client', 'admin', 'director'].includes(user.role) && (
+              <DropdownMenuItem onClick={() => handleNavigation('/kinetic-universe')} className="cursor-pointer">
+                <Icon name="Sparkles" className="w-4 h-4 mr-2" />
+                Kinetic Universe 🌌
+              </DropdownMenuItem>
+            )}
+
             {/* Дневник тренировок для клиентов */}
             {user.role === 'client' && (
               <DropdownMenuItem onClick={() => handleNavigation('/diary')} className="cursor-pointer">

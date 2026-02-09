@@ -14,6 +14,8 @@ import ClientDashboard from "./pages/ClientDashboard";
 import StudentDiary from "./pages/StudentDiary";
 import TrainerPanel from "./pages/TrainerPanel";
 import DirectorPanel from "./pages/DirectorPanel";
+import KineticUniverse from "./pages/KineticUniverse";
+import CharacterCreation from "./pages/CharacterCreation";
 
 const queryClient = new QueryClient();
 
@@ -124,6 +126,24 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['director']}>
             <DirectorPanel />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/kinetic-universe" 
+        element={
+          <ProtectedRoute allowedRoles={['client', 'admin', 'director']}>
+            <KineticUniverse />
+          </ProtectedRoute>
+        } 
+      />
+      
+      <Route 
+        path="/character-creation" 
+        element={
+          <ProtectedRoute allowedRoles={['client', 'admin', 'director']}>
+            <CharacterCreation />
           </ProtectedRoute>
         } 
       />
