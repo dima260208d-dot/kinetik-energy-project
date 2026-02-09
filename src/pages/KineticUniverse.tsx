@@ -11,7 +11,6 @@ import KineticModals from '@/components/kinetic/KineticModals';
 import TrickSimulator from '@/components/kinetic/games/TrickSimulator';
 import TournamentArena from '@/components/kinetic/games/TournamentArena';
 import CardBattle from '@/components/kinetic/games/CardBattle';
-import ARQuest from '@/components/kinetic/games/ARQuest';
 import { Character, Trick, CharacterTrick } from '@/types/kinetic';
 import { useToast } from '@/hooks/use-toast';
 
@@ -28,7 +27,7 @@ const KineticUniverse = () => {
   const [showGames, setShowGames] = useState(false);
   const [showTournaments, setShowTournaments] = useState(false);
   const [showPro, setShowPro] = useState(false);
-  const [activeGame, setActiveGame] = useState<'simulator' | 'arena' | 'cards' | 'ar' | null>(null);
+  const [activeGame, setActiveGame] = useState<'simulator' | 'arena' | 'cards' | null>(null);
 
   useEffect(() => {
     loadData();
@@ -236,12 +235,7 @@ const KineticUniverse = () => {
           />
         )}
 
-        {activeGame === 'ar' && (
-          <ARQuest
-            onComplete={(kinetics) => handleGameComplete(0, kinetics, true)}
-            onClose={() => setActiveGame(null)}
-          />
-        )}
+
       </div>
     </div>
   );

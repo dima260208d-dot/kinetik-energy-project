@@ -61,46 +61,117 @@ const CharacterAvatar = ({ sportType, bodyType, hairstyle, hairColor, name, size
     const hairColorHex = hairColor;
     const skinTone = '#FFD1A3';
     
+    const bodyColors = {
+      1: '#4299e1',
+      2: '#48bb78', 
+      3: '#ed8936',
+      4: '#9f7aea',
+      5: '#f56565'
+    };
+    
+    const bodyColor = bodyColors[bodyType as keyof typeof bodyColors] || '#4299e1';
+    
+    const hairstyleShape = () => {
+      switch(hairstyle) {
+        case 1:
+          return <ellipse cx="100" cy="60" rx="38" ry="20" fill={hairColorHex} />;
+        case 2:
+          return (
+            <>
+              <path d="M 100 40 L 90 70 L 110 70 Z" fill={hairColorHex} />
+              <ellipse cx="100" cy="55" rx="35" ry="15" fill={hairColorHex} />
+            </>
+          );
+        case 3:
+          return (
+            <>
+              <ellipse cx="100" cy="62" rx="38" ry="22" fill={hairColorHex} />
+              <rect x="62" y="75" width="15" height="25" fill={hairColorHex} />
+              <rect x="123" y="75" width="15" height="25" fill={hairColorHex} />
+            </>
+          );
+        case 4:
+          return (
+            <>
+              <ellipse cx="100" cy="60" rx="38" ry="30" fill={hairColorHex} />
+              <path d="M 70 80 Q 65 100 70 120 Q 75 100 75 80" fill={hairColorHex} />
+              <path d="M 130 80 Q 135 100 130 120 Q 125 100 125 80" fill={hairColorHex} />
+            </>
+          );
+        case 5:
+          return (
+            <>
+              <ellipse cx="100" cy="65" rx="40" ry="30" fill={hairColorHex} />
+              <circle cx="75" cy="75" r="8" fill={hairColorHex} />
+              <circle cx="85" cy="80" r="8" fill={hairColorHex} />
+              <circle cx="115" cy="80" r="8" fill={hairColorHex} />
+              <circle cx="125" cy="75" r="8" fill={hairColorHex} />
+            </>
+          );
+        case 8:
+          return (
+            <>
+              <ellipse cx="100" cy="55" rx="45" ry="35" fill={hairColorHex} />
+              <circle cx="100" cy="55" r="45" fill={hairColorHex} />
+            </>
+          );
+        case 9:
+          return (
+            <>
+              <ellipse cx="100" cy="60" rx="38" ry="25" fill={hairColorHex} />
+              <ellipse cx="100" cy="50" rx="15" ry="45" fill={hairColorHex} transform="rotate(20 100 50)" />
+            </>
+          );
+        default:
+          return <ellipse cx="100" cy="60" rx="38" ry="25" fill={hairColorHex} />;
+      }
+    };
+    
     return (
       <svg viewBox="0 0 200 200" className={sizeClasses[size]} xmlns="http://www.w3.org/2000/svg">
-        {/* Фон */}
-        <circle cx="100" cy="100" r="100" fill={`url(#grad-${name})`} />
         <defs>
           <linearGradient id={`grad-${name}`} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#667eea" />
             <stop offset="100%" stopColor="#764ba2" />
           </linearGradient>
+          <filter id={`shadow-${name}`}>
+            <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.3"/>
+          </filter>
         </defs>
 
-        {/* Тело */}
-        <ellipse cx="100" cy="140" rx="45" ry="50" fill="#4299e1" />
-        
-        {/* Руки */}
-        <ellipse cx="70" cy="150" rx="12" ry="35" fill={skinTone} />
-        <ellipse cx="130" cy="150" rx="12" ry="35" fill={skinTone} />
+        <circle cx="100" cy="100" r="100" fill={`url(#grad-${name})`} />
 
-        {/* Голова */}
-        <circle cx="100" cy="80" r="35" fill={skinTone} />
+        <g filter={`url(#shadow-${name})`}>
+          <ellipse cx="100" cy="150" rx="50" ry="55" fill={bodyColor} />
+          
+          <ellipse cx="65" cy="155" rx="15" ry="40" fill={skinTone} />
+          <ellipse cx="135" cy="155" rx="15" ry="40" fill={skinTone} />
+          <circle cx="65" cy="185" r="12" fill={skinTone} />
+          <circle cx="135" cy="185" r="12" fill={skinTone} />
 
-        {/* Волосы */}
-        <ellipse cx="100" cy="60" rx="38" ry="25" fill={hairColorHex} />
-        <path d="M 65 65 Q 60 50 70 45 Q 80 40 90 45 Q 100 35 110 45 Q 120 40 130 45 Q 140 50 135 65 Z" fill={hairColorHex} />
+          <circle cx="100" cy="85" r="40" fill={skinTone} />
 
-        {/* Лицо */}
-        {/* Глаза */}
-        <ellipse cx="88" cy="78" rx="4" ry="6" fill="#2d3748" />
-        <ellipse cx="112" cy="78" rx="4" ry="6" fill="#2d3748" />
-        <circle cx="89" cy="76" r="2" fill="white" />
-        <circle cx="113" cy="76" r="2" fill="white" />
+          <ellipse cx="100" cy="100" rx="42" ry="25" fill={bodyColor} />
 
-        {/* Нос */}
-        <ellipse cx="100" cy="88" rx="2" ry="3" fill="#d69e7d" />
+          {hairstyleShape()}
 
-        {/* Улыбка */}
-        <path d="M 90 95 Q 100 100 110 95" stroke="#2d3748" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <ellipse cx="85" cy="82" rx="5" ry="8" fill="#2d3748" />
+          <ellipse cx="115" cy="82" rx="5" ry="8" fill="#2d3748" />
+          <circle cx="87" cy="79" r="2.5" fill="white" />
+          <circle cx="117" cy="79" r="2.5" fill="white" />
 
-        {/* Спортивный инвентарь (иконка) */}
-        <text x="100" y="175" fontSize="24" textAnchor="middle" fill="white">
+          <ellipse cx="85" cy="75" rx="8" ry="3" fill="#2d3748" opacity="0.3" />
+          <ellipse cx="115" cy="75" rx="8" ry="3" fill="#2d3748" opacity="0.3" />
+
+          <circle cx="100" cy="92" r="3" fill="#d69e7d" />
+
+          <path d="M 88 100 Q 100 108 112 100" stroke="#2d3748" strokeWidth="3" fill="none" strokeLinecap="round" />
+
+          <ellipse cx="78" cy="88" rx="6" ry="4" fill="#ff6b9d" opacity="0.5" />
+          <ellipse cx="122" cy="88" rx="6" ry="4" fill="#ff6b9d" opacity="0.5" />
+        </g>
+
+        <text x="100" y="185" fontSize="32" textAnchor="middle" opacity="0.9">
           {sportType === 'skate' && '🛹'}
           {sportType === 'rollers' && '🛼'}
           {sportType === 'bmx' && '🚴‍♂️'}

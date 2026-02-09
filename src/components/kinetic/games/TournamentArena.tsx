@@ -29,32 +29,38 @@ const TournamentArena = ({ tricks, playerName, onComplete, onClose }: Tournament
 
   const handleTrickSelect = (trick: Trick) => {
     setSelectedTrick(trick);
-    selectOpponentTrick();
+    const randomOpponentTrick = tricks[Math.floor(Math.random() * tricks.length)];
+    setOpponentTrick(randomOpponentTrick);
     setGameState('battle');
 
-    // Симуляция битвы
     setTimeout(() => {
-      const opponentTrickScore = tricks[Math.floor(Math.random() * tricks.length)];
-      
       const playerPoints = trick.experience_reward;
-      const opponentPoints = opponentTrickScore.experience_reward;
+      const opponentPoints = randomOpponentTrick.experience_reward;
+
+      let newPlayerScore = playerScore;
+      let newOpponentScore = opponentScore;
 
       if (playerPoints > opponentPoints) {
-        setPlayerScore(playerScore + 1);
+        newPlayerScore = playerScore + 1;
+        setPlayerScore(newPlayerScore);
       } else if (opponentPoints > playerPoints) {
-        setOpponentScore(opponentScore + 1);
+        newOpponentScore = opponentScore + 1;
+        setOpponentScore(newOpponentScore);
       }
 
       if (round >= 3) {
-        setGameState('result');
-      } else {
-        setRound(round + 1);
         setTimeout(() => {
+          setGameState('result');
+        }, 1500);
+      } else {
+        setTimeout(() => {
+          setRound(round + 1);
           setGameState('prepare');
           setSelectedTrick(null);
-        }, 2000);
+          setOpponentTrick(null);
+        }, 1500);
       }
-    }, 3000);
+    }, 2000);
   };
 
   const finishGame = () => {

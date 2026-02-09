@@ -12,7 +12,7 @@ interface KineticModalsProps {
   setShowTournaments: (show: boolean) => void;
   showPro: boolean;
   setShowPro: (show: boolean) => void;
-  setActiveGame: (game: 'simulator' | 'arena' | 'cards' | 'ar' | null) => void;
+  setActiveGame: (game: 'simulator' | 'arena' | 'cards' | null) => void;
 }
 
 const KineticModals = ({
@@ -82,7 +82,7 @@ const KineticModals = ({
               </Button>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="p-6 bg-gradient-to-br from-green-50 to-teal-50 rounded-lg border-2 border-green-300 hover:border-green-500 transition-all">
                   <div className="text-center mb-4">
                     <div className="text-6xl mb-2">🎯</div>
@@ -123,21 +123,6 @@ const KineticModals = ({
                     Награда: +80 💰
                   </div>
                   <Button onClick={() => { setActiveGame('cards'); setShowGames(false); }} className="w-full bg-gradient-to-r from-purple-600 to-pink-600">
-                    <Icon name="Play" className="w-4 h-4 mr-2" />
-                    Играть
-                  </Button>
-                </div>
-
-                <div className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border-2 border-blue-300 hover:border-blue-500 transition-all">
-                  <div className="text-center mb-4">
-                    <div className="text-6xl mb-2">📱</div>
-                    <div className="font-bold text-lg">AR-квесты</div>
-                    <p className="text-sm text-gray-600">Сканируй QR-коды в клубе</p>
-                  </div>
-                  <div className="text-center text-sm text-blue-600 mb-3">
-                    Награда: Артефакты
-                  </div>
-                  <Button onClick={() => { setActiveGame('ar'); setShowGames(false); }} className="w-full bg-gradient-to-r from-blue-600 to-cyan-600">
                     <Icon name="Play" className="w-4 h-4 mr-2" />
                     Играть
                   </Button>

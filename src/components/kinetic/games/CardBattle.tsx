@@ -37,34 +37,41 @@ const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
   };
 
   const playCard = (trick: Trick) => {
+    const newPlayerHand = playerHand.filter(t => t.id !== trick.id);
+    setPlayerHand(newPlayerHand);
     setPlayerField(trick);
-    setPlayerHand(playerHand.filter(t => t.id !== trick.id));
 
-    // Противник играет случайную карту
-    const opponentCard = opponentHand[Math.floor(Math.random() * opponentHand.length)];
+    const opponentCardIndex = Math.floor(Math.random() * opponentHand.length);
+    const opponentCard = opponentHand[opponentCardIndex];
     setOpponentField(opponentCard);
 
-    // Определяем победителя раунда
     setTimeout(() => {
       const playerPower = getCardPower(trick);
       const opponentPower = getCardPower(opponentCard);
 
+      let newPlayerScore = playerScore;
+      let newOpponentScore = opponentScore;
+
       if (playerPower > opponentPower) {
-        setPlayerScore(playerScore + 1);
+        newPlayerScore = playerScore + 1;
+        setPlayerScore(newPlayerScore);
       } else if (opponentPower > playerPower) {
-        setOpponentScore(opponentScore + 1);
+        newOpponentScore = opponentScore + 1;
+        setOpponentScore(newOpponentScore);
       }
 
       if (round >= 5) {
-        setGameState('result');
-      } else {
-        setRound(round + 1);
         setTimeout(() => {
+          setGameState('result');
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          setRound(round + 1);
           setPlayerField(null);
           setOpponentField(null);
-        }, 1500);
+        }, 1000);
       }
-    }, 2000);
+    }, 1500);
   };
 
   const finishGame = () => {
