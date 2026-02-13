@@ -18,6 +18,7 @@ import {
   HAIR_COLORS
 } from '@/types/kinetic';
 import CharacterPreview from '@/components/kinetic/CharacterPreview';
+import { createCharacter, getAvatarForSport } from '@/services/kineticApi';
 
 const CharacterCreation = () => {
   const { user } = useAuth();
@@ -51,44 +52,31 @@ const CharacterCreation = () => {
       return;
     }
 
-    const characterData = {
-      name: characterName,
-      sport_type: sportType,
-      riding_style: ridingStyle,
-      body_type: bodyType,
-      hairstyle: hairstyle,
-      hair_color: hairColor
-    };
+    try {
+      await createCharacter({
+        user_id: user?.id || '',
+        name: characterName,
+        sport_type: sportType,
+        riding_style: ridingStyle,
+        body_type: bodyType,
+        hairstyle: hairstyle,
+        hair_color: hairColor,
+        avatar_url: getAvatarForSport(sportType),
+      });
 
-    const stored = localStorage.getItem('kinetic_universe_data');
-    const data = stored ? JSON.parse(stored) : { characters: [] };
+      toast({
+        title: 'Персонаж создан!',
+        description: `Добро пожаловать в Kinetic Universe, ${characterName}!`
+      });
 
-    const newCharacter = {
-      id: Date.now(),
-      user_id: user?.id || '',
-      ...characterData,
-      level: 1,
-      experience: 0,
-      balance: 1,
-      speed: 1,
-      courage: 1,
-      kinetics: 100,
-      premium_currency: 0,
-      is_pro: false,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
-
-    data.characters = data.characters || [];
-    data.characters.push(newCharacter);
-    localStorage.setItem('kinetic_universe_data', JSON.stringify(data));
-
-    toast({
-      title: 'Персонаж создан!',
-      description: `Добро пожаловать в Kinetic Universe, ${characterName}!`
-    });
-
-    navigate('/kinetic-universe');
+      navigate('/kinetic-universe');
+    } catch {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось создать персонажа. Попробуйте позже.',
+        variant: 'destructive'
+      });
+    }
   };
 
   return (

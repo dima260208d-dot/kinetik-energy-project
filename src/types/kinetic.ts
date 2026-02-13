@@ -20,6 +20,7 @@ export interface Character {
   body_type: number;
   hairstyle: number;
   hair_color: string;
+  avatar_url?: string;
   outfit_id?: number;
   kinetics: number;
   premium_currency: number;

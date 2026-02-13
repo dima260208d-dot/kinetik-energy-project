@@ -1,0 +1,22 @@
+{
+  "tests": [
+    {
+      "name": "Get tricks for skate",
+      "method": "GET",
+      "path": "/?action=tricks&sport_type=skate",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get all characters",
+      "method": "GET",
+      "path": "/?action=all_characters",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Character not found",
+      "method": "GET",
+      "path": "/?action=my_character&user_id=nonexistent",
+      "expectedStatus": 404
+    }
+  ]
+}

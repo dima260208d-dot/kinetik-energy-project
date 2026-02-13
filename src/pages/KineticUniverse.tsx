@@ -13,6 +13,7 @@ import TournamentArena from '@/components/kinetic/games/TournamentArena';
 import CardBattle from '@/components/kinetic/games/CardBattle';
 import { Character, Trick, CharacterTrick } from '@/types/kinetic';
 import { useToast } from '@/hooks/use-toast';
+import * as api from '@/services/kineticApi';
 
 const KineticUniverse = () => {
   const { user } = useAuth();
@@ -33,53 +34,36 @@ const KineticUniverse = () => {
     loadData();
   }, []);
 
-  const loadData = () => {
-    const stored = localStorage.getItem('kinetic_universe_data');
-    const data = stored ? JSON.parse(stored) : { characters: [], masteredTricks: [] };
+  const loadData = async () => {
+    if (!user?.id) return;
+    try {
+      const char = await api.getMyCharacter(user.id);
+      if (!char) {
+        navigate('/character-creation');
+        return;
+      }
+      setCharacter(char);
 
-    const userCharacter = data.characters?.find((c: Character) => c.user_id === user?.id);
-    
-    if (!userCharacter) {
-      navigate('/character-creation');
-      return;
+      const [allChars, sportTricks, mastered] = await Promise.all([
+        api.getAllCharacters(),
+        api.getTricks(char.sport_type),
+        api.getMasteredTricks(char.id),
+      ]);
+      setCharacters(allChars);
+      setTricks(sportTricks);
+      setMasteredTricks(mastered);
+    } catch {
+      toast({ title: 'Ошибка загрузки', description: 'Не удалось загрузить данные', variant: 'destructive' });
+    } finally {
+      setLoading(false);
     }
-
-    setCharacter(userCharacter);
-    setCharacters(data.characters || []);
-    setMasteredTricks(data.masteredTricks?.filter((mt: CharacterTrick) => mt.character_id === userCharacter.id) || []);
-    
-    loadTricksForSport(userCharacter.sport_type);
-    setLoading(false);
   };
 
-  const loadTricksForSport = (sportType: string) => {
-    const mockTricks: Trick[] = [
-      { id: 1, name: 'Ollie', sport_type: 'skate', category: 'jumps', difficulty: 'novice', experience_reward: 50, kinetics_reward: 10, description: 'Базовый прыжок', created_at: '' },
-      { id: 2, name: 'Kickflip', sport_type: 'skate', category: 'flips', difficulty: 'amateur', experience_reward: 100, kinetics_reward: 20, description: 'Вращение доски', created_at: '' },
-      { id: 3, name: 'Heelflip', sport_type: 'skate', category: 'flips', difficulty: 'amateur', experience_reward: 100, kinetics_reward: 20, description: 'Вращение пяткой', created_at: '' },
-      { id: 4, name: 'Pop Shove-It', sport_type: 'skate', category: 'spins', difficulty: 'novice', experience_reward: 60, kinetics_reward: 12, description: 'Вращение доски 180', created_at: '' },
-      { id: 5, name: 'Frontside 180', sport_type: 'skate', category: 'spins', difficulty: 'amateur', experience_reward: 80, kinetics_reward: 15, description: 'Разворот лицом', created_at: '' },
-      { id: 6, name: 'Backside 180', sport_type: 'skate', category: 'spins', difficulty: 'amateur', experience_reward: 80, kinetics_reward: 15, description: 'Разворот спиной', created_at: '' },
-      { id: 7, name: 'Boardslide', sport_type: 'skate', category: 'slides', difficulty: 'pro', experience_reward: 150, kinetics_reward: 30, description: 'Скольжение по грани', created_at: '' },
-      { id: 8, name: '50-50 Grind', sport_type: 'skate', category: 'slides', difficulty: 'pro', experience_reward: 150, kinetics_reward: 30, description: 'Грайнд на подвесках', created_at: '' },
-      { id: 9, name: 'Manual', sport_type: 'skate', category: 'balance', difficulty: 'novice', experience_reward: 40, kinetics_reward: 8, description: 'Баланс на задних колёсах', created_at: '' },
-      { id: 10, name: 'Drop-in', sport_type: 'skate', category: 'jumps', difficulty: 'amateur', experience_reward: 90, kinetics_reward: 18, description: 'Заезд в рампу', created_at: '' },
-    ];
+  const getExperienceForNextLevel = (level: number) => level * 100;
 
-    setTricks(mockTricks.filter(t => t.sport_type === sportType));
-  };
+  const getTricksByCategory = (category: string) => tricks.filter(t => t.category === category);
 
-  const getExperienceForNextLevel = (level: number) => {
-    return level * 100;
-  };
-
-  const getTricksByCategory = (category: string) => {
-    return tricks.filter(t => t.category === category);
-  };
-
-  const isTrickMastered = (trickId: number) => {
-    return masteredTricks.some(mt => mt.trick_id === trickId);
-  };
+  const isTrickMastered = (trickId: number) => masteredTricks.some(mt => mt.trick_id === trickId);
 
   const getTrickProgress = () => {
     const total = tricks.length;
@@ -87,38 +71,23 @@ const KineticUniverse = () => {
     return total > 0 ? (mastered / total) * 100 : 0;
   };
 
-  const handleGameComplete = (earnedXP: number = 0, earnedKinetics: number = 0, won: boolean = true) => {
+  const handleGameComplete = async (earnedXP: number = 0, earnedKinetics: number = 0, won: boolean = true) => {
     if (!character) return;
+    try {
+      const gameName = activeGame || 'game';
+      const result = await api.gameComplete(character.id, earnedXP, earnedKinetics, gameName);
+      setCharacter(result.character);
 
-    const stored = localStorage.getItem('kinetic_universe_data');
-    const data = stored ? JSON.parse(stored) : { characters: [], masteredTricks: [] };
-    
-    const updatedCharacters = data.characters.map((c: Character) => {
-      if (c.id === character.id) {
-        const newExp = c.experience + earnedXP;
-        const newLevel = Math.min(Math.floor(newExp / 100) + 1, 100);
-        return { 
-          ...c, 
-          experience: newExp,
-          level: newLevel,
-          kinetics: c.kinetics + earnedKinetics 
-        };
-      }
-      return c;
-    });
+      const allChars = await api.getAllCharacters();
+      setCharacters(allChars);
 
-    data.characters = updatedCharacters;
-    localStorage.setItem('kinetic_universe_data', JSON.stringify(data));
-    
-    const updatedChar = updatedCharacters.find((c: Character) => c.id === character.id);
-    setCharacter(updatedChar);
-    setCharacters(updatedCharacters);
-
-    toast({
-      title: won ? 'Игра завершена!' : 'Хорошая попытка!',
-      description: `+${earnedXP} XP, +${earnedKinetics} 💰`
-    });
-
+      toast({
+        title: won ? 'Игра завершена!' : 'Хорошая попытка!',
+        description: `+${earnedXP} XP, +${earnedKinetics} 💰`
+      });
+    } catch {
+      toast({ title: 'Ошибка', description: 'Не удалось сохранить результат', variant: 'destructive' });
+    }
     setActiveGame(null);
     setShowGames(false);
   };
@@ -153,6 +122,7 @@ const KineticUniverse = () => {
               hairColor={character.hair_color}
               name={character.name}
               level={character.level}
+              avatarUrl={character.avatar_url}
             />
           </div>
 
@@ -193,7 +163,7 @@ const KineticUniverse = () => {
           <Button onClick={() => setShowPro(true)} className="h-20 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700">
             <div className="text-center">
               <Icon name="Crown" className="w-6 h-6 mx-auto mb-1" />
-              <div className="text-sm">Kinetic Pro</div>
+              <div className="text-sm">PRO</div>
             </div>
           </Button>
         </div>
@@ -213,29 +183,26 @@ const KineticUniverse = () => {
         {activeGame === 'simulator' && (
           <TrickSimulator
             tricks={tricks}
-            onComplete={(xp, kinetics) => handleGameComplete(xp, kinetics, true)}
+            onComplete={handleGameComplete}
             onClose={() => setActiveGame(null)}
           />
         )}
-
         {activeGame === 'arena' && (
           <TournamentArena
             tricks={tricks}
-            playerName={character.name}
-            onComplete={(won, kinetics) => handleGameComplete(0, kinetics, won)}
+            character={character}
+            onComplete={handleGameComplete}
             onClose={() => setActiveGame(null)}
           />
         )}
-
         {activeGame === 'cards' && (
           <CardBattle
             tricks={tricks}
-            onComplete={(kinetics) => handleGameComplete(0, kinetics, true)}
+            character={character}
+            onComplete={handleGameComplete}
             onClose={() => setActiveGame(null)}
           />
         )}
-
-
       </div>
     </div>
   );

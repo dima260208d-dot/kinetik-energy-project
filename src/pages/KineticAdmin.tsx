@@ -10,6 +10,7 @@ import Icon from '@/components/ui/icon';
 import Navigation from '@/components/Navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Character, Trick, SPORT_NAMES, SPORT_ICONS, DIFFICULTY_NAMES, DIFFICULTY_COLORS } from '@/types/kinetic';
+import * as api from '@/services/kineticApi';
 
 const KineticAdmin = () => {
   const { user } = useAuth();
@@ -18,161 +19,86 @@ const KineticAdmin = () => {
   const [tricks, setTricks] = useState<Trick[]>([]);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [kineticsAmount, setKineticsAmount] = useState(0);
+  const [kineticsReason, setKineticsReason] = useState('');
   const [selectedTricks, setSelectedTricks] = useState<number[]>([]);
+  const [isDeduct, setIsDeduct] = useState(false);
 
   useEffect(() => {
     loadData();
   }, []);
 
-  const loadData = () => {
-    const stored = localStorage.getItem('kinetic_universe_data');
-    const data = stored ? JSON.parse(stored) : { characters: [], masteredTricks: [] };
-    
-    setCharacters(data.characters || []);
-    
-    // Моковые трюки (в реальности из БД)
-    const mockTricks: Trick[] = [
-      { id: 1, name: 'Ollie', sport_type: 'skate', category: 'jumps', difficulty: 'novice', experience_reward: 50, kinetics_reward: 10, description: 'Базовый прыжок', created_at: '' },
-      { id: 2, name: 'Kickflip', sport_type: 'skate', category: 'flips', difficulty: 'amateur', experience_reward: 100, kinetics_reward: 20, description: 'Вращение доски', created_at: '' },
-      { id: 10, name: 'Drop-in', sport_type: 'skate', category: 'jumps', difficulty: 'amateur', experience_reward: 90, kinetics_reward: 18, description: 'Заезд в рампу', created_at: '' },
-      { id: 11, name: 'Basic Roll', sport_type: 'rollers', category: 'balance', difficulty: 'novice', experience_reward: 30, kinetics_reward: 5, description: 'Базовое катание', created_at: '' },
-      { id: 12, name: 'T-stop', sport_type: 'rollers', category: 'balance', difficulty: 'novice', experience_reward: 40, kinetics_reward: 8, description: 'Торможение', created_at: '' },
-      { id: 21, name: 'Bunny Hop', sport_type: 'bmx', category: 'jumps', difficulty: 'novice', experience_reward: 50, kinetics_reward: 10, description: 'Базовый прыжок', created_at: '' },
-      { id: 31, name: 'Tailwhip', sport_type: 'scooter', category: 'flips', difficulty: 'amateur', experience_reward: 120, kinetics_reward: 25, description: 'Вращение деки', created_at: '' },
-    ];
-    setTricks(mockTricks);
+  const loadData = async () => {
+    try {
+      const [chars, allTricks] = await Promise.all([
+        api.getAllCharacters(),
+        api.getTricks(''),
+      ]);
+      setCharacters(chars);
+      setTricks(allTricks);
+    } catch {
+      toast({ title: 'Ошибка', description: 'Не удалось загрузить данные', variant: 'destructive' });
+    }
   };
 
-  const handleGrantKinetics = () => {
-    if (!selectedCharacter) {
-      toast({
-        title: 'Ошибка',
-        description: 'Выберите персонажа',
-        variant: 'destructive'
-      });
+  const handleKinetics = async () => {
+    if (!selectedCharacter || kineticsAmount <= 0) {
+      toast({ title: 'Ошибка', description: 'Выберите персонажа и укажите количество', variant: 'destructive' });
       return;
     }
 
-    if (kineticsAmount <= 0) {
+    const amount = isDeduct ? -kineticsAmount : kineticsAmount;
+    const source = isDeduct ? 'admin_deduct' : 'admin_grant';
+    const desc = kineticsReason || (isDeduct ? 'Списание кинетиков' : 'Начисление кинетиков');
+
+    try {
+      const result = await api.addKinetics(selectedCharacter.id, amount, source, desc, user?.id);
+      setSelectedCharacter(result.character);
+      setKineticsAmount(0);
+      setKineticsReason('');
+      await loadData();
+
       toast({
-        title: 'Ошибка',
-        description: 'Введите количество кинетиков',
-        variant: 'destructive'
+        title: isDeduct ? 'Списано!' : 'Начислено!',
+        description: `${isDeduct ? 'Списано' : 'Начислено'} ${kineticsAmount} кинетиков у ${selectedCharacter.name}`
       });
-      return;
+    } catch {
+      toast({ title: 'Ошибка', description: 'Не удалось выполнить операцию', variant: 'destructive' });
     }
-
-    const stored = localStorage.getItem('kinetic_universe_data');
-    const data = stored ? JSON.parse(stored) : { characters: [], masteredTricks: [] };
-    
-    const updatedCharacters = data.characters.map((c: Character) => {
-      if (c.id === selectedCharacter.id) {
-        return { ...c, kinetics: c.kinetics + kineticsAmount };
-      }
-      return c;
-    });
-
-    data.characters = updatedCharacters;
-    localStorage.setItem('kinetic_universe_data', JSON.stringify(data));
-    
-    setCharacters(updatedCharacters);
-    setSelectedCharacter({ ...selectedCharacter, kinetics: selectedCharacter.kinetics + kineticsAmount });
-    setKineticsAmount(0);
-
-    toast({
-      title: 'Успешно!',
-      description: `Начислено ${kineticsAmount} кинетиков персонажу ${selectedCharacter.name}`
-    });
   };
 
-  const handleConfirmTricks = () => {
-    if (!selectedCharacter) {
-      toast({
-        title: 'Ошибка',
-        description: 'Выберите персонажа',
-        variant: 'destructive'
-      });
+  const handleConfirmTricks = async () => {
+    if (!selectedCharacter || selectedTricks.length === 0) {
+      toast({ title: 'Ошибка', description: 'Выберите персонажа и трюки', variant: 'destructive' });
       return;
     }
 
-    if (selectedTricks.length === 0) {
+    try {
+      const result = await api.confirmTricks(selectedCharacter.id, selectedTricks, user?.id);
+      setSelectedTricks([]);
+      await loadData();
+
       toast({
-        title: 'Ошибка',
-        description: 'Выберите трюки для подтверждения',
-        variant: 'destructive'
+        title: 'Трюки подтверждены!',
+        description: `+${result.total_exp} опыта, +${result.total_kinetics} кинетиков`
       });
-      return;
+    } catch {
+      toast({ title: 'Ошибка', description: 'Не удалось подтвердить трюки', variant: 'destructive' });
     }
-
-    const stored = localStorage.getItem('kinetic_universe_data');
-    const data = stored ? JSON.parse(stored) : { characters: [], masteredTricks: [] };
-    
-    // Добавляем освоенные трюки
-    const newMasteredTricks = selectedTricks.map(trickId => ({
-      id: Date.now() + trickId,
-      character_id: selectedCharacter.id,
-      trick_id: trickId,
-      confirmed_by: user?.id,
-      confirmed_at: new Date().toISOString()
-    }));
-
-    data.masteredTricks = [...(data.masteredTricks || []), ...newMasteredTricks];
-
-    // Начисляем награды
-    let totalExp = 0;
-    let totalKinetics = 0;
-
-    selectedTricks.forEach(trickId => {
-      const trick = tricks.find(t => t.id === trickId);
-      if (trick) {
-        totalExp += trick.experience_reward;
-        totalKinetics += trick.kinetics_reward;
-      }
-    });
-
-    // Обновляем персонажа
-    const updatedCharacters = data.characters.map((c: Character) => {
-      if (c.id === selectedCharacter.id) {
-        const newExp = c.experience + totalExp;
-        const newLevel = Math.floor(newExp / 100) + 1;
-        return { 
-          ...c, 
-          experience: newExp,
-          level: Math.min(newLevel, 100),
-          kinetics: c.kinetics + totalKinetics 
-        };
-      }
-      return c;
-    });
-
-    data.characters = updatedCharacters;
-    localStorage.setItem('kinetic_universe_data', JSON.stringify(data));
-    
-    setCharacters(updatedCharacters);
-    setSelectedTricks([]);
-
-    toast({
-      title: 'Трюки подтверждены!',
-      description: `Персонаж получил: +${totalExp} опыта, +${totalKinetics} кинетиков`
-    });
   };
 
   const toggleTrickSelection = (trickId: number) => {
-    if (selectedTricks.includes(trickId)) {
-      setSelectedTricks(selectedTricks.filter(id => id !== trickId));
-    } else {
-      setSelectedTricks([...selectedTricks, trickId]);
-    }
+    setSelectedTricks(prev =>
+      prev.includes(trickId) ? prev.filter(id => id !== trickId) : [...prev, trickId]
+    );
   };
 
-  const characterTricks = selectedCharacter 
+  const characterTricks = selectedCharacter
     ? tricks.filter(t => t.sport_type === selectedCharacter.sport_type)
     : [];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4">
       <div className="max-w-7xl mx-auto">
-        {/* Шапка */}
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-white flex items-center gap-2">
@@ -185,19 +111,18 @@ const KineticAdmin = () => {
 
         <Tabs defaultValue="kinetics" className="space-y-4">
           <TabsList className="bg-white/90">
-            <TabsTrigger value="kinetics">💰 Начисление кинетиков</TabsTrigger>
+            <TabsTrigger value="kinetics">💰 Кинетики</TabsTrigger>
             <TabsTrigger value="tricks">✅ Подтверждение трюков</TabsTrigger>
             <TabsTrigger value="characters">👥 Все персонажи</TabsTrigger>
           </TabsList>
 
-          {/* Начисление кинетиков */}
           <TabsContent value="kinetics">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="bg-white/95">
                 <CardHeader>
                   <CardTitle>Выбор персонажа</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-3 max-h-[500px] overflow-y-auto">
                   {characters.map((char) => (
                     <div
                       key={char.id}
@@ -231,7 +156,7 @@ const KineticAdmin = () => {
 
               <Card className="bg-white/95">
                 <CardHeader>
-                  <CardTitle>Начислить кинетики</CardTitle>
+                  <CardTitle>Управление кинетиками</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {selectedCharacter ? (
@@ -242,6 +167,25 @@ const KineticAdmin = () => {
                         <div className="text-sm text-gray-600">
                           Текущий баланс: <span className="font-semibold">{selectedCharacter.kinetics} 💰</span>
                         </div>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <Button
+                          variant={!isDeduct ? 'default' : 'outline'}
+                          onClick={() => setIsDeduct(false)}
+                          className={!isDeduct ? 'bg-green-600 hover:bg-green-700 flex-1' : 'flex-1'}
+                        >
+                          <Icon name="Plus" className="w-4 h-4 mr-1" />
+                          Начислить
+                        </Button>
+                        <Button
+                          variant={isDeduct ? 'default' : 'outline'}
+                          onClick={() => setIsDeduct(true)}
+                          className={isDeduct ? 'bg-red-600 hover:bg-red-700 flex-1' : 'flex-1'}
+                        >
+                          <Icon name="Minus" className="w-4 h-4 mr-1" />
+                          Списать
+                        </Button>
                       </div>
 
                       <div>
@@ -264,19 +208,32 @@ const KineticAdmin = () => {
                             onClick={() => setKineticsAmount(amount)}
                             className="text-sm"
                           >
-                            +{amount}
+                            {amount}
                           </Button>
                         ))}
                       </div>
 
+                      <div>
+                        <Label>Причина (необязательно)</Label>
+                        <Input
+                          value={kineticsReason}
+                          onChange={(e) => setKineticsReason(e.target.value)}
+                          placeholder="За что начисляем/списываем..."
+                          className="mt-2"
+                        />
+                      </div>
+
                       <Button
-                        onClick={handleGrantKinetics}
-                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                        onClick={handleKinetics}
+                        className={`w-full ${isDeduct
+                          ? 'bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700'
+                          : 'bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700'
+                        }`}
                         size="lg"
                         disabled={kineticsAmount <= 0}
                       >
-                        <Icon name="Plus" className="w-5 h-5 mr-2" />
-                        Начислить {kineticsAmount} кинетиков
+                        <Icon name={isDeduct ? "Minus" : "Plus"} className="w-5 h-5 mr-2" />
+                        {isDeduct ? 'Списать' : 'Начислить'} {kineticsAmount} кинетиков
                       </Button>
                     </div>
                   ) : (
@@ -289,14 +246,13 @@ const KineticAdmin = () => {
             </div>
           </TabsContent>
 
-          {/* Подтверждение трюков */}
           <TabsContent value="tricks">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="bg-white/95">
                 <CardHeader>
                   <CardTitle>Выбор персонажа</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-3 max-h-[500px] overflow-y-auto">
                   {characters.map((char) => (
                     <div
                       key={char.id}
@@ -335,9 +291,7 @@ const KineticAdmin = () => {
                       <div className="p-4 bg-green-50 rounded-lg mb-4">
                         <div className="text-sm text-gray-600 mb-1">Персонаж:</div>
                         <div className="font-bold text-lg">{selectedCharacter.name}</div>
-                        <div className="text-sm text-gray-600">
-                          {SPORT_NAMES[selectedCharacter.sport_type]}
-                        </div>
+                        <div className="text-sm text-gray-600">{SPORT_NAMES[selectedCharacter.sport_type]}</div>
                       </div>
 
                       <div className="space-y-2 max-h-96 overflow-y-auto">
@@ -374,15 +328,12 @@ const KineticAdmin = () => {
                           <div className="text-sm font-semibold mb-2">
                             Выбрано трюков: {selectedTricks.length}
                           </div>
-                          <div className="text-xs text-gray-600">
-                            Персонаж получит опыт и кинетики за каждый подтверждённый трюк
-                          </div>
                         </div>
                       )}
 
                       <Button
                         onClick={handleConfirmTricks}
-                        className="w-full bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700"
+                        className="w-full bg-gradient-to-r from-green-600 to-teal-600"
                         size="lg"
                         disabled={selectedTricks.length === 0}
                       >
@@ -391,60 +342,51 @@ const KineticAdmin = () => {
                       </Button>
                     </div>
                   ) : (
-                    <p className="text-gray-500 text-center py-8">
-                      Выберите персонажа
-                    </p>
+                    <p className="text-gray-500 text-center py-8">Выберите персонажа</p>
                   )}
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
 
-          {/* Все персонажи */}
           <TabsContent value="characters">
             <Card className="bg-white/95">
               <CardHeader>
-                <CardTitle>Все персонажи</CardTitle>
+                <CardTitle>Все персонажи ({characters.length})</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {characters.map((char) => (
-                    <div key={char.id} className="p-4 border-2 border-gray-300 rounded-lg">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="text-3xl">{SPORT_ICONS[char.sport_type]}</div>
-                        <div>
-                          <div className="font-bold">{char.name}</div>
-                          <div className="text-sm text-gray-600">{SPORT_NAMES[char.sport_type]}</div>
+                <div className="space-y-3">
+                  {characters.map((char, idx) => (
+                    <div key={char.id} className="p-4 rounded-lg border-2 border-gray-200 bg-white">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="text-2xl font-bold text-gray-400 w-8">
+                            {idx + 1}.
+                          </div>
+                          {char.avatar_url ? (
+                            <img src={char.avatar_url} alt={char.name} className="w-12 h-12 rounded-full object-cover border-2 border-purple-300" />
+                          ) : (
+                            <div className="text-3xl">{SPORT_ICONS[char.sport_type]}</div>
+                          )}
+                          <div>
+                            <div className="font-bold text-lg">{char.name}</div>
+                            <div className="text-sm text-gray-600">
+                              {SPORT_NAMES[char.sport_type]} · Уровень {char.level}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="space-y-1 text-sm">
-                        <div className="flex justify-between">
-                          <span>Уровень:</span>
-                          <span className="font-semibold">{char.level}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Опыт:</span>
-                          <span className="font-semibold">{char.experience} XP</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Кинетики:</span>
-                          <span className="font-semibold">💰 {char.kinetics}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Баланс:</span>
-                          <span className="font-semibold">{char.balance}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Скорость:</span>
-                          <span className="font-semibold">{char.speed}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Смелость:</span>
-                          <span className="font-semibold">{char.courage}</span>
+                        <div className="text-right">
+                          <div className="text-lg font-bold text-purple-600">{char.experience} XP</div>
+                          <div className="text-sm text-yellow-600">💰 {char.kinetics}</div>
                         </div>
                       </div>
                     </div>
                   ))}
+                  {characters.length === 0 && (
+                    <div className="text-center py-12 text-gray-500">
+                      <p>Ещё нет зарегистрированных персонажей</p>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
