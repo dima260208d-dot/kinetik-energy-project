@@ -26,6 +26,8 @@ export interface Character {
   premium_currency: number;
   is_pro: boolean;
   pro_expires_at?: string;
+  games_won: number;
+  games_played: number;
   created_at: string;
   updated_at: string;
 }
@@ -73,6 +75,39 @@ export interface KineticsTransaction {
   created_at: string;
 }
 
+export interface CharacterNotification {
+  id: number;
+  character_id: number;
+  title: string;
+  message: string;
+  notification_type: string;
+  is_read: boolean;
+  created_at: string;
+}
+
+export interface Achievement {
+  id: number;
+  name: string;
+  description: string;
+  icon?: string;
+  requirement_type: string;
+  requirement_value: number;
+  reward_kinetics: number;
+  reward_item_id?: number;
+  is_earned?: boolean;
+  earned_at?: string;
+  progress?: number;
+  created_at: string;
+}
+
+export interface CharacterAchievement {
+  id: number;
+  character_id: number;
+  achievement_id: number;
+  earned_at: string;
+  achievement?: Achievement;
+}
+
 export interface LeaderboardEntry {
   id: number;
   character_id: number;
@@ -112,26 +147,6 @@ export interface ClanMember {
   role: 'leader' | 'member';
   joined_at: string;
   character?: Character;
-}
-
-export interface Achievement {
-  id: number;
-  name: string;
-  description: string;
-  icon?: string;
-  requirement_type: string;
-  requirement_value: number;
-  reward_kinetics: number;
-  reward_item_id?: number;
-  created_at: string;
-}
-
-export interface CharacterAchievement {
-  id: number;
-  character_id: number;
-  achievement_id: number;
-  earned_at: string;
-  achievement?: Achievement;
 }
 
 export interface DailyQuest {
@@ -239,3 +254,11 @@ export const HAIRSTYLES = [
   { id: 9, name: 'Хвост' },
   { id: 10, name: 'Косички' }
 ];
+
+export const CUSTOMIZATION_PRICES: Record<string, number> = {
+  hairstyle: 30,
+  hair_color: 20,
+  body_type: 50,
+  name: 50,
+  sport_type: 100,
+};

@@ -6,7 +6,7 @@ import { Trick } from '@/types/kinetic';
 
 interface TrickSimulatorProps {
   tricks: Trick[];
-  onComplete: (earnedXP: number, earnedKinetics: number) => void;
+  onComplete: (earnedXP: number, earnedKinetics: number, won: boolean) => void;
   onClose: () => void;
 }
 
@@ -14,7 +14,6 @@ const TrickSimulator = ({ tricks, onComplete, onClose }: TrickSimulatorProps) =>
   const [currentTrick, setCurrentTrick] = useState<Trick | null>(null);
   const [sequence, setSequence] = useState<string[]>([]);
   const [playerSequence, setPlayerSequence] = useState<string[]>([]);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [gameState, setGameState] = useState<'ready' | 'showing' | 'playing' | 'success' | 'fail'>('ready');
   const [score, setScore] = useState(0);
   const [round, setRound] = useState(1);
@@ -33,7 +32,6 @@ const TrickSimulator = ({ tricks, onComplete, onClose }: TrickSimulatorProps) =>
   };
 
   const startGame = () => {
-    // Генерируем случайную последовательность кнопок
     const length = Math.min(3 + round, 7);
     const newSequence = Array.from({ length }, () => buttons[Math.floor(Math.random() * buttons.length)]);
     setSequence(newSequence);
@@ -45,7 +43,6 @@ const TrickSimulator = ({ tricks, onComplete, onClose }: TrickSimulatorProps) =>
   const showSequence = async (seq: string[]) => {
     for (let i = 0; i < seq.length; i++) {
       await new Promise(resolve => setTimeout(resolve, 600));
-      // Показываем кнопку (подсветка реализована через CSS)
     }
     setGameState('playing');
   };
@@ -56,19 +53,16 @@ const TrickSimulator = ({ tricks, onComplete, onClose }: TrickSimulatorProps) =>
     const newPlayerSequence = [...playerSequence, button];
     setPlayerSequence(newPlayerSequence);
 
-    // Проверяем правильность нажатия
     if (button !== sequence[playerSequence.length]) {
       setGameState('fail');
       return;
     }
 
-    // Если последовательность завершена
     if (newPlayerSequence.length === sequence.length) {
       setGameState('success');
       const earnedXP = (currentTrick?.experience_reward || 50) * round;
-      const earnedKinetics = (currentTrick?.kinetics_reward || 10) * round;
       setScore(score + earnedXP);
-      
+
       setTimeout(() => {
         setRound(round + 1);
         setGameState('ready');
@@ -80,8 +74,7 @@ const TrickSimulator = ({ tricks, onComplete, onClose }: TrickSimulatorProps) =>
   const finishGame = () => {
     const earnedXP = score;
     const earnedKinetics = Math.floor(score / 5);
-    onComplete(earnedXP, earnedKinetics);
-    onClose();
+    onComplete(earnedXP, earnedKinetics, score > 0);
   };
 
   return (

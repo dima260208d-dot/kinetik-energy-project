@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
-import { Trick } from '@/types/kinetic';
+import { Trick, Character } from '@/types/kinetic';
 
 interface TournamentArenaProps {
   tricks: Trick[];
-  playerName: string;
-  onComplete: (won: boolean, earnedKinetics: number) => void;
+  character: Character;
+  onComplete: (earnedXP: number, earnedKinetics: number, won: boolean) => void;
   onClose: () => void;
 }
 
-const TournamentArena = ({ tricks, playerName, onComplete, onClose }: TournamentArenaProps) => {
+const TournamentArena = ({ tricks, character, onComplete, onClose }: TournamentArenaProps) => {
   const [gameState, setGameState] = useState<'prepare' | 'battle' | 'result'>('prepare');
   const [playerScore, setPlayerScore] = useState(0);
   const [opponentScore, setOpponentScore] = useState(0);
@@ -21,11 +21,6 @@ const TournamentArena = ({ tricks, playerName, onComplete, onClose }: Tournament
   const playerTricks = tricks.length > 0 ? tricks.slice(0, Math.min(5, tricks.length)) : [];
 
   const opponentName = 'Макс Скейтер';
-
-  const selectOpponentTrick = () => {
-    const randomTrick = tricks[Math.floor(Math.random() * tricks.length)];
-    setOpponentTrick(randomTrick);
-  };
 
   const handleTrickSelect = (trick: Trick) => {
     setSelectedTrick(trick);
@@ -65,9 +60,9 @@ const TournamentArena = ({ tricks, playerName, onComplete, onClose }: Tournament
 
   const finishGame = () => {
     const won = playerScore > opponentScore;
+    const earnedXP = won ? 50 : 20;
     const earnedKinetics = won ? 100 : 50;
-    onComplete(won, earnedKinetics);
-    onClose();
+    onComplete(earnedXP, earnedKinetics, won);
   };
 
   return (
@@ -80,10 +75,9 @@ const TournamentArena = ({ tricks, playerName, onComplete, onClose }: Tournament
           </Button>
         </CardHeader>
         <CardContent>
-          {/* Счёт */}
           <div className="grid grid-cols-3 gap-4 mb-6">
             <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <div className="font-bold text-lg">{playerName}</div>
+              <div className="font-bold text-lg">{character.name}</div>
               <div className="text-4xl font-bold text-blue-600">{playerScore}</div>
             </div>
             <div className="flex items-center justify-center text-2xl font-bold">
@@ -132,7 +126,7 @@ const TournamentArena = ({ tricks, playerName, onComplete, onClose }: Tournament
 
               <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
                 <div className="p-6 bg-blue-50 rounded-lg border-2 border-blue-300">
-                  <div className="font-bold mb-2">{playerName}</div>
+                  <div className="font-bold mb-2">{character.name}</div>
                   <div className="text-2xl mb-2">{selectedTrick?.name}</div>
                   <div className="text-3xl font-bold text-blue-600">
                     {selectedTrick?.experience_reward}
@@ -163,7 +157,7 @@ const TournamentArena = ({ tricks, playerName, onComplete, onClose }: Tournament
               </div>
               <div className="mb-6">
                 <p className="text-gray-600">
-                  Награда: +{playerScore > opponentScore ? 100 : 50} 💰
+                  Награда: +{playerScore > opponentScore ? 50 : 20} XP, +{playerScore > opponentScore ? 100 : 50} 💰
                 </p>
               </div>
               <Button onClick={finishGame} size="lg" className="bg-gradient-to-r from-green-600 to-teal-600">

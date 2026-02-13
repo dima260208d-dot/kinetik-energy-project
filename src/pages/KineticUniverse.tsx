@@ -4,15 +4,17 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import Navigation from '@/components/Navigation';
-import CharacterPreview from '@/components/kinetic/CharacterPreview';
+import AnimatedCharacter from '@/components/kinetic/AnimatedCharacter';
 import CharacterInfoCard from '@/components/kinetic/CharacterInfoCard';
 import KineticTabs from '@/components/kinetic/KineticTabs';
 import KineticModals from '@/components/kinetic/KineticModals';
+import NotificationBell from '@/components/kinetic/NotificationBell';
 import TrickSimulator from '@/components/kinetic/games/TrickSimulator';
 import TournamentArena from '@/components/kinetic/games/TournamentArena';
 import CardBattle from '@/components/kinetic/games/CardBattle';
 import { Character, Trick, CharacterTrick } from '@/types/kinetic';
 import { useToast } from '@/hooks/use-toast';
+import { fireConfetti } from '@/utils/confetti';
 import * as api from '@/services/kineticApi';
 
 const KineticUniverse = () => {
@@ -29,6 +31,7 @@ const KineticUniverse = () => {
   const [showTournaments, setShowTournaments] = useState(false);
   const [showPro, setShowPro] = useState(false);
   const [activeGame, setActiveGame] = useState<'simulator' | 'arena' | 'cards' | null>(null);
+  const [celebrating, setCelebrating] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -59,6 +62,12 @@ const KineticUniverse = () => {
     }
   };
 
+  const celebrate = () => {
+    setCelebrating(true);
+    fireConfetti();
+    setTimeout(() => setCelebrating(false), 3000);
+  };
+
   const getExperienceForNextLevel = (level: number) => level * 100;
 
   const getTricksByCategory = (category: string) => tricks.filter(t => t.category === category);
@@ -75,21 +84,42 @@ const KineticUniverse = () => {
     if (!character) return;
     try {
       const gameName = activeGame || 'game';
-      const result = await api.gameComplete(character.id, earnedXP, earnedKinetics, gameName);
+      const result = await api.gameComplete(character.id, earnedXP, earnedKinetics, gameName, won);
+      const prevLevel = character.level;
       setCharacter(result.character);
 
       const allChars = await api.getAllCharacters();
       setCharacters(allChars);
 
+      if (won) {
+        celebrate();
+      }
+
+      if (result.character.level > prevLevel) {
+        celebrate();
+        toast({ title: '🎉 Новый уровень!', description: `Ты достиг ${result.character.level} уровня!` });
+      }
+
       toast({
-        title: won ? 'Игра завершена!' : 'Хорошая попытка!',
+        title: won ? 'Победа!' : 'Хорошая попытка!',
         description: `+${earnedXP} XP, +${earnedKinetics} 💰`
       });
+
+      if (result.new_achievements?.length > 0) {
+        result.new_achievements.forEach((ach: { name: string; reward_kinetics: number }) => {
+          toast({ title: `🏆 ${ach.name}!`, description: `Награда: +${ach.reward_kinetics} 💰` });
+        });
+      }
     } catch {
       toast({ title: 'Ошибка', description: 'Не удалось сохранить результат', variant: 'destructive' });
     }
     setActiveGame(null);
     setShowGames(false);
+  };
+
+  const handleCharacterUpdate = (updatedChar: Character) => {
+    setCharacter(updatedChar);
+    celebrate();
   };
 
   if (loading || !character) {
@@ -110,12 +140,15 @@ const KineticUniverse = () => {
             </h1>
             <p className="text-blue-200">Добро пожаловать, {character.name}!</p>
           </div>
-          <Navigation currentPage="dashboard" />
+          <div className="flex items-center gap-2">
+            <NotificationBell characterId={character.id} />
+            <Navigation currentPage="dashboard" />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           <div>
-            <CharacterPreview
+            <AnimatedCharacter
               sportType={character.sport_type}
               bodyType={character.body_type}
               hairstyle={character.hairstyle}
@@ -123,6 +156,7 @@ const KineticUniverse = () => {
               name={character.name}
               level={character.level}
               avatarUrl={character.avatar_url}
+              celebrating={celebrating}
             />
           </div>
 
@@ -178,6 +212,8 @@ const KineticUniverse = () => {
           showPro={showPro}
           setShowPro={setShowPro}
           setActiveGame={setActiveGame}
+          character={character}
+          onCharacterUpdate={handleCharacterUpdate}
         />
 
         {activeGame === 'simulator' && (

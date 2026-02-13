@@ -2,16 +2,17 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
-import { Trick, DIFFICULTY_NAMES, DIFFICULTY_COLORS } from '@/types/kinetic';
+import { Trick, Character, DIFFICULTY_NAMES, DIFFICULTY_COLORS } from '@/types/kinetic';
 import { Badge } from '@/components/ui/badge';
 
 interface CardBattleProps {
   tricks: Trick[];
-  onComplete: (earnedKinetics: number) => void;
+  character: Character;
+  onComplete: (earnedXP: number, earnedKinetics: number, won: boolean) => void;
   onClose: () => void;
 }
 
-const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
+const CardBattle = ({ tricks, character, onComplete, onClose }: CardBattleProps) => {
   function getRandomCards(count: number): Trick[] {
     if (tricks.length === 0) return [];
     const shuffled = [...tricks].sort(() => Math.random() - 0.5);
@@ -28,12 +29,7 @@ const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
   const [round, setRound] = useState(1);
 
   const getCardPower = (trick: Trick): number => {
-    const difficultyPower = {
-      'novice': 1,
-      'amateur': 2,
-      'pro': 3,
-      'legend': 4
-    };
+    const difficultyPower = { 'novice': 1, 'amateur': 2, 'pro': 3, 'legend': 4 };
     return (difficultyPower[trick.difficulty] || 1) * 10 + trick.experience_reward;
   };
 
@@ -50,21 +46,14 @@ const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
       const playerPower = getCardPower(trick);
       const opponentPower = getCardPower(opponentCard);
 
-      let newPlayerScore = playerScore;
-      let newOpponentScore = opponentScore;
-
       if (playerPower > opponentPower) {
-        newPlayerScore = playerScore + 1;
-        setPlayerScore(newPlayerScore);
+        setPlayerScore(prev => prev + 1);
       } else if (opponentPower > playerPower) {
-        newOpponentScore = opponentScore + 1;
-        setOpponentScore(newOpponentScore);
+        setOpponentScore(prev => prev + 1);
       }
 
       if (round >= 5) {
-        setTimeout(() => {
-          setGameState('result');
-        }, 1000);
+        setTimeout(() => setGameState('result'), 1000);
       } else {
         setTimeout(() => {
           setRound(round + 1);
@@ -77,9 +66,9 @@ const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
 
   const finishGame = () => {
     const won = playerScore > opponentScore;
+    const earnedXP = won ? 40 : 15;
     const earnedKinetics = won ? 80 : 30;
-    onComplete(earnedKinetics);
-    onClose();
+    onComplete(earnedXP, earnedKinetics, won);
   };
 
   return (
@@ -94,7 +83,6 @@ const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
         <CardContent>
           {gameState === 'playing' && (
             <div>
-              {/* Счёт */}
               <div className="flex justify-between items-center mb-6">
                 <div className="text-center">
                   <div className="text-sm text-gray-600">Ты</div>
@@ -107,7 +95,6 @@ const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
                 </div>
               </div>
 
-              {/* Поле противника */}
               <div className="mb-6">
                 <div className="text-center text-sm text-gray-600 mb-2">Карта противника</div>
                 <div className="flex justify-center">
@@ -129,7 +116,6 @@ const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
                 </div>
               </div>
 
-              {/* Поле игрока */}
               <div className="mb-6">
                 <div className="text-center text-sm text-gray-600 mb-2">Твоя карта</div>
                 <div className="flex justify-center">
@@ -151,7 +137,6 @@ const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
                 </div>
               </div>
 
-              {/* Рука игрока */}
               <div>
                 <div className="text-center text-sm text-gray-600 mb-3">Твои карты</div>
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -189,7 +174,7 @@ const CardBattle = ({ tricks, onComplete, onClose }: CardBattleProps) => {
               </div>
               <div className="mb-6">
                 <p className="text-gray-600">
-                  Награда: +{playerScore > opponentScore ? 80 : 30} 💰
+                  Награда: +{playerScore > opponentScore ? 40 : 15} XP, +{playerScore > opponentScore ? 80 : 30} 💰
                 </p>
               </div>
               <Button onClick={finishGame} size="lg" className="bg-gradient-to-r from-green-600 to-teal-600">

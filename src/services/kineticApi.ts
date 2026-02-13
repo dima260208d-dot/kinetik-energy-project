@@ -1,4 +1,5 @@
 import funcUrls from '../../backend/func2url.json';
+import { Achievement, CharacterNotification, KineticsTransaction } from '@/types/kinetic';
 
 const API_URL = funcUrls['kinetic-api'];
 
@@ -96,20 +97,52 @@ export async function confirmTricks(characterId: number, trickIds: number[], con
   return data;
 }
 
-export async function gameComplete(characterId: number, earnedXp: number, earnedKinetics: number, gameName: string) {
+export async function gameComplete(characterId: number, earnedXp: number, earnedKinetics: number, gameName: string, won: boolean = true, score: number = 0) {
   const { data } = await request('POST', {}, {
     action: 'game_complete',
     character_id: characterId,
     earned_xp: earnedXp,
     earned_kinetics: earnedKinetics,
     game_name: gameName,
+    won,
+    score,
   });
   return data;
 }
 
-export async function getTransactions(characterId: number) {
+export async function getTransactions(characterId: number): Promise<KineticsTransaction[]> {
   const { data } = await request('GET', { action: 'transactions', character_id: String(characterId) });
   return data.transactions || [];
+}
+
+export async function getNotifications(characterId: number): Promise<{ notifications: CharacterNotification[]; unread_count: number }> {
+  const { data } = await request('GET', { action: 'notifications', character_id: String(characterId) });
+  return { notifications: data.notifications || [], unread_count: data.unread_count || 0 };
+}
+
+export async function markNotificationsRead(characterId: number, notificationIds?: number[]) {
+  const { data } = await request('POST', {}, {
+    action: 'mark_notifications_read',
+    character_id: characterId,
+    notification_ids: notificationIds,
+  });
+  return data;
+}
+
+export async function getAchievements(characterId: number): Promise<Achievement[]> {
+  const { data } = await request('GET', { action: 'achievements', character_id: String(characterId) });
+  return data.achievements || [];
+}
+
+export async function purchaseCustomization(characterId: number, itemType: string, itemValue: string | number, cost: number) {
+  const { data } = await request('POST', {}, {
+    action: 'purchase_customization',
+    character_id: characterId,
+    item_type: itemType,
+    item_value: itemValue,
+    cost,
+  });
+  return data;
 }
 
 export default {
@@ -123,5 +156,9 @@ export default {
   confirmTricks,
   gameComplete,
   getTransactions,
+  getNotifications,
+  markNotificationsRead,
+  getAchievements,
+  purchaseCustomization,
   getAvatarForSport,
 };

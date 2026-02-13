@@ -17,6 +17,24 @@
       "method": "GET",
       "path": "/?action=my_character&user_id=nonexistent",
       "expectedStatus": 404
+    },
+    {
+      "name": "Get achievements",
+      "method": "GET",
+      "path": "/?action=achievements&character_id=1",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get notifications",
+      "method": "GET",
+      "path": "/?action=notifications&character_id=1",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get transactions",
+      "method": "GET",
+      "path": "/?action=transactions&character_id=1",
+      "expectedStatus": 200
     }
   ]
 }

@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
 import Navigation from '@/components/Navigation';
 import { useToast } from '@/hooks/use-toast';
-import { Character, Trick, SPORT_NAMES, SPORT_ICONS, DIFFICULTY_NAMES, DIFFICULTY_COLORS } from '@/types/kinetic';
+import { Character, Trick, KineticsTransaction, SPORT_NAMES, SPORT_ICONS, DIFFICULTY_NAMES, DIFFICULTY_COLORS } from '@/types/kinetic';
 import * as api from '@/services/kineticApi';
 
 const KineticAdmin = () => {
@@ -22,10 +22,18 @@ const KineticAdmin = () => {
   const [kineticsReason, setKineticsReason] = useState('');
   const [selectedTricks, setSelectedTricks] = useState<number[]>([]);
   const [isDeduct, setIsDeduct] = useState(false);
+  const [transactions, setTransactions] = useState<KineticsTransaction[]>([]);
+  const [loadingTx, setLoadingTx] = useState(false);
 
   useEffect(() => {
     loadData();
   }, []);
+
+  useEffect(() => {
+    if (selectedCharacter) {
+      loadTransactions(selectedCharacter.id);
+    }
+  }, [selectedCharacter?.id]);
 
   const loadData = async () => {
     try {
@@ -38,6 +46,17 @@ const KineticAdmin = () => {
     } catch {
       toast({ title: 'Ошибка', description: 'Не удалось загрузить данные', variant: 'destructive' });
     }
+  };
+
+  const loadTransactions = async (charId: number) => {
+    setLoadingTx(true);
+    try {
+      const txs = await api.getTransactions(charId);
+      setTransactions(txs);
+    } catch {
+      setTransactions([]);
+    }
+    setLoadingTx(false);
   };
 
   const handleKinetics = async () => {
@@ -56,6 +75,7 @@ const KineticAdmin = () => {
       setKineticsAmount(0);
       setKineticsReason('');
       await loadData();
+      await loadTransactions(selectedCharacter.id);
 
       toast({
         title: isDeduct ? 'Списано!' : 'Начислено!',
@@ -76,6 +96,7 @@ const KineticAdmin = () => {
       const result = await api.confirmTricks(selectedCharacter.id, selectedTricks, user?.id);
       setSelectedTricks([]);
       await loadData();
+      await loadTransactions(selectedCharacter.id);
 
       toast({
         title: 'Трюки подтверждены!',
@@ -95,6 +116,11 @@ const KineticAdmin = () => {
   const characterTricks = selectedCharacter
     ? tricks.filter(t => t.sport_type === selectedCharacter.sport_type)
     : [];
+
+  const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return d.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4">
@@ -117,7 +143,7 @@ const KineticAdmin = () => {
           </TabsList>
 
           <TabsContent value="kinetics">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <Card className="bg-white/95">
                 <CardHeader>
                   <CardTitle>Выбор персонажа</CardTitle>
@@ -200,46 +226,73 @@ const KineticAdmin = () => {
                         />
                       </div>
 
-                      <div className="grid grid-cols-3 gap-2">
-                        {[10, 50, 100, 200, 500, 1000].map((amount) => (
-                          <Button
-                            key={amount}
-                            variant="outline"
-                            onClick={() => setKineticsAmount(amount)}
-                            className="text-sm"
-                          >
-                            {amount}
-                          </Button>
-                        ))}
-                      </div>
-
                       <div>
-                        <Label>Причина (необязательно)</Label>
+                        <Label>Причина</Label>
                         <Input
                           value={kineticsReason}
                           onChange={(e) => setKineticsReason(e.target.value)}
-                          placeholder="За что начисляем/списываем..."
+                          placeholder="Укажите причину..."
                           className="mt-2"
                         />
                       </div>
 
                       <Button
                         onClick={handleKinetics}
-                        className={`w-full ${isDeduct
-                          ? 'bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700'
-                          : 'bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700'
-                        }`}
-                        size="lg"
+                        className={`w-full ${isDeduct ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'}`}
                         disabled={kineticsAmount <= 0}
                       >
-                        <Icon name={isDeduct ? "Minus" : "Plus"} className="w-5 h-5 mr-2" />
-                        {isDeduct ? 'Списать' : 'Начислить'} {kineticsAmount} кинетиков
+                        {isDeduct ? 'Списать' : 'Начислить'} {kineticsAmount > 0 ? `${kineticsAmount} кинетиков` : ''}
                       </Button>
                     </div>
                   ) : (
-                    <p className="text-gray-500 text-center py-8">
-                      Выберите персонажа из списка слева
-                    </p>
+                    <div className="text-center py-8 text-gray-500">
+                      <Icon name="UserCircle" className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                      <p>Выберите персонажа слева</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/95">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Icon name="History" className="w-5 h-5" />
+                    История операций
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="max-h-[500px] overflow-y-auto">
+                  {!selectedCharacter ? (
+                    <p className="text-center py-8 text-gray-500">Выберите персонажа</p>
+                  ) : loadingTx ? (
+                    <p className="text-center py-8 text-gray-500">Загрузка...</p>
+                  ) : transactions.length === 0 ? (
+                    <p className="text-center py-8 text-gray-500">Операций пока нет</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {transactions.map(tx => (
+                        <div
+                          key={tx.id}
+                          className={`p-3 rounded-lg border text-sm ${
+                            tx.amount > 0
+                              ? 'bg-green-50 border-green-200'
+                              : 'bg-red-50 border-red-200'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className={`font-bold ${tx.amount > 0 ? 'text-green-700' : 'text-red-700'}`}>
+                              {tx.amount > 0 ? '+' : ''}{tx.amount} 💰
+                            </span>
+                            <span className="text-xs text-gray-500">{formatDate(tx.created_at)}</span>
+                          </div>
+                          <div className="text-gray-600 text-xs">
+                            {tx.description || tx.source}
+                          </div>
+                          <div className="text-gray-400 text-[10px] mt-1">
+                            Источник: {tx.source}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </CardContent>
               </Card>
@@ -250,31 +303,25 @@ const KineticAdmin = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="bg-white/95">
                 <CardHeader>
-                  <CardTitle>Выбор персонажа</CardTitle>
+                  <CardTitle>Выбор персонажа для подтверждения</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3 max-h-[500px] overflow-y-auto">
+                <CardContent className="space-y-3 max-h-[400px] overflow-y-auto">
                   {characters.map((char) => (
                     <div
                       key={char.id}
-                      onClick={() => {
-                        setSelectedCharacter(char);
-                        setSelectedTricks([]);
-                      }}
-                      className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                      onClick={() => setSelectedCharacter(char)}
+                      className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
                         selectedCharacter?.id === char.id
-                          ? 'border-green-500 bg-green-50'
-                          : 'border-gray-300 hover:border-green-300'
+                          ? 'border-purple-500 bg-purple-50'
+                          : 'border-gray-300 hover:border-purple-300'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="text-3xl">{SPORT_ICONS[char.sport_type]}</div>
-                          <div>
-                            <div className="font-semibold">{char.name}</div>
-                            <div className="text-sm text-gray-600">{SPORT_NAMES[char.sport_type]}</div>
-                          </div>
+                      <div className="flex items-center gap-3">
+                        <div className="text-2xl">{SPORT_ICONS[char.sport_type]}</div>
+                        <div>
+                          <div className="font-semibold">{char.name}</div>
+                          <div className="text-sm text-gray-600">{SPORT_NAMES[char.sport_type]} | Уровень {char.level}</div>
                         </div>
-                        <Badge>Уровень {char.level}</Badge>
                       </div>
                     </div>
                   ))}
@@ -283,18 +330,16 @@ const KineticAdmin = () => {
 
               <Card className="bg-white/95">
                 <CardHeader>
-                  <CardTitle>Подтвердить трюки</CardTitle>
+                  <CardTitle>
+                    {selectedCharacter
+                      ? `Трюки — ${SPORT_NAMES[selectedCharacter.sport_type]}`
+                      : 'Выберите персонажа'}
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="max-h-[500px] overflow-y-auto">
                   {selectedCharacter ? (
-                    <div className="space-y-4">
-                      <div className="p-4 bg-green-50 rounded-lg mb-4">
-                        <div className="text-sm text-gray-600 mb-1">Персонаж:</div>
-                        <div className="font-bold text-lg">{selectedCharacter.name}</div>
-                        <div className="text-sm text-gray-600">{SPORT_NAMES[selectedCharacter.sport_type]}</div>
-                      </div>
-
-                      <div className="space-y-2 max-h-96 overflow-y-auto">
+                    <>
+                      <div className="space-y-2 mb-4">
                         {characterTricks.map((trick) => (
                           <div
                             key={trick.id}
@@ -308,41 +353,30 @@ const KineticAdmin = () => {
                             <div className="flex items-center justify-between">
                               <div>
                                 <div className="font-semibold">{trick.name}</div>
-                                <div className="text-sm text-gray-600">{trick.description}</div>
-                              </div>
-                              <div className="text-right text-sm">
-                                <Badge className={DIFFICULTY_COLORS[trick.difficulty]}>
-                                  {DIFFICULTY_NAMES[trick.difficulty]}
-                                </Badge>
-                                <div className="text-xs mt-1">
-                                  +{trick.experience_reward} XP, +{trick.kinetics_reward} 💰
+                                <div className="flex items-center gap-2 mt-1">
+                                  <Badge className={`${DIFFICULTY_COLORS[trick.difficulty]} text-xs`}>
+                                    {DIFFICULTY_NAMES[trick.difficulty]}
+                                  </Badge>
+                                  <span className="text-xs text-gray-600">+{trick.experience_reward} XP | +{trick.kinetics_reward} 💰</span>
                                 </div>
                               </div>
+                              {selectedTricks.includes(trick.id) && (
+                                <Icon name="CheckCircle2" className="w-6 h-6 text-green-600" />
+                              )}
                             </div>
                           </div>
                         ))}
                       </div>
 
                       {selectedTricks.length > 0 && (
-                        <div className="p-4 bg-blue-50 rounded-lg">
-                          <div className="text-sm font-semibold mb-2">
-                            Выбрано трюков: {selectedTricks.length}
-                          </div>
-                        </div>
+                        <Button onClick={handleConfirmTricks} className="w-full bg-green-600 hover:bg-green-700">
+                          <Icon name="Check" className="w-4 h-4 mr-2" />
+                          Подтвердить {selectedTricks.length} трюков
+                        </Button>
                       )}
-
-                      <Button
-                        onClick={handleConfirmTricks}
-                        className="w-full bg-gradient-to-r from-green-600 to-teal-600"
-                        size="lg"
-                        disabled={selectedTricks.length === 0}
-                      >
-                        <Icon name="Check" className="w-5 h-5 mr-2" />
-                        Подтвердить {selectedTricks.length} трюков
-                      </Button>
-                    </div>
+                    </>
                   ) : (
-                    <p className="text-gray-500 text-center py-8">Выберите персонажа</p>
+                    <p className="text-center py-8 text-gray-500">Выберите персонажа</p>
                   )}
                 </CardContent>
               </Card>
@@ -355,38 +389,36 @@ const KineticAdmin = () => {
                 <CardTitle>Все персонажи ({characters.length})</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  {characters.map((char, idx) => (
-                    <div key={char.id} className="p-4 rounded-lg border-2 border-gray-200 bg-white">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <div className="text-2xl font-bold text-gray-400 w-8">
-                            {idx + 1}.
-                          </div>
-                          {char.avatar_url ? (
-                            <img src={char.avatar_url} alt={char.name} className="w-12 h-12 rounded-full object-cover border-2 border-purple-300" />
-                          ) : (
-                            <div className="text-3xl">{SPORT_ICONS[char.sport_type]}</div>
-                          )}
-                          <div>
-                            <div className="font-bold text-lg">{char.name}</div>
-                            <div className="text-sm text-gray-600">
-                              {SPORT_NAMES[char.sport_type]} · Уровень {char.level}
-                            </div>
-                          </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {characters.map((char) => (
+                    <div key={char.id} className="p-4 border-2 border-gray-200 rounded-lg">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="text-3xl">{SPORT_ICONS[char.sport_type]}</div>
+                        <div>
+                          <div className="font-bold text-lg">{char.name}</div>
+                          <div className="text-sm text-gray-600">{SPORT_NAMES[char.sport_type]}</div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-lg font-bold text-purple-600">{char.experience} XP</div>
-                          <div className="text-sm text-yellow-600">💰 {char.kinetics}</div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-sm">
+                        <div className="bg-purple-50 p-2 rounded">
+                          <div className="text-gray-600">Уровень</div>
+                          <div className="font-bold">{char.level}</div>
+                        </div>
+                        <div className="bg-yellow-50 p-2 rounded">
+                          <div className="text-gray-600">Кинетики</div>
+                          <div className="font-bold">{char.kinetics} 💰</div>
+                        </div>
+                        <div className="bg-blue-50 p-2 rounded">
+                          <div className="text-gray-600">Опыт</div>
+                          <div className="font-bold">{char.experience} XP</div>
+                        </div>
+                        <div className="bg-green-50 p-2 rounded">
+                          <div className="text-gray-600">Игры</div>
+                          <div className="font-bold">{char.games_played || 0} / {char.games_won || 0} побед</div>
                         </div>
                       </div>
                     </div>
                   ))}
-                  {characters.length === 0 && (
-                    <div className="text-center py-12 text-gray-500">
-                      <p>Ещё нет зарегистрированных персонажей</p>
-                    </div>
-                  )}
                 </div>
               </CardContent>
             </Card>
