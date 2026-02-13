@@ -35,6 +35,48 @@
       "method": "GET",
       "path": "/?action=transactions&character_id=1",
       "expectedStatus": 200
+    },
+    {
+      "name": "Get purchased items",
+      "method": "GET",
+      "path": "/?action=purchased_items&character_id=1",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get current tournament",
+      "method": "GET",
+      "path": "/?action=current_tournament",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get weekly leaderboard",
+      "method": "GET",
+      "path": "/?action=leaderboard&period=weekly",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get monthly leaderboard",
+      "method": "GET",
+      "path": "/?action=leaderboard&period=monthly",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get public profile",
+      "method": "GET",
+      "path": "/?action=public_profile&character_id=1",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get training visits",
+      "method": "GET",
+      "path": "/?action=training_visits&character_id=1",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get accessories",
+      "method": "GET",
+      "path": "/?action=accessories&character_id=1",
+      "expectedStatus": 200
     }
   ]
 }

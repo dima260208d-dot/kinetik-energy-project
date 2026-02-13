@@ -53,6 +53,8 @@ const CharacterCreation = () => {
     }
 
     try {
+      const storedUser = localStorage.getItem('current_user');
+      const userAge = storedUser ? JSON.parse(storedUser).age : undefined;
       await createCharacter({
         user_id: user?.id || '',
         name: characterName,
@@ -62,6 +64,7 @@ const CharacterCreation = () => {
         hairstyle: hairstyle,
         hair_color: hairColor,
         avatar_url: getAvatarForSport(sportType),
+        age: userAge,
       });
 
       toast({

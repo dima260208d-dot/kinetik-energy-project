@@ -1,5 +1,5 @@
 import funcUrls from '../../backend/func2url.json';
-import { Achievement, CharacterNotification, KineticsTransaction } from '@/types/kinetic';
+import { Achievement, CharacterNotification, KineticsTransaction, PurchasedItem, Tournament, TournamentEntry, TrainingVisit, PublicProfile, LeaderboardEntry } from '@/types/kinetic';
 
 const API_URL = funcUrls['kinetic-api'];
 
@@ -15,16 +15,13 @@ export function getAvatarForSport(sportType: string): string {
   return SPORT_AVATARS[sportType] || SPORT_AVATARS.skate;
 }
 
-async function request(method: string, params: Record<string, string> = {}, body?: Record<string, unknown>, extraHeaders?: Record<string, string>) {
+async function request(method: string, params: Record<string, string> = {}, body?: Record<string, unknown>) {
   const url = new URL(API_URL);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
 
   const res = await fetch(url.toString(), {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...extraHeaders,
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: body ? JSON.stringify(body) : undefined,
   });
 
@@ -65,6 +62,7 @@ export async function createCharacter(characterData: {
   hairstyle?: number;
   hair_color?: string;
   avatar_url?: string;
+  age?: number;
 }) {
   const { data } = await request('POST', {}, { ...characterData, action: 'create_character' });
   return data.character;
@@ -79,9 +77,7 @@ export async function addKinetics(characterId: number, amount: number, source: s
   const { data } = await request('POST', {}, {
     action: 'add_kinetics',
     character_id: characterId,
-    amount,
-    source,
-    description,
+    amount, source, description,
     created_by: createdBy,
   });
   return data;
@@ -104,8 +100,7 @@ export async function gameComplete(characterId: number, earnedXp: number, earned
     earned_xp: earnedXp,
     earned_kinetics: earnedKinetics,
     game_name: gameName,
-    won,
-    score,
+    won, score,
   });
   return data;
 }
@@ -145,20 +140,117 @@ export async function purchaseCustomization(characterId: number, itemType: strin
   return data;
 }
 
+export async function purchaseItem(characterId: number, itemType: string, itemValue: string, itemName: string, cost: number) {
+  const { data } = await request('POST', {}, {
+    action: 'purchase_item',
+    character_id: characterId,
+    item_type: itemType,
+    item_value: itemValue,
+    item_name: itemName,
+    cost,
+  });
+  return data;
+}
+
+export async function getPurchasedItems(characterId: number): Promise<PurchasedItem[]> {
+  const { data } = await request('GET', { action: 'purchased_items', character_id: String(characterId) });
+  return data.items || [];
+}
+
+export async function addSport(characterId: number, sportType: string, cost: number = 100) {
+  const { data } = await request('POST', {}, {
+    action: 'add_sport',
+    character_id: characterId,
+    sport_type: sportType,
+    cost,
+  });
+  return data;
+}
+
+export async function getCurrentTournament(): Promise<{ tournament: Tournament; entries: TournamentEntry[] }> {
+  const { data } = await request('GET', { action: 'current_tournament' });
+  return { tournament: data.tournament, entries: data.entries || [] };
+}
+
+export async function joinTournament(characterId: number) {
+  const { data } = await request('POST', {}, {
+    action: 'join_tournament',
+    character_id: characterId,
+  });
+  return data;
+}
+
+export async function getLeaderboard(period: 'weekly' | 'monthly'): Promise<LeaderboardEntry[]> {
+  const { data } = await request('GET', { action: 'leaderboard', period });
+  return data.entries || [];
+}
+
+export async function getPublicProfile(characterId: number): Promise<PublicProfile> {
+  const { data } = await request('GET', { action: 'public_profile', character_id: String(characterId) });
+  return data as PublicProfile;
+}
+
+export async function addTrainingVisit(characterId: number, visitDate: string, confirmedBy?: string, notes?: string) {
+  const { data } = await request('POST', {}, {
+    action: 'add_training_visit',
+    character_id: characterId,
+    visit_date: visitDate,
+    confirmed_by: confirmedBy,
+    notes,
+  });
+  return data;
+}
+
+export async function getTrainingVisits(characterId: number): Promise<TrainingVisit[]> {
+  const { data } = await request('GET', { action: 'training_visits', character_id: String(characterId) });
+  return data.visits || [];
+}
+
+export async function setTrainer(characterId: number, trainerName: string) {
+  const { data } = await request('POST', {}, {
+    action: 'set_trainer',
+    character_id: characterId,
+    trainer_name: trainerName,
+  });
+  return data;
+}
+
+export async function setAge(characterId: number, age: number) {
+  const { data } = await request('POST', {}, {
+    action: 'set_age',
+    character_id: characterId,
+    age,
+  });
+  return data;
+}
+
+export async function getAccessories(characterId?: number) {
+  const params: Record<string, string> = { action: 'accessories' };
+  if (characterId) params.character_id = String(characterId);
+  const { data } = await request('GET', params);
+  return data.accessories || [];
+}
+
+export async function buyAccessory(characterId: number, accessoryId: number) {
+  const { data } = await request('POST', {}, {
+    action: 'buy_accessory',
+    character_id: characterId,
+    accessory_id: accessoryId,
+  });
+  return data;
+}
+
+export async function sendWeeklyResults() {
+  const { data } = await request('POST', {}, { action: 'send_weekly_results' });
+  return data;
+}
+
 export default {
-  getMyCharacter,
-  getAllCharacters,
-  getTricks,
-  getMasteredTricks,
-  createCharacter,
-  updateCharacter,
-  addKinetics,
-  confirmTricks,
-  gameComplete,
-  getTransactions,
-  getNotifications,
-  markNotificationsRead,
-  getAchievements,
-  purchaseCustomization,
-  getAvatarForSport,
+  getMyCharacter, getAllCharacters, getTricks, getMasteredTricks,
+  createCharacter, updateCharacter, addKinetics, confirmTricks,
+  gameComplete, getTransactions, getNotifications, markNotificationsRead,
+  getAchievements, purchaseCustomization, purchaseItem, getPurchasedItems,
+  addSport, getCurrentTournament, joinTournament, getLeaderboard,
+  getPublicProfile, addTrainingVisit, getTrainingVisits, setTrainer, setAge,
+  getAccessories, buyAccessory, sendWeeklyResults, getAvatarForSport,
 };

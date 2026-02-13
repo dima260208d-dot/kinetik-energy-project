@@ -2,8 +2,7 @@ export type SportType = 'skate' | 'rollers' | 'bmx' | 'scooter' | 'bike';
 export type RidingStyle = 'aggressive' | 'technical' | 'freestyle';
 export type TrickCategory = 'balance' | 'spins' | 'jumps' | 'slides' | 'flips';
 export type TrickDifficulty = 'novice' | 'amateur' | 'pro' | 'legend';
-export type LeaderboardType = 'daily' | 'seasonal' | 'sport' | 'age';
-export type ItemType = 'outfit' | 'equipment' | 'booster' | 'animation';
+export type ItemType = 'outfit' | 'equipment' | 'booster' | 'animation' | 'accessory';
 export type ItemRarity = 'common' | 'rare' | 'epic' | 'legendary';
 
 export interface Character {
@@ -11,6 +10,7 @@ export interface Character {
   user_id: string;
   name: string;
   sport_type: SportType;
+  sport_types: string[];
   riding_style: RidingStyle;
   level: number;
   experience: number;
@@ -28,6 +28,8 @@ export interface Character {
   pro_expires_at?: string;
   games_won: number;
   games_played: number;
+  age?: number;
+  trainer_name?: string;
   created_at: string;
   updated_at: string;
 }
@@ -51,6 +53,16 @@ export interface CharacterTrick {
   confirmed_by?: string;
   confirmed_at: string;
   trick?: Trick;
+}
+
+export interface PurchasedItem {
+  id: number;
+  character_id: number;
+  item_type: string;
+  item_value: string;
+  item_name: string;
+  cost: number;
+  purchased_at: string;
 }
 
 export interface InventoryItem {
@@ -82,6 +94,7 @@ export interface CharacterNotification {
   message: string;
   notification_type: string;
   is_read: boolean;
+  data?: string;
   created_at: string;
 }
 
@@ -100,6 +113,56 @@ export interface Achievement {
   created_at: string;
 }
 
+export interface Tournament {
+  id: number;
+  week_start: string;
+  week_end: string;
+  month_key: string;
+  status: string;
+  entry_fee: number;
+  created_at: string;
+}
+
+export interface TournamentEntry {
+  id: number;
+  tournament_id: number;
+  character_id: number;
+  score: number;
+  games_score: number;
+  tricks_score: number;
+  training_score: number;
+  rank?: number;
+  joined_at: string;
+  character_name?: string;
+  avatar_url?: string;
+  sport_type?: string;
+  level?: number;
+}
+
+export interface TrainingVisit {
+  id: number;
+  character_id: number;
+  visit_date: string;
+  confirmed_by?: string;
+  notes?: string;
+  created_at: string;
+}
+
+export interface PublicProfile {
+  character: Character;
+  stats: {
+    tricks_learned: number;
+    achievements_earned: number;
+    training_visits: number;
+    tournament_history: Array<{
+      score: number;
+      rank: number;
+      week_start: string;
+      week_end: string;
+    }>;
+  };
+}
+
 export interface CharacterAchievement {
   id: number;
   character_id: number;
@@ -109,16 +172,16 @@ export interface CharacterAchievement {
 }
 
 export interface LeaderboardEntry {
-  id: number;
   character_id: number;
-  leaderboard_type: LeaderboardType;
-  period_start: string;
-  period_end: string;
+  character_name: string;
+  avatar_url?: string;
+  sport_type?: string;
+  level?: number;
   score: number;
+  games_score?: number;
+  tricks_score?: number;
+  training_score?: number;
   rank?: number;
-  metadata?: Record<string, unknown>;
-  updated_at: string;
-  character?: Character;
 }
 
 export interface Friendship {
@@ -255,10 +318,34 @@ export const HAIRSTYLES = [
   { id: 10, name: 'Косички' }
 ];
 
+export interface Accessory {
+  id: number;
+  name: string;
+  description?: string;
+  icon: string;
+  item_type: string;
+  rarity: ItemRarity;
+  price: number;
+  is_available: boolean;
+  owned?: boolean;
+  equipped?: boolean;
+}
+
+export const SHOP_ACCESSORIES = [
+  { id: 'cap_cool', name: 'Крутая кепка', price: 200, icon: '🧢', rarity: 'rare' as ItemRarity, type: 'accessory' },
+  { id: 'sneakers_style', name: 'Стильные кроссовки', price: 500, icon: '👟', rarity: 'epic' as ItemRarity, type: 'accessory' },
+  { id: 'helmet_safe', name: 'Защитный шлем', price: 300, icon: '⛑️', rarity: 'common' as ItemRarity, type: 'accessory' },
+  { id: 'board_graffiti', name: 'Граффити доска', price: 1000, icon: '🎨', rarity: 'legendary' as ItemRarity, type: 'accessory' },
+  { id: 'booster_xp', name: 'Бустер опыта x2', price: 150, icon: '⚡', rarity: 'rare' as ItemRarity, type: 'booster' },
+  { id: 'aura_neon', name: 'Аура неона', price: 750, icon: '💫', rarity: 'epic' as ItemRarity, type: 'accessory' },
+  { id: 'gloves_pro', name: 'Про перчатки', price: 250, icon: '🧤', rarity: 'rare' as ItemRarity, type: 'accessory' },
+  { id: 'sunglasses', name: 'Солнцезащитные очки', price: 180, icon: '🕶️', rarity: 'common' as ItemRarity, type: 'accessory' },
+];
+
 export const CUSTOMIZATION_PRICES: Record<string, number> = {
   hairstyle: 30,
   hair_color: 20,
   body_type: 50,
   name: 50,
-  sport_type: 100,
+  add_sport: 100,
 };

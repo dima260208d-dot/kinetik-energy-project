@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
@@ -11,6 +11,8 @@ interface TournamentArenaProps {
   onClose: () => void;
 }
 
+const BOT_NAMES = ['Скейт-бот', 'Кинетик AI', 'Тренировочный бот', 'Спарринг-партнёр', 'Робо-райдер'];
+
 const TournamentArena = ({ tricks, character, onComplete, onClose }: TournamentArenaProps) => {
   const [gameState, setGameState] = useState<'prepare' | 'battle' | 'result'>('prepare');
   const [playerScore, setPlayerScore] = useState(0);
@@ -20,7 +22,7 @@ const TournamentArena = ({ tricks, character, onComplete, onClose }: TournamentA
   const [opponentTrick, setOpponentTrick] = useState<Trick | null>(null);
   const playerTricks = tricks.length > 0 ? tricks.slice(0, Math.min(5, tricks.length)) : [];
 
-  const opponentName = 'Макс Скейтер';
+  const opponentName = useMemo(() => BOT_NAMES[Math.floor(Math.random() * BOT_NAMES.length)], []);
 
   const handleTrickSelect = (trick: Trick) => {
     setSelectedTrick(trick);

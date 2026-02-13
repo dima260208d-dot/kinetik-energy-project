@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Character, SPORT_NAMES, SPORT_ICONS } from '@/types/kinetic';
+import { Character, SPORT_NAMES, SPORT_ICONS, SportType } from '@/types/kinetic';
 
 interface CharacterInfoCardProps {
   character: Character;
@@ -8,6 +8,8 @@ interface CharacterInfoCardProps {
 }
 
 const CharacterInfoCard = ({ character, getExperienceForNextLevel }: CharacterInfoCardProps) => {
+  const sports = (character.sport_types && character.sport_types.length > 0) ? character.sport_types : [character.sport_type];
+
   return (
     <Card className="lg:col-span-2 bg-white/95 backdrop-blur-md">
       <CardContent className="pt-6">
@@ -17,15 +19,25 @@ const CharacterInfoCard = ({ character, getExperienceForNextLevel }: CharacterIn
               <div className="text-4xl">{SPORT_ICONS[character.sport_type]}</div>
               <div>
                 <div className="text-2xl font-bold">{character.name}</div>
-                <div className="text-gray-600">{SPORT_NAMES[character.sport_type]}</div>
+                <div className="flex gap-1 flex-wrap">
+                  {sports.map((s: string) => (
+                    <Badge key={s} variant="outline" className="text-xs">
+                      {SPORT_ICONS[s as SportType] || '🏃'} {SPORT_NAMES[s as SportType] || s}
+                    </Badge>
+                  ))}
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
               <Badge className="text-lg px-3 py-1">Уровень {character.level}</Badge>
-              <span className="text-lg font-semibold text-yellow-600">
-                💰 {character.kinetics}
-              </span>
+              <span className="text-lg font-semibold text-yellow-600">💰 {character.kinetics}</span>
             </div>
+            {(character.trainer_name || character.age) && (
+              <div className="flex items-center gap-3 text-sm text-gray-600 mt-2">
+                {character.trainer_name && <span>👨‍🏫 Тренер: <strong>{character.trainer_name}</strong></span>}
+                {character.age && <span>📅 Возраст: <strong>{character.age}</strong></span>}
+              </div>
+            )}
           </div>
 
           <div>
@@ -43,33 +55,21 @@ const CharacterInfoCard = ({ character, getExperienceForNextLevel }: CharacterIn
             </div>
 
             <div className="space-y-3">
-              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                <span className="font-semibold">⚖️ Баланс</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-24 bg-gray-200 rounded-full h-2">
-                    <div className="bg-green-500 h-2 rounded-full" style={{ width: `${character.balance}%` }} />
+              {[
+                { label: '⚖️ Баланс', value: character.balance, color: 'bg-green-500' },
+                { label: '⚡ Скорость', value: character.speed, color: 'bg-blue-500' },
+                { label: '🔥 Смелость', value: character.courage, color: 'bg-red-500' },
+              ].map(stat => (
+                <div key={stat.label} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                  <span className="font-semibold">{stat.label}</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-24 bg-gray-200 rounded-full h-2">
+                      <div className={`${stat.color} h-2 rounded-full`} style={{ width: `${stat.value}%` }} />
+                    </div>
+                    <span className="font-bold text-lg">{stat.value}</span>
                   </div>
-                  <span className="font-bold text-lg">{character.balance}</span>
                 </div>
-              </div>
-              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                <span className="font-semibold">⚡ Скорость</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-24 bg-gray-200 rounded-full h-2">
-                    <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${character.speed}%` }} />
-                  </div>
-                  <span className="font-bold text-lg">{character.speed}</span>
-                </div>
-              </div>
-              <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                <span className="font-semibold">🔥 Смелость</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-24 bg-gray-200 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full" style={{ width: `${character.courage}%` }} />
-                  </div>
-                  <span className="font-bold text-lg">{character.courage}</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

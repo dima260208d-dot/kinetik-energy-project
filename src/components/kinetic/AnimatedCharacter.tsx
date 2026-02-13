@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { SPORT_ICONS, SportType, HAIRSTYLES, BODY_TYPES, HAIR_COLORS } from '@/types/kinetic';
 import { getAvatarForSport } from '@/services/kineticApi';
 
@@ -15,30 +15,7 @@ interface AnimatedCharacterProps {
 
 const AnimatedCharacter = ({ sportType, bodyType, hairstyle, hairColor, name, level = 1, avatarUrl, celebrating }: AnimatedCharacterProps) => {
   const avatar = avatarUrl || getAvatarForSport(sportType);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [eyeOffset, setEyeOffset] = useState({ x: 0, y: 0 });
   const [bounce, setBounce] = useState(false);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const dx = e.clientX - centerX;
-    const dy = e.clientY - centerY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const maxOffset = 6;
-    const factor = Math.min(dist / 200, 1);
-    setEyeOffset({
-      x: (dx / (dist || 1)) * maxOffset * factor,
-      y: (dy / (dist || 1)) * maxOffset * factor,
-    });
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [handleMouseMove]);
 
   useEffect(() => {
     if (celebrating) {
@@ -53,7 +30,7 @@ const AnimatedCharacter = ({ sportType, bodyType, hairstyle, hairColor, name, le
   const colorName = HAIR_COLORS.find(c => c.value === hairColor)?.name || '';
 
   return (
-    <div className="relative" ref={containerRef}>
+    <div className="relative">
       <div className={`bg-gradient-to-br from-purple-100 to-blue-100 rounded-2xl p-6 border-4 border-purple-400 shadow-2xl ${celebrating ? 'animate-pulse' : ''}`}>
         <div className="relative flex flex-col items-center">
           {name && (
@@ -69,22 +46,6 @@ const AnimatedCharacter = ({ sportType, bodyType, hairstyle, hairColor, name, le
                 alt={name || 'Персонаж'}
                 className="w-full h-full object-cover character-idle"
               />
-              <div
-                className="absolute pointer-events-none"
-                style={{
-                  top: '28%',
-                  left: '50%',
-                  transform: `translate(-50%, -50%) translate(${eyeOffset.x}px, ${eyeOffset.y}px)`,
-                  width: '60%',
-                  height: '14%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  gap: '18px',
-                }}
-              >
-                <div className="w-3 h-3 bg-black rounded-full shadow-md opacity-60" />
-                <div className="w-3 h-3 bg-black rounded-full shadow-md opacity-60" />
-              </div>
             </div>
 
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex gap-1 opacity-40">

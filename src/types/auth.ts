@@ -6,6 +6,7 @@ export interface User {
   password: string;
   name: string;
   role: UserRole;
+  age?: number;
   createdAt: Date;
   lastActivity: Date;
   isActive: boolean;
@@ -44,7 +45,7 @@ export interface Application {
 export interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (email: string, password: string, name: string) => Promise<boolean>;
+  register: (email: string, password: string, name: string, age?: number) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
 }

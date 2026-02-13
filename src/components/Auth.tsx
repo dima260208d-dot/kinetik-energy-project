@@ -16,6 +16,7 @@ const Auth: React.FC<AuthProps> = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [age, setAge] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
   const { login, register } = useAuth();
@@ -31,29 +32,23 @@ const Auth: React.FC<AuthProps> = ({ onClose }) => {
       if (isLogin) {
         success = await login(email, password);
         if (!success) {
-          toast({
-            title: "Ошибка входа",
-            description: "Неверный email или пароль",
-            variant: "destructive"
-          });
+          toast({ title: "Ошибка входа", description: "Неверный email или пароль", variant: "destructive" });
         }
       } else {
         if (name.length < 2) {
-          toast({
-            title: "Ошибка регистрации",
-            description: "Имя должно содержать минимум 2 символа",
-            variant: "destructive"
-          });
+          toast({ title: "Ошибка регистрации", description: "Имя должно содержать минимум 2 символа", variant: "destructive" });
+          setIsLoading(false);
+          return;
+        }
+        if (!age || parseInt(age) < 3 || parseInt(age) > 99) {
+          toast({ title: "Ошибка регистрации", description: "Укажите возраст (от 3 до 99 лет)", variant: "destructive" });
+          setIsLoading(false);
           return;
         }
         
-        success = await register(email, password, name);
+        success = await register(email, password, name, parseInt(age));
         if (!success) {
-          toast({
-            title: "Ошибка регистрации",
-            description: "Пользователь с таким email уже существует",
-            variant: "destructive"
-          });
+          toast({ title: "Ошибка регистрации", description: "Пользователь с таким email уже существует", variant: "destructive" });
         }
       }
 
@@ -64,12 +59,8 @@ const Auth: React.FC<AuthProps> = ({ onClose }) => {
         });
         onClose?.();
       }
-    } catch (error) {
-      toast({
-        title: "Ошибка",
-        description: "Что-то пошло не так. Попробуйте еще раз.",
-        variant: "destructive"
-      });
+    } catch {
+      toast({ title: "Ошибка", description: "Что-то пошло не так. Попробуйте еще раз.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -93,17 +84,32 @@ const Auth: React.FC<AuthProps> = ({ onClose }) => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
-              <div>
-                <Label htmlFor="name">Имя</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Введите ваше имя"
-                  required={!isLogin}
-                />
-              </div>
+              <>
+                <div>
+                  <Label htmlFor="name">Имя</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Введите ваше имя"
+                    required={!isLogin}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="age">Возраст</Label>
+                  <Input
+                    id="age"
+                    type="number"
+                    min="3"
+                    max="99"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    placeholder="Сколько вам лет?"
+                    required={!isLogin}
+                  />
+                </div>
+              </>
             )}
             
             <div>
@@ -154,6 +160,7 @@ const Auth: React.FC<AuthProps> = ({ onClose }) => {
                 setEmail('');
                 setPassword('');
                 setName('');
+                setAge('');
               }}
               className="text-sm"
             >

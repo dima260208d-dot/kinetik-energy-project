@@ -99,10 +99,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return false;
   };
 
-  const register = async (email: string, password: string, name: string): Promise<boolean> => {
+  const register = async (email: string, password: string, name: string, age?: number): Promise<boolean> => {
     const data = getStoredData();
     
-    // Проверяем, есть ли уже пользователь с таким email
     if (data.users.find(u => u.email === email)) {
       return false;
     }
@@ -112,7 +111,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       email,
       password,
       name,
-      role: 'client', // Обычная регистрация только для клиентов
+      role: 'client',
+      age,
       createdAt: new Date(),
       lastActivity: new Date(),
       isActive: true

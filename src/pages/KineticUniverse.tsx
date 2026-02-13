@@ -33,30 +33,28 @@ const KineticUniverse = () => {
   const [activeGame, setActiveGame] = useState<'simulator' | 'arena' | 'cards' | null>(null);
   const [celebrating, setCelebrating] = useState(false);
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useEffect(() => { loadData(); }, []);
 
   const loadData = async () => {
     if (!user?.id) return;
     try {
       const char = await api.getMyCharacter(user.id);
-      if (!char) {
-        navigate('/character-creation');
-        return;
-      }
+      if (!char) { navigate('/character-creation'); return; }
       setCharacter(char);
 
-      const [allChars, sportTricks, mastered] = await Promise.all([
+      const sports = (char.sport_types && char.sport_types.length > 0) ? char.sport_types : [char.sport_type];
+      const [allChars, mastered, ...sportTricksArrays] = await Promise.all([
         api.getAllCharacters(),
-        api.getTricks(char.sport_type),
         api.getMasteredTricks(char.id),
+        ...sports.map((s: string) => api.getTricks(s))
       ]);
       setCharacters(allChars);
-      setTricks(sportTricks);
       setMasteredTricks(mastered);
+      const allTricks = (sportTricksArrays as Trick[][]).flat();
+      const uniqueTricks = Array.from(new Map(allTricks.map(t => [t.id, t])).values());
+      setTricks(uniqueTricks);
     } catch {
-      toast({ title: 'Ошибка загрузки', description: 'Не удалось загрузить данные', variant: 'destructive' });
+      toast({ title: 'Ошибка загрузки', variant: 'destructive' });
     } finally {
       setLoading(false);
     }
@@ -69,11 +67,8 @@ const KineticUniverse = () => {
   };
 
   const getExperienceForNextLevel = (level: number) => level * 100;
-
   const getTricksByCategory = (category: string) => tricks.filter(t => t.category === category);
-
   const isTrickMastered = (trickId: number) => masteredTricks.some(mt => mt.trick_id === trickId);
-
   const getTrickProgress = () => {
     const total = tricks.length;
     const mastered = tricks.filter(t => isTrickMastered(t.id)).length;
@@ -87,39 +82,34 @@ const KineticUniverse = () => {
       const result = await api.gameComplete(character.id, earnedXP, earnedKinetics, gameName, won);
       const prevLevel = character.level;
       setCharacter(result.character);
-
       const allChars = await api.getAllCharacters();
       setCharacters(allChars);
-
-      if (won) {
-        celebrate();
-      }
-
+      if (won) celebrate();
       if (result.character.level > prevLevel) {
         celebrate();
         toast({ title: '🎉 Новый уровень!', description: `Ты достиг ${result.character.level} уровня!` });
       }
-
-      toast({
-        title: won ? 'Победа!' : 'Хорошая попытка!',
-        description: `+${earnedXP} XP, +${earnedKinetics} 💰`
-      });
-
+      toast({ title: won ? 'Победа!' : 'Хорошая попытка!', description: `+${earnedXP} XP, +${earnedKinetics} 💰` });
       if (result.new_achievements?.length > 0) {
         result.new_achievements.forEach((ach: { name: string; reward_kinetics: number }) => {
           toast({ title: `🏆 ${ach.name}!`, description: `Награда: +${ach.reward_kinetics} 💰` });
         });
       }
     } catch {
-      toast({ title: 'Ошибка', description: 'Не удалось сохранить результат', variant: 'destructive' });
+      toast({ title: 'Ошибка', variant: 'destructive' });
     }
     setActiveGame(null);
     setShowGames(false);
   };
 
-  const handleCharacterUpdate = (updatedChar: Character) => {
+  const handleCharacterUpdate = async (updatedChar: Character) => {
     setCharacter(updatedChar);
     celebrate();
+    const sports = (updatedChar.sport_types && updatedChar.sport_types.length > 0) ? updatedChar.sport_types : [updatedChar.sport_type];
+    const sportTricksArrays = await Promise.all(sports.map((s: string) => api.getTricks(s)));
+    const allTricks = (sportTricksArrays as Trick[][]).flat();
+    const uniqueTricks = Array.from(new Map(allTricks.map(t => [t.id, t])).values());
+    setTricks(uniqueTricks);
   };
 
   if (loading || !character) {
@@ -135,9 +125,7 @@ const KineticUniverse = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-white flex items-center gap-2">
-              🌌 Kinetic Universe
-            </h1>
+            <h1 className="text-3xl font-bold text-white flex items-center gap-2">🌌 Kinetic Universe</h1>
             <p className="text-blue-200">Добро пожаловать, {character.name}!</p>
           </div>
           <div className="flex items-center gap-2">
@@ -159,11 +147,7 @@ const KineticUniverse = () => {
               celebrating={celebrating}
             />
           </div>
-
-          <CharacterInfoCard
-            character={character}
-            getExperienceForNextLevel={getExperienceForNextLevel}
-          />
+          <CharacterInfoCard character={character} getExperienceForNextLevel={getExperienceForNextLevel} />
         </div>
 
         <KineticTabs
@@ -203,41 +187,23 @@ const KineticUniverse = () => {
         </div>
 
         <KineticModals
-          showShop={showShop}
-          setShowShop={setShowShop}
-          showGames={showGames}
-          setShowGames={setShowGames}
-          showTournaments={showTournaments}
-          setShowTournaments={setShowTournaments}
-          showPro={showPro}
-          setShowPro={setShowPro}
+          showShop={showShop} setShowShop={setShowShop}
+          showGames={showGames} setShowGames={setShowGames}
+          showTournaments={showTournaments} setShowTournaments={setShowTournaments}
+          showPro={showPro} setShowPro={setShowPro}
           setActiveGame={setActiveGame}
           character={character}
           onCharacterUpdate={handleCharacterUpdate}
         />
 
         {activeGame === 'simulator' && (
-          <TrickSimulator
-            tricks={tricks}
-            onComplete={handleGameComplete}
-            onClose={() => setActiveGame(null)}
-          />
+          <TrickSimulator tricks={tricks} character={character} onComplete={handleGameComplete} onClose={() => setActiveGame(null)} />
         )}
         {activeGame === 'arena' && (
-          <TournamentArena
-            tricks={tricks}
-            character={character}
-            onComplete={handleGameComplete}
-            onClose={() => setActiveGame(null)}
-          />
+          <TournamentArena tricks={tricks} character={character} onComplete={handleGameComplete} onClose={() => setActiveGame(null)} />
         )}
         {activeGame === 'cards' && (
-          <CardBattle
-            tricks={tricks}
-            character={character}
-            onComplete={handleGameComplete}
-            onClose={() => setActiveGame(null)}
-          />
+          <CardBattle tricks={tricks} character={character} onComplete={handleGameComplete} onClose={() => setActiveGame(null)} />
         )}
       </div>
     </div>
